@@ -14,7 +14,12 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                sans: ['Nunito Sans', ...defaultTheme.fontFamily.sans],
+            },
+            colors: {
+                "primary": "#FFB513",
+                "secondary": "#182430",
+                "danger": "#c90e0e",
             },
         },
     },

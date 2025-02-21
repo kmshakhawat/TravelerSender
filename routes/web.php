@@ -4,7 +4,7 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 Route::post('/signup', [AuthController::class, 'signup']);
 Route::get('/signup', [AuthController::class, 'register']);

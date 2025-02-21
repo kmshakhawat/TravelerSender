@@ -9,7 +9,7 @@
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        <link href="https://fonts.bunny.net/css?family=nunito-sans:400,500,600,700,800&display=swap" rel="stylesheet" />
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -18,10 +18,13 @@
         @livewireStyles
     </head>
     <body>
-        <div class="font-sans text-gray-900 antialiased">
+        @include('layouts.inc.header');
+        <div class="font-sans text-gray-900 antialiased min-h-60">
             {{ $slot }}
         </div>
 
+
+        @include('layouts.inc.footer');
         @routes
         @stack('scripts')
         @include('sweetalert::alert')

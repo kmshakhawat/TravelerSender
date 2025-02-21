@@ -1,18 +1,20 @@
 <x-guest-layout>
-    <x-authentication-card>
-        <x-slot name="logo">
-            <x-authentication-card-logo />
-        </x-slot>
-
-        <x-validation-errors class="mb-4" />
-
-        @session('status')
-            <div class="mb-4 font-medium text-sm text-green-600">
-                {{ $value }}
+    <div class="container mx-auto py-10">
+        <div class="flex items-center">
+            <div class="w-8/12">
+                <img src="{{ asset('asset/img/register.jpg') }}" alt="Register" class="w-3/4 mx-auto">
             </div>
-        @endsession
+            <div class="w-4/12">
+                <h1 class="text-3xl font-bold mb-4">{{ __('Sign In') }}</h1>
+                <x-validation-errors class="mb-4" />
 
-        <form method="POST" action="{{ route('login') }}">
+                @session('status')
+                <div class="mb-4 font-medium text-sm text-green-600">
+                    {{ $value }}
+                </div>
+                @endsession
+
+                <form method="POST" action="{{ route('login') }}">
             @csrf
 
             <div>
@@ -40,9 +42,11 @@
                 @endif
 
                 <x-button class="ms-4">
-                    {{ __('Log in') }}
+                    {{ __('Sign in') }}
                 </x-button>
             </div>
         </form>
-    </x-authentication-card>
+            </div>
+        </div>
+    </div>
 </x-guest-layout>

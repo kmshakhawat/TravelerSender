@@ -6,3 +6,19 @@
     display: none;
 }
 .invalid-feedback {color: red;}
+.btn-primary {
+    @apply bg-primary text-black rounded-md px-4 py-2 border border-transparent
+    hover:border hover:text-primary hover:border-primary hover:bg-transparent
+    transition ease-in-out duration-150;
+}
+.btn-secondary {
+    @apply bg-transparent text-primary rounded-md px-4 py-2 border border-primary
+    hover:bg-primary hover:border-transparent hover:text-black
+    transition ease-in-out duration-150;
+}
+.footer-title {
+    @apply text-xl font-bold mb-4;
+}
+.links a {
+    @apply py-1 block hover:text-gray-700;
+}
