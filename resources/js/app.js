@@ -1,4 +1,21 @@
 import './bootstrap'
+import Swiper from 'swiper';
+import 'swiper/css/bundle';
+let slide = new Swiper(".slide", {
+    spaceBetween: 20,
+    slidesPerView: 1,
+    loop: true,
+    effect: "fade",
+    autoHeight: true,
+    autoplay: {
+        delay: 5000,
+        disableOnInteraction: false,
+    },
+    navigation: {
+        nextEl: ".slide-next",
+        prevEl: ".slide-prev",
+    },
+});
 
 window.showJsonErrorMessage = (response, showAlert = true) => {
     const selector = '.invalid-feedback';

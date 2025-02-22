@@ -4,6 +4,8 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
+        <!-- favicon -->
+        <link rel="icon" href="{{ asset('asset/img/favicon.png') }}" type="image/x-icon">
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
@@ -18,13 +20,11 @@
         @livewireStyles
     </head>
     <body>
-        @include('layouts.inc.header');
-        <div class="font-sans text-gray-900 antialiased min-h-60">
+        @include('layouts.inc.header')
+        <div class="font-sans text-gray-900 text-lg antialiased min-h-60">
             {{ $slot }}
         </div>
-
-
-        @include('layouts.inc.footer');
+        @include('layouts.inc.footer')
         @routes
         @stack('scripts')
         @include('sweetalert::alert')
