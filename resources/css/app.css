@@ -5,6 +5,9 @@
 [x-cloak] {
     display: none;
 }
+.container {
+    @apply mx-auto px-4;
+}
 .invalid-feedback {color: red;}
 .btn-primary {
     @apply bg-primary inline-block text-black rounded-md px-4 py-2 border border-transparent
@@ -16,14 +19,36 @@
     hover:bg-primary hover:border-transparent hover:text-black
     transition ease-in-out duration-150;
 }
+.nav-link {
+    @apply block px-4 py-2 text-black rounded hover:bg-primary
+    transition ease-in-out duration-150;
+}
 .heading-2 {
     @apply text-5xl font-bold;
 }
 .heading-3 {
     @apply text-4xl font-bold;
 }
+.heading-4 {
+    @apply text-3xl font-semibold;
+}
+.heading-5 {
+    @apply text-2xl font-semibold;
+}
 .form-input {
-    @apply w-full py-2 text-base text-black border-gray-300 mt-1 rounded focus:border-gray-300 focus:outline-none focus:ring-0;
+    @apply w-full min-h-12 py-2 text-base text-black border-gray-300 mt-1 rounded focus:border-gray-300 focus:outline-none focus:ring-0;
+}
+.select2.select2-container--default .select2-selection--single, .select2.select2-container--default .select2-selection--multiple {
+    @apply border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block w-full py-1.5 min-h-12;
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    @apply !leading-[34px];
+}
+.select2.select2-container--default .select2-selection--single .select2-selection__arrow {
+    @apply h-12;
+}
+.iti {
+    @apply w-full;
 }
 .slide-content {
     @apply flex flex-col gap-5 text-xl text-white;
@@ -31,10 +56,16 @@
 .slide-title {
     @apply text-5xl font-bold text-white;
 }
-
 .footer-title {
     @apply text-xl font-bold mb-4;
 }
 .links a {
     @apply py-1 block hover:text-gray-700;
+}
+
+
+/* Admin CSS */
+.profile-link {
+    @apply block text-[#B9BEC7] font-bold text-lg border-s-4 border-[#B9BEC7] px-2 py-3 rounded
+    hover:text-primary hover:border-primary hover:bg-white hover:shadow-2xl
 }

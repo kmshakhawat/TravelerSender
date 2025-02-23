@@ -16,7 +16,23 @@ let slide = new Swiper(".slide", {
         prevEl: ".slide-prev",
     },
 });
-
+$(document).ready(function () {
+    $('.select2').select2();
+});
+const profilePhoto = document.getElementById('profilePhoto');
+const profilePhotoInput = document.getElementById('profile_photo_path');
+if (profilePhotoInput) {
+    profilePhotoInput.addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        if (file && file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                profilePhoto.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+}
 window.showJsonErrorMessage = (response, showAlert = true) => {
     const selector = '.invalid-feedback';
 

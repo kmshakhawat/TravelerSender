@@ -1,6 +1,6 @@
 <x-guest-layout>
 
-    <x-slide />
+{{--    <x-slide />--}}
     <div class="bg-[#B8E0AD] px-8 py-10">
         <div class="container mx-auto">
             <h3 class="heading-3 text-center text-[#000000] mb-8">Why choose Gage Digital?</h3>
@@ -23,6 +23,6 @@
             </div>
         </div>
     </div>
-    <x-faq />
-    <x-newsletter />
+{{--    <x-faq />--}}
+{{--    <x-newsletter />--}}
 </x-guest-layout>

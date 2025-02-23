@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Travel;
+use App\Http\Services\FileHandler;
 use App\Mail\SendMail;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
@@ -13,6 +15,7 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
+    use FileHandler;
     public function signup(Request $request)
     {
         // Validate the request data
@@ -44,7 +47,7 @@ class AuthController extends Controller
         $user->assignRole('user');
 
         // Generate a token for the user
-        $token = $user->createToken('auth_token')->plainTextToken;
+        $token = $user->createToken('token')->plainTextToken;
 
         // send mail
         $mailable_data = [
@@ -63,33 +66,61 @@ class AuthController extends Controller
         ], 200);
 
     }
-    // register
-    public function register()
-    {
-        return view('auth.register');
-    }
 
     public function login(Request $request)
     {
-        $credentials = $request->validate([
+        $request->validate([
             'email' => 'required|email',
             'password' => 'required',
         ]);
-
-        if (Auth::attempt($credentials)) {
-            $user = User::where('email', $request->email)->first();
-            $token = $user->createToken('auth_token')->plainTextToken;
-            // return dashboard based on user role
-            if ($user->hasRole('admin')) {
-                return response()->json(['token' => $token, 'role' => 'admin'], 200);
-            }
-            if ($user->hasRole('user')) {
-                return response()->json(['token' => $token, 'role' => 'user'], 200);
-            }
-//            return response()->json(['token' => $token], 200);
+        if (!Auth::attempt($request->only('email', 'password'))) {
+            return response()->json([
+                'message' => 'Invalid login details',
+            ], 401);
         }
+        $user = User::where('email', $request->email)->firstOrFail();
+        $token = $user->createToken('auth_token')->plainTextToken;
+        return response()->json([
+            'user' => $user,
+            'token' => $token,
+        ], 200);
+    }
 
-        return response()->json(['message' => 'Invalid credentials'], 401);
+    public function profile()
+    {
+        $user = Auth::user()->load('profile');
+        $countries = Travel::countries();
+        return view('auth.profile', compact('user', 'countries'));
+    }
+    public function updateProfile(Request $request)
+    {
+        $user = Auth::user();
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
+            'country_id' => 'required|string|max:255',
+            'profile_photo_path' => ['nullable', 'mimes:jpeg,jpg,png,webp,gif|max:5120'],
+        ]);
+        $user->update([
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'country_id' => $request->country_id,
+            'profile_photo_path'  => $this->handleFile($request->file('profile_photo_path'), 'profile-photos/', $user->profile_photo_path),
+        ]);
+
+        $user->profile()->updateOrCreate(
+            ['user_id' => $user->id],
+            [
+                'address_1' => $request->address_1,
+                'address_2' => $request->address_2,
+                'city' => $request->city,
+                'state' => $request->state,
+                'postcode' => $request->postcode,
+            ]
+        );
+
+        return response()->json(['message' => 'Profile updated successfully'], 200);
+
     }
 
     public function logout(Request $request)

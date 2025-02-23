@@ -9,9 +9,9 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::post('/signup', [AuthController::class, 'signup']);
-Route::get('/login', [AuthController::class, 'login']);
 
 Route::middleware('auth:sanctum')->group(function () {
 //    Route::apiResource('products', ProductController::class);
-    Route::post('/logout', [AuthController::class, 'logout']);
+//    Route::get('/profile', [AuthController::class, 'profile']);
+//    Route::post('/logout', [AuthController::class, 'logout']);
 });

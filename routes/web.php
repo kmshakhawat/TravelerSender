@@ -6,11 +6,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('home');
 });
-Route::post('/signup', [AuthController::class, 'signup']);
-Route::get('/signup', [AuthController::class, 'register']);
-//Route::get('/login', [AuthController::class, 'login']);
-//Route::post('/logout', [AuthController::class, 'logout']);
-
 
 Route::middleware([
     'auth:sanctum',
@@ -20,4 +15,6 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+    Route::get('/profile', [AuthController::class, 'profile'])->name('profile');
+    Route::post('/profile', [AuthController::class, 'updateProfile'])->name('profile.update');
 });

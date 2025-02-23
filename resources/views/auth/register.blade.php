@@ -1,7 +1,7 @@
 <x-guest-layout>
 {{--    <x-authentication-card>--}}
 
-    <div class="container mx-auto py-10">
+    <div x-data="register" class="container mx-auto py-10">
 
         <div class="flex items-center">
 
@@ -12,9 +12,7 @@
             <div class="w-5/12">
                 <h1 class="text-3xl font-bold mb-4">{{ __('Traveller profile') }}</h1>
 
-                <x-validation-errors class="mb-4" />
-
-                <form id="registrationForm" method="POST" action="{{ route('register') }}">
+                <form id="registrationForm" method="POST" @submit.prevent="userRegister">
                     @csrf
 
                     <div>
@@ -77,48 +75,46 @@
             </div>
 
         </div>
-
-
-
     </div>
-
-{{--    </x-authentication-card>--}}
 
 
     @push('scripts')
-
         <script>
-            document.getElementById('registrationForm').addEventListener('submit', function (e) {
-                e.preventDefault();
-                const formData = new FormData(this);
-                const jsonData = Object.fromEntries(formData.entries());
-
-                axios({
-                    method: 'POST',
-                    url: 'api/signup',
-                    data: jsonData,
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                    }
-                })
-                    .then(response => {
+            document.addEventListener('alpine:init', () => {
+                Alpine.data('register', () => ({
+                    userRegister: function () {
                         Swal.fire({
-                            title: 'Success!',
-                            text: response.data.message,
-                            icon: 'success',
-                            confirmButtonText: 'OK'
+                            title: 'Creating...',
+                            allowOutsideClick: true,
+                            icon: 'info',
+                            didOpen: () => {
+                                Swal.showLoading();
+                            }
                         });
-                        setTimeout(() => {
-                            window.location.href = route('login');
-                        }, 2000);
-                    })
-                    .catch(error => {
-                        window.showJsonErrorMessage(error);
-                    });
-
-
+                        axios({
+                            method: 'POST',
+                            url: route('register'),
+                            data: new FormData(document.getElementById('registrationForm')),
+                            headers: {
+                                'Content-Type': 'multipart/form-data'
+                            }
+                        })
+                            .then(response => {
+                                Swal.fire({
+                                    title: 'Success!',
+                                    text: response.data.message,
+                                    icon: 'success',
+                                    confirmButtonText: 'OK'
+                                });
+                                window.location.href = route('login');
+                            })
+                            .catch(error => {
+                                window.showJsonErrorMessage(error);
+                            });
+                    },
+                }));
             });
         </script>
     @endpush
+
 </x-guest-layout>

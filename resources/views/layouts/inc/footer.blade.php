@@ -1,7 +1,7 @@
 <div class="border-t border-gray-300 text-lg">
     <div class="container mx-auto">
-        <div class="flex justify-between py-8">
-            <div class="w-full lg:w-4/12">
+        <div class="flex flex-wrap -mx-4 justify-between py-8">
+            <div class="w-full sm:w-1/2 lg:w-4/12 px-4 mb-4">
                 <h4 class="footer-title">Contact</h4>
                 <div class="flex gap-2 mb-5">
                         <span>
@@ -35,32 +35,28 @@
                     Office Hours: Monday - Friday, 9 AM - 5 PM
                 </div>
             </div>
-            <div class="w-full lg:w-5/12">
-                <div class="flex w-full">
-                    <div class="w-1/2">
-                        <h4 class="footer-title">Company</h4>
-                        <ul class="links">
-                            <li><a href="">About us</a></li>
-                            <li><a href="">How to Works</a></li>
-                            <li><a href="">Help Center</a></li>
-                            <li><a href="">Blog</a></li>
-                            <li><a href="">Press</a></li>
-                            <li><a href="">Careers</a></li>
-                        </ul>
-                    </div>
-                    <div class="w-1/2">
-                        <h4 class="footer-title">Services</h4>
-                        <ul class="links">
-                            <li><a href="">Collections</a></li>
-                            <li><a href="">Testimonials</a></li>
-                            <li><a href="">Terms of Use</a></li>
-                            <li><a href="">Privacy Policy</a></li>
-                            <li><a href="">Trust & Safety</a></li>
-                        </ul>
-                    </div>
-                </div>
+            <div class="w-full sm:w-1/2 lg:w-3/12 px-4 mb-4">
+                <h4 class="footer-title">Company</h4>
+                <ul class="links">
+                    <li><a href="">About us</a></li>
+                    <li><a href="">How to Works</a></li>
+                    <li><a href="">Help Center</a></li>
+                    <li><a href="">Blog</a></li>
+                    <li><a href="">Press</a></li>
+                    <li><a href="">Careers</a></li>
+                </ul>
             </div>
-            <div class="w-full lg:w-3/12">
+            <div class="w-full sm:w-1/2 lg:w-2/12 px-4 mb-4">
+                <h4 class="footer-title">Services</h4>
+                <ul class="links">
+                    <li><a href="">Collections</a></li>
+                    <li><a href="">Testimonials</a></li>
+                    <li><a href="">Terms of Use</a></li>
+                    <li><a href="">Privacy Policy</a></li>
+                    <li><a href="">Trust & Safety</a></li>
+                </ul>
+            </div>
+            <div class="w-full sm:w-1/2 lg:w-3/12 px-4 mb-4">
                 <h4 class="footer-title">Payment method</h4>
                 <img src="{{ asset('asset/img/card-logo.png') }}" alt="Payment method" class="w-auto">
                 <p>+ Local cards and payment options</p>
