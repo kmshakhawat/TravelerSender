@@ -9,11 +9,11 @@
         <div class="container">
             <div class="flex gap-8">
                 <div class="w-1/4">
-                    <x-sidebar />
+                    <x-profile-sidebar />
                 </div>
                 <div class="w-3/4">
                     <div class="bg-white border border-gray-50 rounded shadow p-4">
-                        <h3 class="heading-5 mb-4">Profile</h3>
+                        <h3 class="heading-5 mb-4 heading-title">{{ __('Profile') }}</h3>
                         <form id="profile" name="profile" @submit.prevent="submitProfile">
                             @csrf
                             <div>
@@ -27,12 +27,12 @@
                             <div class="flex gap-4">
                                 <div class="w-full sm:w-1/2 mt-4">
                                     <x-label for="email" value="{{ __('Email Address') }}" />
-                                    <x-input disabled id="email" class="block mt-1 w-full" type="email" name="email" :value="$user->email" required autocomplete="username" />
+                                    <x-input disabled id="email" class="block mt-1 w-full" type="email" name="email" :value="$user->email ?? '' " required autocomplete="username" />
                                     <div class="invalid-feedback invalid-email"></div>
                                 </div>
                                 <div class="w-full sm:w-1/2 mt-4">
                                     <x-label for="phone" value="{{ __('Phone Number') }}" />
-                                    <x-input id="phone" class="block mt-1 w-full" type="text" name="phone" :value="$user->phone" required autofocus autocomplete="phone" />
+                                    <x-input id="phone" class="block mt-1 w-full" type="text" name="phone" :value="$user->phone ?? '' " required autofocus autocomplete="phone" />
                                     <div class="invalid-feedback invalid-phone"></div>
                                 </div>
                             </div>
@@ -55,19 +55,19 @@
                             <div class="flex gap-4">
                                 <div class="w-full sm:w-1/2 mt-4">
                                     <x-label for="city" value="{{ __('City') }}" />
-                                    <x-input id="city" class="block mt-1 w-full" type="text" name="city" :value="$user->profile->city ?? '' " required autofocus autocomplete="phone" />
+                                    <x-input id="city" class="block mt-1 w-full" type="text" name="city" :value="$user->profile->city ?? '' " required autofocus autocomplete="city" />
                                     <div class="invalid-feedback invalid-city"></div>
                                 </div>
                                 <div class="w-full sm:w-1/2 mt-4">
                                     <x-label for="state" value="{{ __('State') }}" />
-                                    <x-input id="state" class="block mt-1 w-full" type="text" name="state" :value="$user->profile->state ?? '' " required autofocus autocomplete="phone" />
+                                    <x-input id="state" class="block mt-1 w-full" type="text" name="state" :value="$user->profile->state ?? '' " required autofocus autocomplete="state" />
                                     <div class="invalid-feedback invalid-state"></div>
                                 </div>
                             </div>
                             <div class="flex gap-4">
                                 <div class="w-full sm:w-1/2 mt-4">
                                     <x-label for="postcode" value="{{ __('Postcode') }}" />
-                                    <x-input id="postcode" class="block mt-1 w-full" type="text" name="postcode" :value="$user->profile->postcode ?? '' " required autofocus autocomplete="phone" />
+                                    <x-input id="postcode" class="block mt-1 w-full" type="text" name="postcode" :value="$user->profile->postcode ?? '' " required autofocus autocomplete="postcode" />
                                     <div class="invalid-feedback invalid-postcode"></div>
                                 </div>
                                 <div class="w-full sm:w-1/2 mt-4">
@@ -75,6 +75,13 @@
                                     <x-input-dropdown name="country_id" :options="$countries" :selected="[$user->country_id]"/>
                                     <div class="invalid-feedback invalid-country_id"></div>
                                 </div>
+                            </div>
+                            <div class="flex gap-4 mt-4 items-center">
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" name="verified" class="sr-only peer">
+                                    <div class="w-[53px] h-7 bg-gray-200 hover:bg-gray-300 peer-focus:outline-0 peer-focus:ring-transparent rounded-full peer transition-all ease-in-out duration-500 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-primary hover:peer-checked:bg-primary"></div>
+                                </label>
+                                <label class="inline-block">Verified</label>
                             </div>
                             <button class="btn-primary mt-4">{{ __('Update Profile') }}</button>
                         </form>
@@ -113,7 +120,11 @@
                                     confirmButtonText: 'OK'
                                 });
                                 setTimeout(() => {
-                                    location.href = route('verification');
+                                    @if($user->verified)
+                                        location.reload();
+                                    @else
+                                        location.href = route('verification');
+                                    @endif
                                 }, 2000);
                             })
                             .catch(error => {

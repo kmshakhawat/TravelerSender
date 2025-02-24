@@ -1,6 +1,15 @@
 import './bootstrap'
 import Swiper from 'swiper';
 import 'swiper/css/bundle';
+import flatpickr from "flatpickr";
+import 'flatpickr/dist/flatpickr.min.css';
+
+flatpickr(".datepicker", {
+    altInput: true,
+    altFormat: "F j, Y",
+    dateFormat: "Y-m-d",
+});
+
 let slide = new Swiper(".slide", {
     spaceBetween: 20,
     slidesPerView: 1,
@@ -19,6 +28,7 @@ let slide = new Swiper(".slide", {
 $(document).ready(function () {
     $('.select2').select2();
 });
+
 const profilePhoto = document.getElementById('profilePhoto');
 const profilePhotoInput = document.getElementById('profile_photo_path');
 if (profilePhotoInput) {

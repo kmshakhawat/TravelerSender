@@ -25,8 +25,14 @@
     transition ease-in-out duration-150;
 }
 .nav-link {
-    @apply block px-4 py-2 text-black rounded hover:bg-primary
+    @apply flex justify-between items-center px-4 py-4 text-black text-base hover:bg-[#F4F4F4]
     transition ease-in-out duration-150;
+}
+.nav-link svg {
+    @apply w-6 h-6 text-gray-500;
+}
+.nav-link:hover svg {
+    @apply text-primary;
 }
 .heading-2 {
     @apply text-5xl font-bold;
@@ -38,10 +44,13 @@
     @apply text-3xl font-semibold;
 }
 .heading-5 {
-    @apply text-2xl font-semibold;
+    @apply text-xl font-semibold;
+}
+.heading-title {
+    @apply border-b border-gray-300 pb-2 mb-4;
 }
 .form-input {
-    @apply w-full min-h-12 py-2 text-base text-black border-gray-300 mt-1 rounded focus:border-gray-300 focus:outline-none focus:ring-0;
+    @apply w-full min-h-12 py-2 text-base text-black border-gray-300 mt-1 rounded focus:border-primary focus:ring-primary;
 }
 .select2.select2-container--default .select2-selection--single, .select2.select2-container--default .select2-selection--multiple {
     @apply border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block w-full py-1.5 min-h-12;
@@ -49,8 +58,14 @@
 .select2-container--default .select2-selection--single .select2-selection__rendered {
     @apply !leading-[34px];
 }
+.select2.select2-container--default .select2-selection--single:focus, .select2.select2-container--default .select2-selection--multiple:focus {
+    @apply border-2 border-primary ring-primary focus:border-primary focus:ring-primary;
+}
 .select2.select2-container--default .select2-selection--single .select2-selection__arrow {
     @apply h-12;
+}
+input[disabled] {
+    @apply bg-primary text-primary border-primary bg-opacity-10 cursor-not-allowed;
 }
 .iti {
     @apply w-full;
@@ -73,4 +88,7 @@
 .profile-link {
     @apply block text-[#B9BEC7] font-bold text-lg border-s-4 border-[#B9BEC7] px-2 py-3 rounded
     hover:text-primary hover:border-primary hover:bg-white hover:shadow-2xl
+}
+.profile-link.active {
+    @apply text-primary border-primary bg-white shadow-2xl;
 }

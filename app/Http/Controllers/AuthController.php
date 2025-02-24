@@ -97,6 +97,7 @@ class AuthController extends Controller
             'name' => $request->name,
             'phone' => $request->phone,
             'country_id' => $request->country_id,
+            'verified' => $request->verified,
             'profile_photo_path'  => $this->handleFile($request->file('profile_photo_path'), 'profile-photos/', $user->profile_photo_path),
         ]);
 
@@ -118,7 +119,8 @@ class AuthController extends Controller
     {
         $user = Auth::user()->load('profile');
         $countries = Travel::countries();
-        return view('auth.verification', compact('user','countries'));
+        $id_types = Travel::idTypes();
+        return view('auth.verification', compact('user','countries', 'id_types'));
     }
 
     public function logout(Request $request)

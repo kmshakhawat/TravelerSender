@@ -16,4 +16,13 @@ class Travel
         return Country::where('status', 'Active')->get(['id','code', 'name', 'calling_code']);
     }
 
+    public static function idTypes(): array
+    {
+        return collect([
+            (object) ['id' => 'Passport', 'name' => 'Passport'],
+            (object) ['id' => 'National ID', 'name' => 'National ID'],
+            (object) ['id' => 'Driving License', 'name' => 'Driving License'],
+        ])->toArray();
+    }
+
 }

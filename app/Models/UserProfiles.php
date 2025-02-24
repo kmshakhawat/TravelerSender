@@ -8,6 +8,7 @@ class UserProfiles extends Model
 {
     protected $fillable = [
         'user_id',
+        'dob',
         'address_1',
         'address_2',
         'city',
@@ -17,8 +18,8 @@ class UserProfiles extends Model
         'id_number',
         'id_issue',
         'id_expiry',
-        'dob',
         'id_front',
         'id_back',
+        'photo',
     ];
 }

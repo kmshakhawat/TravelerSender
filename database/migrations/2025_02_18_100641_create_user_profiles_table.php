@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('user_profiles', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->date('dob')->nullable();
             $table->string('address_1')->nullable();
             $table->string('address_2')->nullable();
             $table->string('city')->nullable();
@@ -23,9 +24,9 @@ return new class extends Migration
             $table->string('id_number')->nullable();
             $table->string('id_issue')->nullable();
             $table->string('id_expiry')->nullable();
-            $table->date('dob')->nullable();
             $table->string('id_front')->nullable();
             $table->string('id_back')->nullable();
+            $table->string('photo')->nullable();
             $table->timestamps();
         });
     }

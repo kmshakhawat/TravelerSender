@@ -9,74 +9,56 @@
         <div class="container">
             <div class="flex gap-8">
                 <div class="w-1/4">
-                    <x-sidebar />
+                    <x-profile-sidebar />
                 </div>
                 <div class="w-3/4">
                     <div class="bg-white border border-gray-50 rounded shadow p-4">
-                        <h3 class="heading-5 mb-4">Account Verification</h3>
+                        <h3 class="heading-5 mb-4 heading-title">{{ __('Account Verification') }}</h3>
                         <form id="verification" name="profile" @submit.prevent="submitVerification">
                             @csrf
-                            <div>
-                                <x-profile-photo :url="$user->profile_photo_url" :name="$user->name"/>
-                            </div>
-                            <div class="mt-4">
-                                <x-label for="name" value="{{ __('Full Name') }}" />
-                                <x-input id="name" class="block mt-1 w-full" type="text" name="name" :value="$user->name" required autofocus autocomplete="name" />
-                                <div class="invalid-feedback invalid-name"></div>
-                            </div>
                             <div class="flex gap-4">
                                 <div class="w-full sm:w-1/2 mt-4">
-                                    <x-label for="email" value="{{ __('Email Address') }}" />
-                                    <x-input disabled id="email" class="block mt-1 w-full" type="email" name="email" :value="$user->email" required autocomplete="username" />
-                                    <div class="invalid-feedback invalid-email"></div>
+                                    <x-label for="id_type" value="{{ __('ID Type') }}" />
+                                    <x-input-dropdown class="id_type_select" name="id_type" :options="$id_types" :selected="[$user->profile->id_type]"/>
+                                    <div class="invalid-feedback invalid-id_type"></div>
                                 </div>
                                 <div class="w-full sm:w-1/2 mt-4">
-                                    <x-label for="phone" value="{{ __('Phone Number') }}" />
-                                    <x-input id="phone" class="block mt-1 w-full" type="text" name="phone" :value="$user->phone" required autofocus autocomplete="phone" />
-                                    <div class="invalid-feedback invalid-phone"></div>
+                                    <x-label for="id_number" value="{{ __('ID Number') }}" />
+                                    <x-input id="id_number" class="block mt-1 w-full" type="text" name="id_number" :value="$user->profile->id_number" required autofocus autocomplete="id_number" />
+                                    <div class="invalid-feedback invalid-id_number"></div>
+                                </div>
+                            </div>
+                            <div id="additional_date" class="flex gap-4">
+                                <div class="w-full sm:w-1/2 mt-4">
+                                    <x-label for="id_issue" value="{{ __('Issue Date') }}" />
+                                    <x-input id="id_issue" class="block mt-1 w-full datepicker" type="text" name="id_issue" :value="$user->profile->id_issue ?? '' " autofocus autocomplete="id_issue" />
+                                    <div class="invalid-feedback invalid-id_issue"></div>
+                                </div>
+                                <div class="w-full sm:w-1/2 mt-4">
+                                    <x-label for="id_expiry" value="{{ __('Expiry Date') }}" />
+                                    <x-input id="id_expiry" class="block mt-1 w-full datepicker" type="text" name="id_expiry" :value="$user->profile->id_expiry ?? '' " autofocus autocomplete="id_expiry" />
+                                    <div class="invalid-feedback invalid-id_expiry"></div>
                                 </div>
                             </div>
                             <div class="mt-4">
-                                <x-label for="address_1" value="{{ __('Address Line One') }}" />
-                                <textarea
-                                    name="address_1"
-                                    id="address_1"
-                                    class="form-input">{{ $user->profile->address_1 ?? '' }}</textarea>
-                                <div class="invalid-feedback invalid-address_1"></div>
+                                <x-label for="dob" value="{{ __('Date of Birth') }}" />
+                                <x-input id="dob" class="block mt-1 w-full datepicker" type="text" name="dob" :value="$user->profile->dob ?? '' " required autofocus autocomplete="dob" />
+                                <div class="invalid-feedback invalid-dob"></div>
                             </div>
-                            <div class="mt-4">
-                                <x-label for="address_2" value="{{ __('Address Line Two') }}" />
-                                <textarea
-                                    name="address_2"
-                                    id="address_2"
-                                    class="form-input">{{ $user->profile->address_2 ?? '' }}</textarea>
-                                <div class="invalid-feedback invalid-address_2"></div>
-                            </div>
-                            <div class="flex gap-4">
-                                <div class="w-full sm:w-1/2 mt-4">
-                                    <x-label for="city" value="{{ __('City') }}" />
-                                    <x-input id="city" class="block mt-1 w-full" type="text" name="city" :value="$user->profile->city ?? '' " required autofocus autocomplete="phone" />
-                                    <div class="invalid-feedback invalid-city"></div>
+
+                            <h5 class="heading-5 mt-10 heading-title">{{ __('Upload your ID Card') }}</h5>
+                            <div class="flex mt-4 gap-10">
+                                <div class="w-2/3">
+                                    <x-id-card :title="__('Upload Font Side')" :url="$user->id_front" :name="__('id_front')"/>
+                                    <x-id-card :title="__('Upload Back Side')" :url="$user->id_back" :name="__('id_back')"/>
                                 </div>
-                                <div class="w-full sm:w-1/2 mt-4">
-                                    <x-label for="state" value="{{ __('State') }}" />
-                                    <x-input id="state" class="block mt-1 w-full" type="text" name="state" :value="$user->profile->state ?? '' " required autofocus autocomplete="phone" />
-                                    <div class="invalid-feedback invalid-state"></div>
+                                <div class="border"></div>
+                                <div class="w-1/3">
+                                    <x-profile-photo :url="$user->profile_photo_url" :name="$user->name"/>
                                 </div>
                             </div>
-                            <div class="flex gap-4">
-                                <div class="w-full sm:w-1/2 mt-4">
-                                    <x-label for="postcode" value="{{ __('Postcode') }}" />
-                                    <x-input id="postcode" class="block mt-1 w-full" type="text" name="postcode" :value="$user->profile->postcode ?? '' " required autofocus autocomplete="phone" />
-                                    <div class="invalid-feedback invalid-postcode"></div>
-                                </div>
-                                <div class="w-full sm:w-1/2 mt-4">
-                                    <x-label for="country_id" value="{{ __('Country') }}" />
-                                    <x-input-dropdown name="country_id" :options="$countries" :selected="[$user->country_id]"/>
-                                    <div class="invalid-feedback invalid-country_id"></div>
-                                </div>
-                            </div>
-                            <button class="btn-primary mt-4">{{ __('Update Profile') }}</button>
+
+                            <button class="btn-primary mt-4">{{ __('Update Verification Data') }}</button>
                         </form>
                     </div>
                 </div>
