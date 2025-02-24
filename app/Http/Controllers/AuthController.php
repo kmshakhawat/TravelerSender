@@ -26,9 +26,6 @@ class AuthController extends Controller
             'password' => 'required|string|min:8|confirmed',
         ]);
 
-//        dd($validator->errors());
-
-        // If validation fails, return error response
         if ($validator->fails()) {
             return response()->json(
                 [
@@ -37,7 +34,6 @@ class AuthController extends Controller
                 ], 422);
         }
 
-        // Create the user
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -45,11 +41,8 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
         $user->assignRole('user');
-
-        // Generate a token for the user
         $token = $user->createToken('token')->plainTextToken;
 
-        // send mail
         $mailable_data = [
             'template' => 'emails.welcome',
             'subject' => 'Welcome to our platform',
@@ -57,13 +50,12 @@ class AuthController extends Controller
 
          Mail::to($user->email)->send(new SendMail($mailable_data));
 
-
-        return new JsonResponse([
-            'status' => 'success',
-            'message' => 'Registration success',
-            'user' => $user,
-            'token' => $token,
-        ], 200);
+         return response()->json([
+             'status' => 'success',
+             'message' => 'Registration success',
+             'user' => $user,
+             'token' => $token,
+         ], 200);
 
     }
 
@@ -121,6 +113,12 @@ class AuthController extends Controller
 
         return response()->json(['message' => 'Profile updated successfully'], 200);
 
+    }
+    public function verification()
+    {
+        $user = Auth::user()->load('profile');
+        $countries = Travel::countries();
+        return view('auth.verification', compact('user','countries'));
     }
 
     public function logout(Request $request)

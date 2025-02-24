@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <div x-data="profile" class="py-12">
+    <div x-data="verification" class="py-12">
         <div class="container">
             <div class="flex gap-8">
                 <div class="w-1/4">
@@ -13,8 +13,8 @@
                 </div>
                 <div class="w-3/4">
                     <div class="bg-white border border-gray-50 rounded shadow p-4">
-                        <h3 class="heading-5 mb-4">Profile</h3>
-                        <form id="profile" name="profile" @submit.prevent="submitProfile">
+                        <h3 class="heading-5 mb-4">Account Verification</h3>
+                        <form id="verification" name="profile" @submit.prevent="submitVerification">
                             @csrf
                             <div>
                                 <x-profile-photo :url="$user->profile_photo_url" :name="$user->name"/>
@@ -87,8 +87,8 @@
     @push('scripts')
         <script>
             document.addEventListener('alpine:init', () => {
-                Alpine.data('profile', () => ({
-                    submitProfile: function () {
+                Alpine.data('verification', () => ({
+                    submitVerification: function () {
                         Swal.fire({
                             title: 'Updating...',
                             allowOutsideClick: true,
@@ -99,8 +99,8 @@
                         });
                         axios({
                             method: 'POST',
-                            url: route('profile.update'),
-                            data: new FormData(document.getElementById('profile')),
+                            url: route('verification.update'),
+                            data: new FormData(document.getElementById('verification')),
                             headers: {
                                 'Content-Type': 'multipart/form-data'
                             }
@@ -113,7 +113,7 @@
                                     confirmButtonText: 'OK'
                                 });
                                 setTimeout(() => {
-                                    location.href = route('verification');
+                                    window.location.reload();
                                 }, 2000);
                             })
                             .catch(error => {

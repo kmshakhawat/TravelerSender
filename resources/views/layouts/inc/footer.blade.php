@@ -66,7 +66,7 @@
             <div class="flex flex-col md:flex-row gap-5 md:gap-0 items-center">
                 <div class="flex flex-col flex-1">
                     <a href="">
-                        <img src="{{ asset('asset/img/logo.png') }}" alt="{{ config('app.name') }}" class="mb-4">
+                        <img src="{{ asset('asset/img/logo.png') }}" alt="{{ config('app.name') }}" class="mb-4 max-w-52">
                     </a>
                     <p>&copy; {{ date('Y') . ' ' . config('app.name') }}. All Rights Reserved</p>
                 </div>
