@@ -9,7 +9,8 @@
             <div class="text-center mt-5">
                 <label for="profile_photo_path"
                        class="cursor-pointer transition duration-500">
-                    <span class="px-10 py-4 bg-primary rounded">Change</span>
+                    <span class="px-4 py-2 bg-gray-200 rounded hover:bg-primary">Change</span>
+{{--                    <span class="px-10 py-4 bg-primary rounded">Change</span>--}}
                     <input type="file" name="profile_photo_path" id='profile_photo_path' class="hidden">
                     <span class="text-xs text-gray-500 block mt-4">Max size 5MB (JPG, PNG, GIF)</span>
                 </label>

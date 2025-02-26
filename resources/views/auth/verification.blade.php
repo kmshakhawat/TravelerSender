@@ -49,8 +49,8 @@
                             <h5 class="heading-5 mt-10 heading-title">{{ __('Upload your ID Card') }}</h5>
                             <div class="flex mt-4 gap-10">
                                 <div class="w-2/3">
-                                    <x-id-card :title="__('Upload Font Side')" :url="$user->id_front" :name="__('id_front')"/>
-                                    <x-id-card :title="__('Upload Back Side')" :url="$user->id_back" :name="__('id_back')"/>
+                                    <x-id-front :title="__('Upload Font Side')" :url="$user->profile->id_front"/>
+                                    <x-id-back :title="__('Upload Back Side')" :url="$user->profile->id_back"/>
                                 </div>
                                 <div class="border"></div>
                                 <div class="w-1/3">

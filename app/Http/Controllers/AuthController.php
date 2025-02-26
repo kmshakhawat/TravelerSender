@@ -98,7 +98,7 @@ class AuthController extends Controller
             'phone' => $request->phone,
             'country_id' => $request->country_id,
             'verified' => $request->verified,
-            'profile_photo_path'  => $this->handleFile($request->file('profile_photo_path'), 'profile-photos/', $user->profile_photo_path),
+            'profile_photo_path'  => $this->handleFile($request->file('profile_photo_path'), $user->id.'/', $user->profile_photo_path),
         ]);
 
         $user->profile()->updateOrCreate(
@@ -121,6 +121,33 @@ class AuthController extends Controller
         $countries = Travel::countries();
         $id_types = Travel::idTypes();
         return view('auth.verification', compact('user','countries', 'id_types'));
+    }
+    public function verificationUpdate(Request $request)
+    {
+        $user = Auth::user()->load('profile');
+        $request->validate([
+            'id_type' => 'required|string|max:255',
+            'id_number' => 'required|string|max:255',
+            'id_front' => ['nullable', 'mimes:jpeg,jpg,png,webp,gif|max:5120'],
+            'id_back' => ['nullable', 'mimes:jpeg,jpg,png,webp,image/gif|max:5120'],
+        ]);
+
+//dd($request->file('id_front'));
+        $user->profile->updateOrCreate(
+            ['user_id' => $user->id],
+            [
+                'id_type' => $request->id_type,
+                'id_number' => $request->id_number,
+                'id_issue' => $request->id_issue,
+                'id_expiry' => $request->id_expiry,
+                'dob' => $request->dob,
+                'id_front' => $this->handleFile($request->file('id_front'), $user->id.'/', $user->profile->id_front),
+                'id_back' => $this->handleFile($request->file('id_back'), $user->id.'/', $user->profile->id_back),
+            ]
+        );
+
+
+
     }
 
     public function logout(Request $request)

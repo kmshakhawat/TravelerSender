@@ -64,6 +64,18 @@
 .select2.select2-container--default .select2-selection--single .select2-selection__arrow {
     @apply h-12;
 }
+.swiper .swiper-button-prev,
+.swiper .swiper-button-next {
+    @apply opacity-0 transition duration-500 ease-in-out;
+}
+.swiper:hover .swiper-button-prev,
+.swiper:hover .swiper-button-next {
+    @apply opacity-100;
+}
+.slide-prev:after,
+.slide-next:after{
+    @apply text-white;
+}
 input[disabled] {
     @apply bg-primary text-primary border-primary bg-opacity-10 cursor-not-allowed;
 }

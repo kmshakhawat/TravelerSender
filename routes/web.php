@@ -19,4 +19,5 @@ Route::middleware([
     Route::get('/profile', [AuthController::class, 'profile'])->name('profile');
     Route::post('/profile', [AuthController::class, 'updateProfile'])->name('profile.update');
     Route::get('/verification', [AuthController::class, 'verification'])->name('verification');
+    Route::post('/verification', [AuthController::class, 'verificationUpdate'])->name('verification.update');
 });

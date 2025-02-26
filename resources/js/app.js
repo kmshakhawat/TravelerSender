@@ -29,20 +29,44 @@ $(document).ready(function () {
     $('.select2').select2();
 });
 
-const profilePhoto = document.getElementById('profilePhoto');
-const profilePhotoInput = document.getElementById('profile_photo_path');
-if (profilePhotoInput) {
-    profilePhotoInput.addEventListener('change', function (event) {
+previewImage('profile_photo_path', 'profilePhoto');
+previewImage('id_front', 'frontID');
+previewImage('id_back', 'backID');
+function previewImage(inputId, imageId) {
+    const input = document.getElementById(inputId);
+    const image = document.getElementById(imageId);
+
+    if (input && image) {
+        input.addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            if (file?.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = (e) => (image.src = e.target.result);
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+}
+
+
+
+document.querySelectorAll('.id_card').forEach(input => {
+    input.addEventListener('change', function (event) {
         const file = event.target.files[0];
         if (file && file.type.startsWith('image/')) {
             const reader = new FileReader();
             reader.onload = function (e) {
-                profilePhoto.src = e.target.result;
+                // Select all images that need to be updated
+                document.querySelectorAll('#id_card_photo').forEach(img => {
+                    img.src = e.target.result;
+                });
             };
             reader.readAsDataURL(file);
         }
     });
-}
+});
+
+
 window.showJsonErrorMessage = (response, showAlert = true) => {
     const selector = '.invalid-feedback';
 
