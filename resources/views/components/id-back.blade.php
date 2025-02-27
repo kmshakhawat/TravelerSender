@@ -1,7 +1,7 @@
 @props(['url' => '', 'name' => '', 'title' => '', 'upload' => true])
 <div class="flex flex-col mb-8 bg-white">
     <div class="flex items-center justify-between">
-        <div class="relative flex items-center justify-center max-w-96 max-h-96 overflow-hidden">
+        <div class="relative flex items-center justify-center w-64 h-48 overflow-hidden">
             <img id="backID" src="{{ Storage::disk('public')->url($url) ?: 'https://ui-avatars.com/api/?name='.urlencode('ID').'&size=120&color=7F9CF5&background=EBF4FF' }}" alt="{{ $name }}" class="w-full">
         </div>
 

@@ -94,7 +94,18 @@ input[disabled] {
 .links a {
     @apply py-1 block hover:text-gray-700;
 }
-
+.table {
+    @apply w-full;
+}
+.table tr {
+    @apply border border-gray-200;
+}
+table th {
+    @apply border-r;
+}
+.table td, .table th {
+    @apply py-3 px-2 text-left space-x-3;
+}
 
 /* Admin CSS */
 .profile-link {

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\TripController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -20,4 +21,6 @@ Route::middleware([
     Route::post('/profile', [AuthController::class, 'updateProfile'])->name('profile.update');
     Route::get('/verification', [AuthController::class, 'verification'])->name('verification');
     Route::post('/verification', [AuthController::class, 'verificationUpdate'])->name('verification.update');
+    Route::resource('trip', TripController::class);
+
 });

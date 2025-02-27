@@ -78,7 +78,7 @@
                             </div>
                             <div class="flex gap-4 mt-4 items-center">
                                 <label class="relative inline-flex items-center cursor-pointer">
-                                    <input type="checkbox" name="verified" class="sr-only peer">
+                                    <input type="checkbox" name="verified" @checked($user->verified) class="sr-only peer">
                                     <div class="w-[53px] h-7 bg-gray-200 hover:bg-gray-300 peer-focus:outline-0 peer-focus:ring-transparent rounded-full peer transition-all ease-in-out duration-500 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-primary hover:peer-checked:bg-primary"></div>
                                 </label>
                                 <label class="inline-block">Verified</label>
@@ -120,11 +120,11 @@
                                     confirmButtonText: 'OK'
                                 });
                                 setTimeout(() => {
-                                    @if($user->verified)
+                                    if(response.data.redirect === 'No') {
                                         location.reload();
-                                    @else
+                                    } else {
                                         location.href = route('verification');
-                                    @endif
+                                    }
                                 }, 2000);
                             })
                             .catch(error => {

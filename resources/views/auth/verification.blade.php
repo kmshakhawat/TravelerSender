@@ -50,11 +50,12 @@
                             <div class="flex mt-4 gap-10">
                                 <div class="w-2/3">
                                     <x-id-front :title="__('Upload Font Side')" :url="$user->profile->id_front"/>
+                                    <div class="border mb-8"></div>
                                     <x-id-back :title="__('Upload Back Side')" :url="$user->profile->id_back"/>
                                 </div>
                                 <div class="border"></div>
                                 <div class="w-1/3">
-                                    <x-profile-photo :url="$user->profile_photo_url" :name="$user->name"/>
+                                    <x-user-photo :url="$user->profile->photo" :name="$user->name"/>
                                 </div>
                             </div>
 

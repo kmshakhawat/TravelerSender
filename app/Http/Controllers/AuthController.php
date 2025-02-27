@@ -97,7 +97,7 @@ class AuthController extends Controller
             'name' => $request->name,
             'phone' => $request->phone,
             'country_id' => $request->country_id,
-            'verified' => $request->verified,
+            'verified' => $request->verified ? now() : NULL,
             'profile_photo_path'  => $this->handleFile($request->file('profile_photo_path'), $user->id.'/', $user->profile_photo_path),
         ]);
 
@@ -111,6 +111,13 @@ class AuthController extends Controller
                 'postcode' => $request->postcode,
             ]
         );
+
+        if ($user->verified) {
+            return response()->json([
+                'redirect' => 'No',
+                'message' => 'Profile updated successfully',
+            ]);
+        }
 
         return response()->json(['message' => 'Profile updated successfully'], 200);
 
@@ -131,8 +138,6 @@ class AuthController extends Controller
             'id_front' => ['nullable', 'mimes:jpeg,jpg,png,webp,gif|max:5120'],
             'id_back' => ['nullable', 'mimes:jpeg,jpg,png,webp,image/gif|max:5120'],
         ]);
-
-//dd($request->file('id_front'));
         $user->profile->updateOrCreate(
             ['user_id' => $user->id],
             [
@@ -143,10 +148,15 @@ class AuthController extends Controller
                 'dob' => $request->dob,
                 'id_front' => $this->handleFile($request->file('id_front'), $user->id.'/', $user->profile->id_front),
                 'id_back' => $this->handleFile($request->file('id_back'), $user->id.'/', $user->profile->id_back),
+                'photo' => $this->handleFile($request->file('profile_photo_path'), $user->id.'/', $user->profile->photo),
             ]
         );
 
-
+        $mailable_data = [
+            'template' => 'emails.verification',
+            'subject' => 'User Verification Data Update',
+        ];
+        Mail::to($user->email)->send(new SendMail($mailable_data));
 
     }
 
