@@ -13,6 +13,21 @@ return new class extends Migration
     {
         Schema::create('trips', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained();
+            $table->string('trip_type');
+            $table->string('mode_of_transport');
+            $table->string('from');
+            $table->string('to');
+            $table->timestamp('departure_date')->nullable();
+            $table->timestamp('arrival_date')->nullable();
+            $table->string('stopovers')->nullable();
+            $table->string('available_space');
+            $table->string('type_of_item');
+            $table->string('packaging_requirement');
+            $table->string('handling_instruction');
+            $table->string('photo')->nullable();
+            $table->bigInteger('price')->unsigned();
+            $table->enum('status', ['Active', 'Inactive', 'Completed'])->default('Active');
             $table->timestamps();
         });
     }

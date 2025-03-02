@@ -82,7 +82,8 @@ class AuthController extends Controller
     {
         $user = Auth::user()->load('profile');
         $countries = Travel::countries();
-        return view('auth.profile', compact('user', 'countries'));
+        $currency_options = Travel::currencies();
+        return view('auth.profile', compact('user', 'countries', 'currency_options'));
     }
     public function updateProfile(Request $request)
     {
@@ -91,6 +92,9 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             'phone' => 'required|string|max:20',
             'country_id' => 'required|string|max:255',
+            'address_1' => 'required|string',
+            'city' => 'required|string|max:255',
+            'postcode' => 'required|string|max:255',
             'profile_photo_path' => ['nullable', 'mimes:jpeg,jpg,png,webp,gif|max:5120'],
         ]);
         $user->update([
@@ -104,6 +108,7 @@ class AuthController extends Controller
         $user->profile()->updateOrCreate(
             ['user_id' => $user->id],
             [
+                'currency_id' => $request->currency_id,
                 'address_1' => $request->address_1,
                 'address_2' => $request->address_2,
                 'city' => $request->city,
@@ -138,6 +143,14 @@ class AuthController extends Controller
             'id_front' => ['nullable', 'mimes:jpeg,jpg,png,webp,gif|max:5120'],
             'id_back' => ['nullable', 'mimes:jpeg,jpg,png,webp,image/gif|max:5120'],
         ]);
+
+        //if ID Type passport and Driving License then Issue Date adn Expiry Date is required
+        if ($request->id_type == 'Passport' || $request->id_type == 'Driving License') {
+            $request->validate([
+                'id_issue' => 'required|date',
+                'id_expiry' => 'required|date',
+            ]);
+        }
         $user->profile->updateOrCreate(
             ['user_id' => $user->id],
             [

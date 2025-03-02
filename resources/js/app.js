@@ -4,10 +4,18 @@ import 'swiper/css/bundle';
 import flatpickr from "flatpickr";
 import 'flatpickr/dist/flatpickr.min.css';
 
+
 flatpickr(".datepicker", {
     altInput: true,
     altFormat: "F j, Y",
     dateFormat: "Y-m-d",
+});
+flatpickr(".timepicker", {
+    altInput: true,
+    altFormat: "F j, Y h:i K",
+    enableTime: true,
+    dateFormat: "Y-m-d H:i",
+    minDate: "today",
 });
 
 let slide = new Swiper(".slide", {
@@ -48,7 +56,12 @@ function previewImage(inputId, imageId) {
     }
 }
 
-
+$('#photo').change(function () {
+    let file = $('#photo')[0].files[0];
+    if (file) {
+        $(this).prev().html(file.name);
+    }
+});
 
 document.querySelectorAll('.id_card').forEach(input => {
     input.addEventListener('change', function (event) {

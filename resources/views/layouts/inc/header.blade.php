@@ -13,7 +13,7 @@
 
             <!-- start::Black overlay -->
             <div :class="menuOpen ? '!block' : 'hidden'" @click="menuOpen = false"
-                 class="fixed z-20 inset-0 bg-black opacity-40 transition ease-in-out duration-150 hidden"></div>
+                 class="fixed z-20 inset-0 bg-black opacity-40 transition-opacity hidden"></div>
             <!-- end::Black overlay -->
 
             <div class="flex items-center">
@@ -33,7 +33,7 @@
                     </button>
                     <aside
                         :class="menuOpen ? 'translate-x-0 ease-out !block' : 'translate-x-full ease-in'"
-                        class="fixed z-30 inset-y-0 right-0 w-72 transition ease-in-out duration-150 bg-white overflow-y-auto translate-x-0 hidden"
+                        class="fixed z-30 inset-y-0 right-0 w-72 transition-opacity bg-white overflow-y-auto translate-x-0 duration-500 hidden"
                     >
                         <div :class="menuOpen ? '!block' : 'hidden'" @click="menuOpen = false"
                              class="fixed z-20 transition-opacity cursor-pointer right-2 top-2">

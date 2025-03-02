@@ -1,0 +1,37 @@
+@props(['file' => '', 'title' => '', 'name' => 'photo', 'show' => true, 'upload' => true])
+
+@if($show)
+    <div class="flex flex-col mb-8 bg-white">
+        <x-label for="{{ $name }}" value="{{ $title }}" />
+    @if($file)
+    <div class="flex justify-between mb-2">
+        <a class="btn-primary !flex gap-4 w-full justify-between items-center" href="{{ route('download', $file) }}">
+            Click here to download
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="h-6 w-6 text-gray-100" viewBox="0 0 16 16">
+                <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
+                <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z"/>
+            </svg>
+        </a>
+    </div>
+    @endif
+    @if($upload)
+        <div class="flex justify-between items-center mt-2">
+            <label for="{{ $name }}"
+                   class="bg-white text-center rounded w-full max-w-sm py-4 px-4 flex flex-col items-center justify-center cursor-pointer border-2 border-gray-300">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-10 mb-3 fill-gray-400" viewBox="0 0 24 24">
+                    <path
+                        d="M22 13a1 1 0 0 0-1 1v4.213A2.79 2.79 0 0 1 18.213 21H5.787A2.79 2.79 0 0 1 3 18.213V14a1 1 0 0 0-2 0v4.213A4.792 4.792 0 0 0 5.787 23h12.426A4.792 4.792 0 0 0 23 18.213V14a1 1 0 0 0-1-1Z"
+                        data-original="#000000" />
+                    <path
+                        d="M6.707 8.707 11 4.414V17a1 1 0 0 0 2 0V4.414l4.293 4.293a1 1 0 0 0 1.414-1.414l-6-6a1 1 0 0 0-1.414 0l-6 6a1 1 0 0 0 1.414 1.414Z"
+                        data-original="#000000" />
+                </svg>
+                <p class="text-gray-400 font-semibold text-sm">Drag & Drop or <span class="text-[#007bff]">Choose file</span> to
+                    upload</p>
+                <input type="file" name="{{ $name }}" id='{{ $name }}' class="hidden">
+            </label>
+        </div>
+    @endif
+</div>
+@endif
+

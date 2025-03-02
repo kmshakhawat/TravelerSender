@@ -60,7 +60,7 @@
                                 </div>
                                 <div class="w-full sm:w-1/2 mt-4">
                                     <x-label for="state" value="{{ __('State') }}" />
-                                    <x-input id="state" class="block mt-1 w-full" type="text" name="state" :value="$user->profile->state ?? '' " required autofocus autocomplete="state" />
+                                    <x-input id="state" class="block mt-1 w-full" type="text" name="state" :value="$user->profile->state ?? '' " autofocus autocomplete="state" />
                                     <div class="invalid-feedback invalid-state"></div>
                                 </div>
                             </div>
@@ -74,6 +74,13 @@
                                     <x-label for="country_id" value="{{ __('Country') }}" />
                                     <x-input-dropdown name="country_id" :options="$countries" :selected="[$user->country_id]"/>
                                     <div class="invalid-feedback invalid-country_id"></div>
+                                </div>
+                            </div>
+                            <div class="flex gap-4">
+                                <div class="w-full sm:w-1/2 mt-4">
+                                    <x-label for="currency_id" value="{{ __('Currency') }}" />
+                                    <x-input-dropdown name="currency_id" :options="$currency_options" :selected="[$user->profile->currency_id ?? '']"/>
+                                    <div class="invalid-feedback invalid-currency_id"></div>
                                 </div>
                             </div>
                             <div class="flex gap-4 mt-4 items-center">

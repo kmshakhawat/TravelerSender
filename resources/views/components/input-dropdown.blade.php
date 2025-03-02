@@ -3,7 +3,7 @@
 <select wire:model.change="{{ $name }}" name="{{ $name }}" {{ $attributes->merge(['class' => 'form-input select2']) }} {{ $multiple ? 'multiple' : '' }}>
     <option value="" {{ $multiple ? 'disabled' : '' }}>{{ $placeholder }}</option>
     @foreach ($options as $option)
-        <option value="{{ $option->id }}" {{ in_array($option->id, $selected) ? 'selected' : '' }}> {{ $option->name }}</option>
+        <option value="{{ $option->id }}" {{ in_array($option->id, $selected) ? 'selected' : '' }}> {{ $option->name }} {{ $option->symbol ?? '' }}</option>
         @if(isset($option->children))
             @foreach($option->children as $child)
                 <option value="{{ $child->id }}" {{ in_array($child->id, $selected) ? 'selected' : '' }}>-- {{ $child->name }}</option>

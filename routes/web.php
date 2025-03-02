@@ -1,13 +1,14 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FilePond;
 use App\Http\Controllers\TripController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('home');
 });
-
+Route::post('/filepond/upload', [FilePond::class, 'uploadProfilePhoto'])->name('filepond.process');
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
