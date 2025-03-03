@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FilePond;
 use App\Http\Controllers\TripController;
 use Illuminate\Support\Facades\Route;
+use Laravel\Jetstream\Http\Controllers\Livewire\UserProfileController;
 
 Route::get('/', function () {
     return view('home');
@@ -22,6 +23,7 @@ Route::middleware([
     Route::post('/profile', [AuthController::class, 'updateProfile'])->name('profile.update');
     Route::get('/verification', [AuthController::class, 'verification'])->name('verification');
     Route::post('/verification', [AuthController::class, 'verificationUpdate'])->name('verification.update');
+    Route::get('/settings', [UserProfileController::class, 'show'])->name('profile.settings');
     Route::resource('trip', TripController::class);
 
 });

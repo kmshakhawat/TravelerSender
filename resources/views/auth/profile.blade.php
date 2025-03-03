@@ -79,7 +79,7 @@
                             <div class="flex gap-4">
                                 <div class="w-full sm:w-1/2 mt-4">
                                     <x-label for="currency_id" value="{{ __('Currency') }}" />
-                                    <x-input-dropdown name="currency_id" :options="$currency_options" :selected="[$user->profile->currency_id ?? '']"/>
+                                    <x-input-dropdown name="currency_id" :options="$currency_options" :selected="[$user->currency_id ?? '']"/>
                                     <div class="invalid-feedback invalid-currency_id"></div>
                                 </div>
                             </div>

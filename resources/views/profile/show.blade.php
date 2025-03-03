@@ -1,17 +1,23 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Profile') }}
+            {{ __('Profile Setting') }}
         </h2>
     </x-slot>
 
-    <div>
-        <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-            @if (Laravel\Fortify\Features::canUpdateProfileInformation())
-                @livewire('profile.update-profile-information-form')
+    <div class="py-12">
+        <div class="container">
+            <div class="flex gap-8">
+                <div class="w-1/4">
+                    <x-profile-sidebar />
+                </div>
+                <div class="w-3/4">
+                    <div class="bg-white border border-gray-50 rounded shadow p-4">
+{{--            @if (Laravel\Fortify\Features::canUpdateProfileInformation())--}}
+{{--                @livewire('profile.update-profile-information-form')--}}
 
-                <x-section-border />
-            @endif
+{{--                <x-section-border />--}}
+{{--            @endif--}}
 
             @if (Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::updatePasswords()))
                 <div class="mt-10 sm:mt-0">
@@ -40,6 +46,9 @@
                     @livewire('profile.delete-user-form')
                 </div>
             @endif
+        </div>
+        </div>
+            </div>
         </div>
     </div>
 </x-app-layout>

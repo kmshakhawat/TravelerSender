@@ -19,12 +19,12 @@
                             <div class="flex gap-4">
                                 <div class="w-full sm:w-1/2 mt-4">
                                     <x-label for="id_type" value="{{ __('ID Type') }}" />
-                                    <x-input-dropdown class="id_type_select" name="id_type" :options="$id_types" :selected="[$user->profile->id_type]"/>
+                                    <x-input-dropdown class="id_type" name="id_type" :options="$id_type_options" :selected="[$user->profile->id_type ?? '']"/>
                                     <div class="invalid-feedback invalid-id_type"></div>
                                 </div>
                                 <div class="w-full sm:w-1/2 mt-4">
                                     <x-label for="id_number" value="{{ __('ID Number') }}" />
-                                    <x-input id="id_number" class="block mt-1 w-full" type="text" name="id_number" :value="$user->profile->id_number" required autofocus autocomplete="id_number" />
+                                    <x-input id="id_number" class="block mt-1 w-full" type="text" name="id_number" :value="$user->profile->id_number ?? ''" required autofocus autocomplete="id_number" />
                                     <div class="invalid-feedback invalid-id_number"></div>
                                 </div>
                             </div>
@@ -49,16 +49,15 @@
                             <h5 class="heading-5 mt-10 heading-title">{{ __('Upload your ID Card') }}</h5>
                             <div class="flex mt-4 gap-10">
                                 <div class="w-2/3">
-                                    <x-id-front :title="__('Upload Font Side')" :url="$user->profile->id_front"/>
+                                    <x-id-front :title="__('Upload Font Side')" :url="$user->profile->id_front ?? ''"/>
                                     <div class="border mb-8"></div>
-                                    <x-id-back :title="__('Upload Back Side')" :url="$user->profile->id_back"/>
+                                    <x-id-back :title="__('Upload Back Side')" :url="$user->profile->id_back ?? ''"/>
                                 </div>
                                 <div class="border"></div>
                                 <div class="w-1/3">
-                                    <x-user-photo :url="$user->profile->photo" :name="$user->name"/>
+                                    <x-user-photo :url="$user->profile->photo ?? ''" :name="$user->name"/>
                                 </div>
                             </div>
-
                             <button class="btn-primary mt-4">{{ __('Update Verification Data') }}</button>
                         </form>
                     </div>

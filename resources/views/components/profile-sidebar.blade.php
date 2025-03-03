@@ -9,5 +9,5 @@
     >
         {{ __('Account Verification') }}
     </a>
-    <a href="" class="profile-link">{{ __('Setting') }}</a>
+    <a href="{{ route('profile.settings') }}" class="profile-link {{ request()->routeIs('profile.settings') ? 'active' : '' }}">{{ __('Settings') }}</a>
 </div>

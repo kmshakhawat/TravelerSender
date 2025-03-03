@@ -18,12 +18,12 @@
                         <div class="flex gap-4">
                             <div class="w-full sm:w-1/2 mt-4">
                                 <x-label for="trip_type" value="{{ __('Trip Type') }}" />
-                                <x-input-dropdown class="trip_type" name="trip_type" :options="$type_option" :selected="[]"/>
+                                <x-input-dropdown class="trip_type" name="trip_type" :options="$type_option" :selected="[$trip->trip_type]"/>
                                 <div class="invalid-feedback invalid-trip_type"></div>
                             </div>
                             <div class="w-full sm:w-1/2 mt-4">
                                 <x-label for="mode_of_transport" value="{{ __('Mode of Transport') }}" />
-                                <x-input-dropdown class="mode_of_transport" name="mode_of_transport" :options="$transport_type_option" :selected="[]"/>
+                                <x-input-dropdown class="mode_of_transport" name="mode_of_transport" :options="$transport_type_option" :selected="[$trip->mode_of_transport]"/>
                                 <div class="invalid-feedback invalid-mode_of_transport"></div>
                             </div>
                         </div>
@@ -32,7 +32,7 @@
                                 <x-label for="from" value="{{ __('From') }}" />
                                 <div class="relative">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-6 opacity-50 text-primary absolute left-3 top-1/2 transform -translate-y-1/2"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
-                                    <x-input id="from" class="block mt-1 w-full ps-10" type="text" name="from" :value="old('from')" required autocomplete="from" />
+                                    <x-input id="from" class="block mt-1 w-full ps-10" type="text" name="from" :value="$trip->from" required autocomplete="from" />
                                 </div>
                                 <div class="invalid-feedback invalid-from"></div>
                             </div>
@@ -40,7 +40,7 @@
                                 <x-label for="to" value="{{ __('To') }}" />
                                 <div class="relative">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-6 opacity-50 text-primary absolute left-3 top-1/2 transform -translate-y-1/2"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
-                                    <x-input id="to" class="block mt-1 w-full ps-10" type="text" name="to" :value="old('to')" required autofocus autocomplete="to" />
+                                    <x-input id="to" class="block mt-1 w-full ps-10" type="text" name="to" :value="$trip->to" required autofocus autocomplete="to" />
                                 </div>
                                 <div class="invalid-feedback invalid-to"></div>
                             </div>
@@ -52,7 +52,7 @@
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 opacity-50 text-primary absolute left-3 top-1/2 transform -translate-y-1/2">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z" />
                                     </svg>
-                                    <x-input id="departure_date" class="block mt-1 w-full timepicker ps-10" type="text" name="departure_date" :value="old('departure_date')" required autofocus autocomplete="departure_date" />
+                                    <x-input id="departure_date" class="block mt-1 w-full timepicker ps-10" type="text" name="departure_date" :value="$trip->departure_date" required autofocus autocomplete="departure_date" />
                                 </div>
                                 <div class="invalid-feedback invalid-departure_date"></div>
                             </div>
@@ -62,7 +62,7 @@
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 opacity-50 text-primary absolute left-3 top-1/2 transform -translate-y-1/2">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z" />
                                     </svg>
-                                    <x-input id="arrival_date" class="block mt-1 w-full timepicker ps-10" type="text" name="arrival_date" :value="old('arrival_date')" required autofocus autocomplete="arrival_date" />
+                                    <x-input id="arrival_date" class="block mt-1 w-full timepicker ps-10" type="text" name="arrival_date" :value="$trip->arrival_date" required autofocus autocomplete="arrival_date" />
                                 </div>
                                 <div class="invalid-feedback invalid-arrival_date"></div>
                             </div>
@@ -92,7 +92,7 @@
                             </div>
                             <div class="w-full sm:w-1/2 mt-4">
                                 <x-label for="type_of_item" value="{{ __('Type of Items Allowed') }}" />
-                                <x-input-dropdown class="type_of_item" name="type_of_item" :options="$item_type_option" :selected="[]"/>
+                                <x-input-dropdown class="type_of_item" name="type_of_item" :options="$item_type_option" :selected="[$trip->type_of_item]"/>
                                 <div class="invalid-feedback invalid-type_of_item"></div>
                             </div>
                         </div>
@@ -100,7 +100,7 @@
                         <div class="flex gap-4">
                             <div class="w-full sm:w-1/2 mt-4">
                                 <x-label for="packaging_requirement" value="{{ __('Packaging Requirements') }}" />
-                                <x-input-dropdown class="packaging_requirement" name="packaging_requirement" :options="$packaging_requirement_options" :selected="[]"/>
+                                <x-input-dropdown class="packaging_requirement" name="packaging_requirement" :options="$packaging_requirement_options" :selected="[$trip->packaging_requirement]"/>
                                 <div class="invalid-feedback invalid-packaging_requirement"></div>
                             </div>
                             <div class="w-full sm:w-1/2 mt-4">
@@ -116,7 +116,7 @@
                                     <div class="size-6 text-primary absolute left-3 top-1/2 transform -translate-y-1/2">
                                         {{ auth()->user()->currency->symbol ?? '₦' }}
                                     </div>
-                                    <x-input id="price" class="block mt-1 w-full ps-10" type="text" name="price" :value="old('price')" required autofocus autocomplete="price" />
+                                    <x-input id="price" class="block mt-1 w-full ps-10" type="text" name="price" :value="$trip->price" required autofocus autocomplete="price" />
                                 </div>
                                 <div class="invalid-feedback invalid-price"></div>
                             </div>

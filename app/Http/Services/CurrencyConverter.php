@@ -8,11 +8,11 @@ class CurrencyConverter
 {
     public static function convert($amount, $toCurrency)
     {
-        $apiUrl = 'https://open.er-api.com/v6/latest/USD ';
+        $apiUrl = 'https://open.er-api.com/v6/latest/NGN';
         $response = Http::get($apiUrl);
 
         if ($response->successful()) {
-            $rates = $response->json()['conversion_rates'];
+            $rates = $response->json()['rates'];
             $rate = $rates[$toCurrency] ?? 1; // Fallback to 1 if currency not found
 
             return round($amount * $rate, 2);

@@ -100,6 +100,7 @@ class AuthController extends Controller
         $user->update([
             'name' => $request->name,
             'phone' => $request->phone,
+            'currency_id' => $request->currency_id,
             'country_id' => $request->country_id,
             'verified' => $request->verified ? now() : NULL,
             'profile_photo_path'  => $this->handleFile($request->file('profile_photo_path'), $user->id.'/', $user->profile_photo_path),
@@ -108,7 +109,6 @@ class AuthController extends Controller
         $user->profile()->updateOrCreate(
             ['user_id' => $user->id],
             [
-                'currency_id' => $request->currency_id,
                 'address_1' => $request->address_1,
                 'address_2' => $request->address_2,
                 'city' => $request->city,
@@ -131,8 +131,8 @@ class AuthController extends Controller
     {
         $user = Auth::user()->load('profile');
         $countries = Travel::countries();
-        $id_types = Travel::idTypes();
-        return view('auth.verification', compact('user','countries', 'id_types'));
+        $id_type_options = Travel::idTypes();
+        return view('auth.verification', compact('user','countries', 'id_type_options'));
     }
     public function verificationUpdate(Request $request)
     {

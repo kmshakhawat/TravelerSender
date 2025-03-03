@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('packaging_requirement');
             $table->string('handling_instruction');
             $table->string('photo')->nullable();
+            $table->string('currency')->nullable();
             $table->bigInteger('price')->unsigned();
             $table->enum('status', ['Active', 'Inactive', 'Completed'])->default('Active');
             $table->timestamps();

@@ -9,7 +9,6 @@ class UserProfiles extends Model
 {
     protected $fillable = [
         'user_id',
-        'currency_id',
         'dob',
         'address_1',
         'address_2',
@@ -25,8 +24,4 @@ class UserProfiles extends Model
         'photo',
     ];
 
-    public function currency(): BelongsTo
-    {
-        return $this->belongsTo(Currency::class);
-    }
 }

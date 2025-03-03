@@ -50,6 +50,16 @@ class TripController extends Controller
             'price' => 'required',
         ]);
 
+        $departure_date = $request->departure_date;
+        $arrival_date = $request->arrival_date;
+
+        if ($departure_date > $arrival_date) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Departure date cannot be later than the arrival date.',
+            ], 422);
+        }
+
         if (!$validate) {
             return response()->json([
                 'status' => 'error',
@@ -70,6 +80,7 @@ class TripController extends Controller
             'packaging_requirement' => $request->packaging_requirement,
             'handling_instruction' => $request->handling_instruction,
             'photo' => $this->handleFile($request->file('photo'), 'trip/', ''),
+            'currency' => auth()->user()->currency->code,
             'price' => $request->price,
 //            'status' => $request->status,
         ]);
@@ -95,7 +106,12 @@ class TripController extends Controller
      */
     public function edit(Trip $trip)
     {
-        //
+        $type_option = Travel::tripTypes();
+        $transport_type_option = Travel::transportType();
+        $item_type_option = Travel::itemType();
+        $handling_instruction_options = Travel::instructionType();
+        $packaging_requirement_options = Travel::packagingType();
+        return view('trip.edit', compact('trip', 'type_option', 'transport_type_option', 'item_type_option', 'handling_instruction_options', 'packaging_requirement_options'));
     }
 
     /**

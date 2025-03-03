@@ -23,21 +23,15 @@ class Trip extends Model
         'packaging_requirement',
         'handling_instruction',
         'photo',
+        'currency',
         'price',
         'status',
     ];
 
     public function getConvertedPriceAttribute()
     {
-        $currency = session('currency', 'USD');
-        $price = $this->price; // Base price in USD
-
-        if ($currency !== 'USD') {
-            $exchangeRate = app('swap')->latest("USD/{$currency}")->getValue();
-            return round($price * $exchangeRate, 2);
-        }
-
-        return $price;
+        $currency = auth()->user()->currency->code ?? 'USD';
+        return CurrencyConverter::convert($this->price, $currency);
     }
 
     public function getCurrencySymbolAttribute()

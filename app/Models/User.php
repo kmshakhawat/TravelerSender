@@ -34,6 +34,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'phone',
+        'currency_id',
         'country_id',
         'password',
         'profile_photo_path',
@@ -80,5 +81,9 @@ class User extends Authenticatable implements MustVerifyEmail
     public function country(): BelongsTo
     {
         return $this->belongsTo(Country::class);
+    }
+    public function currency(): BelongsTo
+    {
+        return $this->belongsTo(Currency::class);
     }
 }

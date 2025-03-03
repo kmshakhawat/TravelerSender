@@ -12,7 +12,10 @@
                 </div>
                 <div class="w-3/4">
                     <div class="bg-white border border-gray-50 rounded shadow p-4">
-                        <h3 class="heading-5 mb-4 heading-title">Trip Information</h3>
+                        <div class="flex items-center justify-between heading-title">
+                            <h3 class="heading-5 mb-4">Trip Information</h3>
+                            <a class="btn-secondary" href="{{ route('trip.index') }}">Back</a>
+                        </div>
                         <div class="overflow-auto">
                             <table class="w-full table my-8 whitespace-nowrap">
                                 <tr>
@@ -33,11 +36,11 @@
                                 </tr>
                                 <tr>
                                     <td>Date & Time of Departure</td>
-                                    <td>{{ $trip->departure_date }}</td>
+                                    <td>{{ getDateFormat($trip->departure_date) }}</td>
                                 </tr>
                                 <tr>
                                     <td>Estimated Time of Arrival</td>
-                                    <td>{{ $trip->arrival_date }}</td>
+                                    <td>{{ getDateFormat($trip->arrival_date) }}</td>
                                 </tr>
                                 <tr>
                                     <td>Stopovers (If applicable)</td>
@@ -65,10 +68,14 @@
                                     <td>{{ $trip->handling_instruction }}</td>
                                 </tr>
                                 <tr>
-                                    <td>Price {{ $user->profile->currency->symbol}}</td>
-                                    <td>{{$trip->converted_price }}</td>
+                                    <td>Price</td>
+                                    <td>{{ getPrice($trip->currency, $trip->price) }}</td>
                                 </tr>
                             </table>
+                            <div class="flex gap-3">
+                                <a class="btn-primary" href="{{ route('trip.edit', $trip->id) }}">Edit</a>
+                                <a class="btn-secondary" href="{{ route('trip.index') }}">Back</a>
+                            </div>
                         </div>
                     </div>
                 </div>
