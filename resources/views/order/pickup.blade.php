@@ -1,0 +1,22 @@
+<div x-data="travel">
+    <form id="pickup" x-ref="pickupForm" @submit.prevent="pickupVerify({{ $booking }})" method="POST">
+        @csrf
+        @method('POST')
+        <div class="bg-white p-6 rounded min-w-96">
+            <h1 class="text-xl font-semibold capitalize mb-5 pb-4 border-b">Pickup Verify</h1>
+            <div class="mt-6">
+                <div class="mt-4">
+                    <x-label for="status" value="{{ __('OTP') }}" />
+                    <x-input id="otp" class="block w-full" type="text" name="otp" :value="old('otp')" autocomplete="otp" />
+                    <button @click.prevent="resendOTP({{ $booking }})" class="mt-2 text-primary">Resend OTP</button>
+                    <div class="invalid-feedback invalid-otp"></div>
+                </div>
+
+                <div class="flex gap-2 mt-6">
+                    <button type="button" @click.prevent="$store.app.showModal = false" class="btn-secondary">Cancel</button>
+                    <button class="btn-primary">Submit</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

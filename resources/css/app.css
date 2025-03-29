@@ -10,23 +10,29 @@
 }
 .invalid-feedback {color: red;}
 .btn-primary {
-    @apply bg-primary inline-block text-black rounded-md px-4 py-2 border border-transparent
+    @apply bg-primary inline-block text-white rounded-md px-4 py-2 border border-transparent
     hover:border hover:text-primary hover:border-primary hover:bg-transparent
-    transition ease-in-out duration-150;
+    transition ease-in-out duration-300;
 }
 .btn-secondary {
     @apply bg-transparent inline-block text-primary rounded-md px-4 py-2 border border-primary
-    hover:bg-primary hover:border-transparent hover:text-black
-    transition ease-in-out duration-150;
+    hover:bg-primary hover:border-transparent hover:text-white
+    transition ease-in-out duration-300;
 }
 .btn-danger {
-    @apply bg-red-600 inline-block text-white text-sm rounded px-2 py-1
-    hover:bg-primary hover:border-transparent hover:text-black
+    @apply bg-secondary inline-block text-white text-sm rounded px-2 py-1
+    hover:bg-primary hover:border-transparent hover:text-white
+    transition ease-in-out duration-300;
+}
+.btn-full {
+    @apply bg-primary w-full text-white py-4 px-10 text-xl font-medium rounded-md
+    hover:bg-secondary
     transition ease-in-out duration-150;
 }
 .nav-link {
-    @apply flex justify-between items-center px-4 py-4 text-black text-base hover:bg-[#F4F4F4]
-    transition ease-in-out duration-150;
+    @apply flex justify-between items-center px-4 py-4 text-black text-base cursor-pointer
+    hover:bg-[#F4F4F4]
+    transition ease-in-out duration-300;
 }
 .nav-link svg {
     @apply w-6 h-6 text-gray-500;
@@ -50,7 +56,10 @@
     @apply border-b border-gray-300 pb-2 mb-4;
 }
 .form-input {
-    @apply w-full min-h-12 py-2 text-base text-black border-gray-300 mt-1 rounded focus:border-primary focus:ring-primary;
+    @apply w-full min-h-12 py-2 text-base text-black border-gray-300 rounded focus:border-primary focus:ring-primary;
+}
+.select2.select2-container {
+    @apply !w-full;
 }
 .select2.select2-container--default .select2-selection--single, .select2.select2-container--default .select2-selection--multiple {
     @apply border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block w-full py-1.5 min-h-12;
@@ -82,6 +91,9 @@ input[disabled] {
 .iti {
     @apply w-full;
 }
+.not-found {
+    @apply my-4 text-3xl font-semibold text-red-500 text-center;
+}
 .slide-content {
     @apply flex flex-col gap-5 text-xl text-white;
 }
@@ -105,6 +117,12 @@ table th {
 }
 .table td, .table th {
     @apply py-3 px-2 text-left space-x-3;
+}
+.price {
+    @apply font-bold text-2xl text-black;
+}
+div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm {
+    @apply !bg-primary text-white;
 }
 
 /* Admin CSS */

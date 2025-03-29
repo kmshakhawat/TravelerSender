@@ -16,10 +16,13 @@ class UserSeeder extends Seeder
         $admin = new User();
         $admin->name = 'Admin';
         $admin->email = 'admin@gmail.com';
-        $admin->country_id = 77;
         $admin->password = Hash::make('password');
         $admin->email_verified_at = now();
+        $admin->verified = now();
         $admin->save();
+        $admin->profile()->create([
+            'country_id' => 232,
+        ]);
         $admin->assignRole('admin');
     }
 }

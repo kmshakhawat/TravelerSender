@@ -17,8 +17,6 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('phone', 20)->nullable();
-            $table->foreignId('currency_id')->nullable()->constrained()->nullOnDelete();
-            $table->foreignIdFor(Country::class, 'country_id')->nullable()->constrained()->nullOnDelete();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
@@ -26,6 +24,10 @@ return new class extends Migration
             $table->string('profile_photo_path', 2048)->nullable();
             $table->enum('status', ['Active', 'Inactive'])->default('Active');
             $table->timestamp('verified')->nullable();
+            $table->integer('otp')->nullable();
+            $table->boolean('otp_verified')->default(false);
+            $table->timestamp('otp_expiry')->nullable();
+            $table->string('stripe_id')->nullable();
             $table->timestamps();
         });
 

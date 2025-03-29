@@ -10,9 +10,9 @@
                 <label for="id_front"
                        class="cursor-pointer transition duration-500">
                     @if($title)
-                        <span class="px-4 py-2 bg-gray-200 rounded hover:bg-primary">{{ $title }}</span>
+                        <span class="px-4 py-2 bg-gray-200 rounded hover:bg-primary hover:text-white">{{ $title }}</span>
                     @else
-                        <span class="px-4 py-2 bg-gray-200 rounded hover:bg-primary">Change</span>
+                        <span class="px-4 py-2 bg-gray-200 rounded hover:bg-primary hover:text-white">Change</span>
                     @endif
                     <input type="file" name="id_front" id="id_front" class="hidden id_front">
                     <span class="text-xs text-gray-500 block mt-4">Max size 5MB (JPG, PNG, GIF)</span>

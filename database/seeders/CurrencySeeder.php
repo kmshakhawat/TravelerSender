@@ -16,12 +16,12 @@ class CurrencySeeder extends Seeder
             [
                 'code' => 'NGN',
                 'symbol' => '₦',
-                'exchange_rate' => '',
+                'exchange_rate' => '0.0000',
             ],
             [
                 'code' => 'EUR',
                 'symbol' => '€',
-                'exchange_rate' => '',
+                'exchange_rate' => '0.0000',
             ],
         ];
         foreach ($currencies as $currency) {

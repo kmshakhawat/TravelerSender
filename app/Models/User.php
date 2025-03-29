@@ -3,12 +3,15 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Http\Middleware\Auth;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Cashier\Billable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
@@ -24,6 +27,7 @@ class User extends Authenticatable implements MustVerifyEmail
     use Notifiable;
     use TwoFactorAuthenticatable;
     use HasRoles;
+    use Billable;
 
     /**
      * The attributes that are mass assignable.
@@ -34,11 +38,16 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'phone',
+        'email_verified_at',
         'currency_id',
         'country_id',
         'password',
+        'status',
         'profile_photo_path',
         'verified',
+        'otp',
+        'otp_verified',
+        'otp_expiry',
     ];
 
     /**
@@ -62,6 +71,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'profile_photo_url',
     ];
 
+
     /**
      * Get the attributes that should be cast.
      *
@@ -74,16 +84,58 @@ class User extends Authenticatable implements MustVerifyEmail
             'password' => 'hashed',
         ];
     }
+
+    public function trips(): HasMany
+    {
+        return $this->hasMany(Trip::class);
+    }
     public function profile(): HasOne
     {
         return $this->hasOne(UserProfiles::class);
     }
-    public function country(): BelongsTo
+
+    public function unreadMessages(): HasMany
     {
-        return $this->belongsTo(Country::class);
+        return $this->hasMany(Message::class, 'receiver_id')
+            ->where('read_at', false); // Assuming you have an 'is_read' column
     }
-    public function currency(): BelongsTo
+    public function latestMessage()
     {
-        return $this->belongsTo(Currency::class);
+        return $this->hasOne(Message::class, 'sender_id')
+            ->orWhere('receiver_id', $this->id)
+            ->latest('created_at');
+    }
+    public function sentMessages()
+    {
+        return $this->hasMany(Message::class, 'sender_id');
+    }
+
+    // Define the relationship for messages received by the user
+    public function receivedMessages()
+    {
+        return $this->hasMany(Message::class, 'receiver_id');
+    }
+
+    public function ratings() {
+        return $this->hasMany(Rating::class, 'traveler_id');
+    }
+
+    public function averageRating() {
+        return number_format($this->ratings()->avg('rating'), 1);
+    }
+
+
+    public function earnings()
+    {
+        return $this->trips()
+            ->where('status', 'Completed')
+            ->sum('price');
+    }
+
+    public function hasValidOtp()
+    {
+        return $this->otp_verified == 1 &&
+            $this->otp_expiry !== null &&
+            $this->otp_expiry > now();
     }
 }

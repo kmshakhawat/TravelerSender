@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Actions\Travel;
 use App\Http\Services\FileHandler;
+use App\Models\Country;
 use App\Models\Trip;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,22 @@ class TripController extends Controller
      */
     public function index()
     {
+        if (!auth()->user()->verified) {
+            return redirect()->route('verification')->with('error', 'Please verify your account to continue');
+        }
         return view('trip.index');
+    }
+
+    public function search()
+    {
+        return view('trip.search');
+
+    }
+
+    public function details(Trip $trip)
+    {
+        $trip->load('stopovers')->load('user');
+        return view('trip.details', compact('trip'));
     }
 
     /**
@@ -29,7 +45,9 @@ class TripController extends Controller
         $item_type_option = Travel::itemType();
         $handling_instruction_options = Travel::instructionType();
         $packaging_requirement_options = Travel::packagingType();
-        return view('trip.create', compact('trip', 'type_option', 'transport_type_option', 'item_type_option', 'packaging_requirement_options', 'handling_instruction_options'));
+        $weight_unit_options = Travel::weightUnit();
+        $countries = Country::all();
+        return view('trip.create', compact('trip', 'countries', 'type_option', 'transport_type_option', 'item_type_option', 'packaging_requirement_options', 'handling_instruction_options', 'weight_unit_options'));
     }
 
     /**
@@ -40,15 +58,30 @@ class TripController extends Controller
         $validate = $request->validate([
             'trip_type' => 'required',
             'mode_of_transport' => 'required',
-            'from' => 'required',
-            'to' => 'required',
+            'from_address_1' => 'required',
+            'from_country_id' => 'required',
+            'from_state_id' => 'required',
+            'from_city' => 'required',
+            'from_postcode' => 'required',
+            'from_phone' => 'required',
+            'to_address_1' => 'required',
+            'to_country_id' => 'required',
+            'to_state_id' => 'required',
+            'to_city' => 'required',
+            'to_postcode' => 'required',
+            'to_phone' => 'required',
             'departure_date' => 'required',
             'arrival_date' => 'required',
-            'available_space' => 'required',
+            'available_space' => 'required|numeric',
+            'weight_unit' => 'required',
+            'type_of_item' => 'required',
             'packaging_requirement' => 'required',
             'handling_instruction' => 'required',
-            'price' => 'required',
+            'price' => 'required|numeric',
         ]);
+        // validation message
+        $validate['from_address_2'] = $request->from_address_2;
+
 
         $departure_date = $request->departure_date;
         $arrival_date = $request->arrival_date;
@@ -71,19 +104,50 @@ class TripController extends Controller
             'user_id' => auth()->id(),
             'trip_type' => $request->trip_type,
             'mode_of_transport' => $request->mode_of_transport,
-            'from' => $request->from,
-            'to' => $request->to,
+            'from_address_1' => $request->from_address_1,
+            'from_address_2' => $request->from_address_2,
+            'from_country_id' => $request->from_country_id,
+            'from_state_id' => $request->from_state_id,
+            'from_city' => $request->from_city,
+            'from_postcode' => $request->from_postcode,
+            'from_phone' => $request->from_phone,
+            'to_address_1' => $request->to_address_1,
+            'to_address_2' => $request->to_address_2,
+            'to_country_id' => $request->to_country_id,
+            'to_state_id' => $request->to_state_id,
+            'to_city' => $request->to_city,
+            'to_postcode' => $request->to_postcode,
+            'to_phone' => $request->to_phone,
             'departure_date' => $request->departure_date,
             'arrival_date' => $request->arrival_date,
             'available_space' => $request->available_space,
+            'weight_unit' => $request->weight_unit,
             'type_of_item' => $request->type_of_item,
             'packaging_requirement' => $request->packaging_requirement,
             'handling_instruction' => $request->handling_instruction,
             'photo' => $this->handleFile($request->file('photo'), 'trip/', ''),
-            'currency' => auth()->user()->currency->code,
+            'currency' => auth()->user()->currency->code ?? 'NGN',
             'price' => $request->price,
+            'note' => $request->note,
+            'admin_note' => $request->admin_note,
 //            'status' => $request->status,
         ]);
+
+
+        if ($request->stopovers) {
+            $stopovers = collect($request->stopovers)
+                ->filter(function ($stopover) {
+                    return $stopover !== null && trim($stopover) !== '';
+                })
+                ->map(function ($stopover) {
+                    return ['location' => $stopover];
+                })
+                ->toArray();
+
+            if (!empty($stopovers)) {
+                $trip->stopovers()->createMany($stopovers);
+            }
+        }
 
         return response()->json([
             'status' => 'success',
@@ -97,8 +161,16 @@ class TripController extends Controller
      */
     public function show(Trip $trip)
     {
-        $user = auth()->user()->load('profile');
-        return view('trip.show', compact('user', 'trip'));
+        if (auth()->user()->hasRole('admin')) {
+            $trip->load('stopovers');
+        } else {
+            if ($trip->user_id !== auth()->user()->id) {
+                return redirect()->route('trip.index')->with('error', 'Unauthorized access');
+            }
+            $trip->load('stopovers');
+        }
+
+        return view('trip.show', compact('trip'));
     }
 
     /**
@@ -111,7 +183,19 @@ class TripController extends Controller
         $item_type_option = Travel::itemType();
         $handling_instruction_options = Travel::instructionType();
         $packaging_requirement_options = Travel::packagingType();
-        return view('trip.edit', compact('trip', 'type_option', 'transport_type_option', 'item_type_option', 'handling_instruction_options', 'packaging_requirement_options'));
+        $status_options = Travel::tripStatus();
+        $weight_unit_options = Travel::weightUnit();
+        $countries = Country::all();
+
+        if (auth()->user()->hasRole('admin')) {
+            $trip->load('stopovers');
+        } else {
+            if ($trip->user_id !== auth()->user()->id) {
+                return redirect()->route('trip.index')->with('error', 'Unauthorized access');
+            }
+            $trip->load('stopovers');
+        }
+        return view('trip.edit', compact('trip', 'countries', 'type_option', 'transport_type_option', 'item_type_option', 'handling_instruction_options', 'packaging_requirement_options', 'status_options', 'weight_unit_options'));
     }
 
     /**
@@ -119,7 +203,101 @@ class TripController extends Controller
      */
     public function update(Request $request, Trip $trip)
     {
-        //
+        $validate = $request->validate([
+            'trip_type' => 'required',
+            'mode_of_transport' => 'required',
+            'from_address_1' => 'required',
+            'from_country_id' => 'required',
+            'from_state_id' => 'required',
+            'from_city' => 'required',
+            'from_postcode' => 'required',
+            'from_phone' => 'required',
+            'to_address_1' => 'required',
+            'to_country_id' => 'required',
+            'to_state_id' => 'required',
+            'to_city' => 'required',
+            'to_postcode' => 'required',
+            'to_phone' => 'required',
+            'departure_date' => 'required',
+            'arrival_date' => 'required',
+            'available_space' => 'required|numeric',
+            'weight_unit' => 'required',
+            'type_of_item' => 'required',
+            'packaging_requirement' => 'required',
+            'handling_instruction' => 'required',
+            'price' => 'required|numeric',
+        ]);
+
+        $departure_date = $request->departure_date;
+        $arrival_date = $request->arrival_date;
+
+        if ($departure_date > $arrival_date) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Departure date cannot be later than the arrival date.',
+            ], 422);
+        }
+
+        if (!$validate) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Validation error',
+            ], 422);
+        }
+
+        $trip->update([
+            'trip_type' => $request->trip_type,
+            'mode_of_transport' => $request->mode_of_transport,
+            'from_address_1' => $request->from_address_1,
+            'from_address_2' => $request->from_address_2,
+            'from_country_id' => $request->from_country_id,
+            'from_state_id' => $request->from_state_id,
+            'from_city' => $request->from_city,
+            'from_postcode' => $request->from_postcode,
+            'from_phone' => $request->from_phone,
+            'to_address_1' => $request->to_address_1,
+            'to_address_2' => $request->to_address_2,
+            'to_country_id' => $request->to_country_id,
+            'to_state_id' => $request->to_state_id,
+            'to_city' => $request->to_city,
+            'to_postcode' => $request->to_postcode,
+            'to_phone' => $request->to_phone,
+            'departure_date' => $request->departure_date,
+            'arrival_date' => $request->arrival_date,
+            'available_space' => $request->available_space,
+            'weight_unit' => $request->weight_unit,
+            'type_of_item' => $request->type_of_item,
+            'packaging_requirement' => $request->packaging_requirement,
+            'handling_instruction' => $request->handling_instruction,
+            'photo' => $this->handleFile($request->file('photo'), 'trip/', ''),
+            'currency' => auth()->user()->currency->code ?? 'NGN',
+            'price' => $request->price,
+            'note' => $request->note,
+            'admin_note' => $request->admin_note,
+            'status' => $request->status,
+        ]);
+
+        $trip->stopovers()->delete();
+        if ($request->stopovers) {
+            $stopovers = collect($request->stopovers)
+                ->filter(function ($stopover) {
+                    return $stopover !== null && trim($stopover) !== '';
+                })
+                ->map(function ($stopover) {
+                    return ['location' => $stopover];
+                })
+                ->toArray();
+
+            if (!empty($stopovers)) {
+                $trip->stopovers()->createMany($stopovers);
+            }
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Trip updated successfully',
+        ], 200);
+
     }
 
     /**
@@ -127,6 +305,10 @@ class TripController extends Controller
      */
     public function destroy(Trip $trip)
     {
-        //
+        $trip->delete();
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Trip deleted successfully',
+        ], 200);
     }
 }

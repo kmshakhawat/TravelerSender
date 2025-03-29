@@ -1,10 +1,10 @@
 <x-app-layout>
     <x-slot name="header" class="flex">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Add New Trip') }}
+            {{ __('Trip Details') }}
         </h2>
     </x-slot>
-    <div x-data="trip" class="py-12">
+    <div class="py-12">
         <div class="container">
             <div class="flex gap-8">
                 <div class="w-1/4">
@@ -17,7 +17,7 @@
                             <a class="btn-secondary" href="{{ route('trip.index') }}">Back</a>
                         </div>
                         <div class="overflow-auto">
-                            <table class="w-full table my-8 whitespace-nowrap">
+                            <table class="w-full table mb-8 whitespace-nowrap">
                                 <tr>
                                     <td>Trip Type</td>
                                     <td>{{ $trip->trip_type }}</td>
@@ -27,12 +27,70 @@
                                     <td>{{ $trip->mode_of_transport }}</td>
                                 </tr>
                                 <tr>
-                                    <td>From</td>
-                                    <td>{{ $trip->from }}</td>
+                                    <td colspan="2">
+                                        <h5 class="heading-5">From</h5>
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td>To</td>
-                                    <td>{{ $trip->to }}</td>
+                                    <td>Address Line 1</td>
+                                    <td>{{ $trip->from_address_1 }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Address Line 2</td>
+                                    <td>{{ $trip->from_address_2 }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Country</td>
+                                    <td>{{ $trip->fromCountry->name ?? '' }}</td>
+                                </tr>
+                                <tr>
+                                    <td>State</td>
+                                    <td>{{ $trip->fromState->name ?? '' }}</td>
+                                </tr>
+                                <tr>
+                                    <td>City</td>
+                                    <td>{{ $trip->from_city }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Postcode</td>
+                                    <td>{{ $trip->from_postcode }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Phone</td>
+                                    <td>{{ $trip->from_phone }}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <h5 class="heading-5">To</h5>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Address Line 1</td>
+                                    <td>{{ $trip->to_address_1 }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Address Line 2</td>
+                                    <td>{{ $trip->to_address_2 }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Country</td>
+                                    <td>{{ $trip->toCountry->name ?? '' }}</td>
+                                </tr>
+                                <tr>
+                                    <td>State</td>
+                                    <td>{{ $trip->toState->name ?? '' }}</td>
+                                </tr>
+                                <tr>
+                                    <td>City</td>
+                                    <td>{{ $trip->to_city }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Postcode</td>
+                                    <td>{{ $trip->to_postcode }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Phone</td>
+                                    <td>{{ $trip->to_phone }}</td>
                                 </tr>
                                 <tr>
                                     <td>Date & Time of Departure</td>
@@ -42,18 +100,33 @@
                                     <td>Estimated Time of Arrival</td>
                                     <td>{{ getDateFormat($trip->arrival_date) }}</td>
                                 </tr>
+                                @if($trip->stopovers)
                                 <tr>
-                                    <td>Stopovers (If applicable)</td>
-                                    <td>{{ $trip->stopovers }}</td>
+                                    <td class="align-top">Stopovers (If applicable)</td>
+                                    <td>
+                                        <div class="flex flex-col">
+                                        @foreach($trip->stopovers as $stopover)
+                                               <div class="font-medium">
+                                                   {{ $stopover->location }}
+                                               </div>
+                                                @unless ($loop->last)
+                                               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-primary">
+                                                   <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25 12 21m0 0-3.75-3.75M12 21V3" />
+                                               </svg>
+                                                @endunless
+                                        @endforeach
+                                        </div>
+                                    </td>
                                 </tr>
+                                @endif
                                 <tr>
                                     <td colspan="2">
-                                        <h3 class="heading-5">Luggage & Courier Details</h3>
+                                        <h5 class="heading-5">Luggage & Courier Details</h5>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Available Space/Weight Limit (in kg/lbs)</td>
-                                    <td>{{ $trip->available_space }}</td>
+                                    <td>{{ $trip->available_space }} {{ $trip->weight_unit }}</td>
                                 </tr>
                                 <tr>
                                     <td>Type of Items Allowed</td>
@@ -68,8 +141,42 @@
                                     <td>{{ $trip->handling_instruction }}</td>
                                 </tr>
                                 <tr>
+                                    <td>Note</td>
+                                    <td>{{ $trip->note }}</td>
+                                </tr>
+                                @if(Auth::user()->hasRole('admin'))
+                                    <tr>
+                                        <td>Admin Note</td>
+                                        <td>{{ $trip->admin_note }}</td>
+                                    </tr>
+                                @endif
+                                <tr>
                                     <td>Price</td>
                                     <td>{{ getPrice($trip->currency, $trip->price) }}</td>
+                                </tr>
+{{--                                @if($trip->photo)--}}
+{{--                                    <tr>--}}
+{{--                                        <td class="align-top">Photo</td>--}}
+{{--                                        <td>--}}
+{{--                                            <x-photo :file="$trip->photo" :title="'Photo'" :name="'photo'" :show="true" :upload="false" />--}}
+{{--                                        </td>--}}
+{{--                                    </tr>--}}
+{{--                                @endif--}}
+                                <tr>
+                                    <td>Status</td>
+                                    <td>
+                                        @if($trip->status === 'Active')
+                                            <x-status :content="$trip->status" :type="'info'" />
+                                        @elseif($trip->status === 'Confirmed')
+                                            <x-status :content="$trip->status" :type="'success'" />
+                                        @elseif($trip->status === 'In Progress')
+                                            <x-status :content="$trip->status" :type="'warning'" />
+                                        @elseif($trip->status === 'Completed')
+                                            <x-status :content="$trip->status" :type="'success'" />
+                                        @elseif($trip->status === 'Cancelled')
+                                            <x-status :content="$trip->status" :type="'danger'" />
+                                        @endif
+                                    </td>
                                 </tr>
                             </table>
                             <div class="flex gap-3">
@@ -84,44 +191,4 @@
 
         </div>
     </div>
-    @push('scripts')
-        <script>
-            document.addEventListener('alpine:init', () => {
-                Alpine.data('trip', () => ({
-                    storeTrip: function () {
-                        const formData = new FormData(document.getElementById('create'));
-                        Swal.fire({
-                            title            : 'Creating...',
-                            allowOutsideClick: true,
-                            icon             : 'info',
-                            didOpen          : () => {
-                                Swal.showLoading();
-                            }
-                        });
-                        axios({
-                            method : 'POST',
-                            url    : route('trip.store'),
-                            data   : formData,
-                            headers: {
-                                'Content-Type': 'multipart/form-data'
-                            }
-                        })
-                            .then(response => {
-                                Swal.fire({
-                                    title            : 'Success!',
-                                    text             : response.data.message,
-                                    icon             : 'success',
-                                    confirmButtonText: 'OK'
-                                });
-                                window.location.href = route('trip.index');
-                            })
-                            .catch(error => {
-                                window.showJsonErrorMessage(error);
-                            });
-                    },
-
-                }));
-            });
-        </script>
-    @endpush
 </x-app-layout>

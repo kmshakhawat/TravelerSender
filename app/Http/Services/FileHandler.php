@@ -15,7 +15,8 @@ trait FileHandler
 
     private function getFile($file, $path): string
     {
-        $fileExtension = time() . '.' . $file->getClientOriginalExtension();
+//        $fileExtension = time().'_'.$file->getClientOriginalName() . '.' . $file->getClientOriginalExtension();
+        $fileExtension = time() . '_' . $file->getClientOriginalName();
         $uploadPath = $path;
         $file->move(storage_path('app/public/'. $uploadPath), $fileExtension);
         return $uploadPath . $fileExtension;

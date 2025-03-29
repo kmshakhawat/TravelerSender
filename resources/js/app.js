@@ -5,6 +5,30 @@ import flatpickr from "flatpickr";
 import 'flatpickr/dist/flatpickr.min.css';
 
 
+
+
+// Function to populate dropdown
+function populateDropdown(elementId, items) {
+    let select = document.getElementById(elementId);
+    let fragment = document.createDocumentFragment();
+
+    items.forEach(item => {
+        let option = document.createElement('option');
+        option.value = item.id;
+        option.textContent = item.name;
+        fragment.appendChild(option);
+    });
+
+    select.appendChild(fragment);
+}
+
+function showLoading(loaderId, show) {
+    let loader = document.getElementById(loaderId);
+    if (loader) {
+        loader.style.display = show ? 'inline-block' : 'none';
+    }
+}
+
 flatpickr(".datepicker", {
     altInput: true,
     altFormat: "F j, Y",
@@ -40,6 +64,7 @@ $(document).ready(function () {
 previewImage('profile_photo_path', 'profilePhoto');
 previewImage('id_front', 'frontID');
 previewImage('id_back', 'backID');
+previewImage('photo', 'photoPath');
 function previewImage(inputId, imageId) {
     const input = document.getElementById(inputId);
     const image = document.getElementById(imageId);
@@ -56,12 +81,18 @@ function previewImage(inputId, imageId) {
     }
 }
 
-$('#photo').change(function () {
-    let file = $('#photo')[0].files[0];
-    if (file) {
-        $(this).prev().html(file.name);
+$('.photo').change(function () {
+    let files = $(this)[0].files;
+    if (files.length > 1) {
+        $(this).prev().html(files.length + " files selected");
+    } else if (files.length === 1) {
+        $(this).prev().html(files[0].name);
+    } else {
+        $(this).prev().html("No file selected");
     }
 });
+
+
 
 document.querySelectorAll('.id_card').forEach(input => {
     input.addEventListener('change', function (event) {

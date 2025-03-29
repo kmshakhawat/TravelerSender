@@ -17,8 +17,8 @@ export default {
                 sans: ['Nunito Sans', ...defaultTheme.fontFamily.sans],
             },
             colors: {
-                "primary": "#FFB513",
-                "secondary": "#182430",
+                "primary": "#E63124",
+                "secondary": "#6E6E6E",
                 "danger": "#c90e0e",
             },
         },

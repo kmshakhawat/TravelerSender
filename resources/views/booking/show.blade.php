@@ -1,0 +1,309 @@
+<x-app-layout>
+    <x-slot name="header" class="flex">
+        <div class="flex justify-between items-center">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ __('Booking Details') }}
+            </h2>
+            <a class="btn-secondary" href="{{ route('booking.index') }}">Back</a>
+        </div>
+    </x-slot>
+    <div x-data="booking" class="py-12">
+        <div class="container">
+            <div class="flex gap-8">
+                <div class="w-1/4">
+                    <x-booking-sidebar />
+                </div>
+                <div class="w-3/4">
+                    <x-trip :trip="$booking->trip" />
+                    <div class="bg-white border border-gray-50 rounded shadow p-4">
+                        <h3 class="heading-5 mb-4 heading-title">Booking Details</h3>
+                        <table class="w-full table mb-8 whitespace-nowrap">
+                            <tr>
+                                <th class="w-64">Sender Details</th>
+                                <td>
+                                    <div class="flex flex-col gap-2">
+                                        <div class="flex gap-1 items-center">
+                                            <span class="font-medium">Name:</span>
+                                            {{ $booking->sender_name }}
+                                        </div>
+                                        <div class="flex gap-1 items-center">
+                                            <span class="font-medium">Email:</span>
+                                            {{ $booking->sender_email }}
+                                        </div>
+                                        <div class="flex gap-1 items-center">
+                                            <span class="font-medium">Contact:</span>
+                                            {{ $booking->sender_phone }}
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Collection Type</th>
+                                <td>
+                                    {{ $booking->collection_type }}
+                                </td>
+                            </tr>
+                            @if($booking->collection_type == 'Collect from Address')
+                                <tr>
+                                    <th>Pickup Address</th>
+                                    <td>
+                                        <div class="flex flex-col gap-2">
+                                            <div class="flex gap-1 items-center">
+                                                <span class="font-medium">Address:</span>
+                                                {{ $booking->pickup_address_1 }}
+                                                {{ $booking->pickup_address_2 ? ', '. $booking->pickup_address_2 : '' }}
+                                            </div>
+                                            <div class="flex gap-1 items-center">
+                                                <span class="font-medium">Country:</span>
+                                                {{ $booking->pickupCountry->name ?? '' }}
+                                            </div>
+                                            <div class="flex gap-1 items-center">
+                                                <span class="font-medium">State:</span>
+                                                {{ $booking->pickupState->name ?? '' }}
+                                            </div>
+                                            <div class="flex gap-1 items-center">
+                                                <span class="font-medium">City:</span>
+                                                {{ $booking->pickup_city }}
+                                            </div>
+                                            <div class="flex gap-1 items-center">
+                                                <span class="font-medium">Postcode:</span>
+                                                {{ $booking->pickup_postcode }}
+                                            </div>
+                                            <div class="flex gap-1 items-center">
+                                                <span class="font-medium">Location Type:</span>
+                                                {{ $booking->pickup_location_type }}
+                                            </div>
+                                            <div class="flex gap-1 items-center">
+                                                <span class="font-medium">Date:</span>
+                                                {{ getDateFormat($booking->pickup_date) }}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endif
+                            <tr>
+                                <th>Receiver Details</th>
+                                <td>
+                                    <div class="flex flex-col gap-2">
+                                        <div class="flex gap-1 items-center">
+                                            <span class="font-medium">Name:</span>
+                                            {{ $booking->receiver_name }}
+                                        </div>
+                                        <div class="flex gap-1 items-center">
+                                            <span class="font-medium">Email:</span>
+                                            {{ $booking->receiver_email }}
+                                        </div>
+                                        <div class="flex gap-1 items-center">
+                                            <span class="font-medium">Contact:</span>
+                                            {{ $booking->receiver_phone }}
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Delivery Address</th>
+                                <td>
+                                    <div class="flex flex-col gap-2">
+                                        <div class="flex gap-1 items-center">
+                                            <span class="font-medium">Address:</span>
+                                            {{ $booking->delivery_address_1 }}
+                                            {{ $booking->delivery_address_2 ? ', '. $booking->delivery_address_2 : '' }}
+                                        </div>
+                                        <div class="flex gap-1 items-center">
+                                            <span class="font-medium">Country:</span>
+                                            {{ $booking->deliveryCountry->name ?? '' }}
+                                        </div>
+                                        <div class="flex gap-1 items-center">
+                                            <span class="font-medium">State:</span>
+                                            {{ $booking->deliveryState->name ?? '' }}
+                                        </div>
+                                        <div class="flex gap-1 items-center">
+                                            <span class="font-medium">City:</span>
+                                            {{ $booking->delivery_city }}
+                                        </div>
+                                        <div class="flex gap-1 items-center">
+                                            <span class="font-medium">Postcode:</span>
+                                            {{ $booking->delivery_postcode }}
+                                        </div>
+                                        <div class="flex gap-1 items-center">
+                                            <span class="font-medium">Location Type:</span>
+                                            {{ $booking->delivery_location_type }}
+                                        </div>
+                                        <div class="flex gap-1 items-center">
+                                            <span class="font-medium">Date:</span>
+                                            {{ getDateFormat($booking->delivery_date) }}
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Note</th>
+                                <td>{{ $booking->note }}</td>
+                            </tr>
+                            @if(!auth()->user()->hasRole('admin') || auth()->user()->id != $booking->trip->user_id)
+                                <tr>
+                                    <th>Status</th>
+                                    <td>
+                                        @if($booking->status === 'Pending')
+                                            <x-status :content="$booking->status" :type="'info'" />
+                                        @elseif($booking->status === 'Approved')
+                                            <x-status :content="$booking->status" :type="'success'" />
+                                        @elseif($booking->status === 'Rejected')
+                                            <x-status :content="$booking->status" :type="'danger'" />
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endif
+                        </table>
+
+                        @if(auth()->user()->hasRole('admin') || auth()->user()->id === $booking->trip->user_id)
+                            <form id="update" method="POST" @submit.prevent="updateBooking">
+                                @csrf
+                                @method('PUT')
+                                <table class="w-full table mb-4 whitespace-nowrap">
+                                    <tr>
+                                        <th class="w-64">Admin Note</th>
+                                        <td>
+                                            <textarea rows="5" name="admin_note" id="admin_note" class="form-input">{{ $booking->admin_note }}</textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Status</th>
+                                        <td>
+                                            <x-input-dropdown class="status !w-64" name="status" :options="$booking_status" :selected="[$booking->status]"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <div class="flex justify-end">
+                                    <button class="btn-primary mb-5">Update</button>
+                                </div>
+                            </form>
+                        @endif
+                        <h3 class="heading-5 mb-4 heading-title">Product Information</h3>
+                        <table class="w-full mb-8 whitespace-nowrap">
+                            @forelse($booking->products as $product)
+                                <div class="border-b py-5">
+                                    <h5 class="heading-5 mb-4">Product {{ $loop->iteration }}</h5>
+                                    <div class="flex">
+                                        <div class="flex gap-2 flex-col w-full sm:w-1/2">
+                                            <p><span class="font-medium">Name:</span> {{ $product->name }}</p>
+                                            <p><span class="font-medium">Type:</span> {{ $product->type }}</p>
+                                            <p><span class="font-medium">Quantity:</span> {{ $product->quantity }}</p>
+                                            <p><span class="font-medium">Weight:</span> {{ $product->weight. ' '. $product->weight_type }}</p>
+                                            <p><span class="font-medium">Length (cm):</span> {{ $product->length }}</p>
+                                            <p><span class="font-medium">Width (cm):</span> {{ $product->width }}</p>
+                                            <p><span class="font-medium">Height (cm):</span> {{ $product->height }}</p>
+                                        </div>
+                                        <div class="flex gap-2 flex-col w-full sm:w-1/2">
+                                            <p><span class="font-medium">Box:</span> {{ $product->box }}</p>
+                                            <p><span class="font-medium">Fragile:</span> {{ $product->fragile }}</p>
+                                            <p><span class="font-medium">Insurance:</span> {{ $product->insurance }}</p>
+                                            <p><span class="font-medium">Urgent:</span> {{ $product->urgent }}</p>
+                                        </div>
+                                    </div>
+                                    <p><span class="font-medium">Note:</span> {{ $product->note }}</p>
+                                    <div class="flex gap-3 my-4">
+                                        @foreach($product->photos as $photo)
+                                            <a href="{{ Storage::disk('public')->url($photo->photo_path) }}" data-lightbox="photo">
+                                                <img src="{{ Storage::disk('public')->url($photo->photo_path) }}" alt="{{ $product->name }}" class="w-24 h-24 object-cover border p-1 rounded-lg">
+                                            </a>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @empty
+                                <tr class="bg-gray-100 align-top hover:bg-primary hover:bg-opacity-20 transition duration-200">
+                                    <td colspan="10" class="text-center py-4">
+                                        <div class="not-found">Data Not Found!!</div>
+                                    </td>
+                                </tr>
+                            @endforelse
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @push('scripts')
+        <script>
+            document.addEventListener('alpine:init', () => {
+                Alpine.data('booking', () => ({
+
+                    updateBooking: function () {
+                        const formData = new FormData(document.getElementById('update'));
+                        Swal.fire({
+                            title            : 'Processing...',
+                            allowOutsideClick: true,
+                            icon             : 'info',
+                            didOpen          : () => {
+                                Swal.showLoading();
+                            }
+                        });
+                        axios({
+                            method : 'POST',
+                            url    : route('booking.update', {{ $booking->id }}),
+                            data   : formData,
+                            headers: {
+                                'Content-Type': 'multipart/form-data'
+                            }
+                        })
+                            .then(response => {
+                                Swal.fire({
+                                    title            : 'Success!',
+                                    text             : response.data.message,
+                                    icon             : 'success',
+                                    confirmButtonText: 'OK'
+                                });
+                                window.location.href = route('booking.show', {{ $booking->id }});
+                            })
+                            .catch(error => {
+                                window.showJsonErrorMessage(error);
+                            });
+                    },
+
+                }));
+            });
+
+            {{--$(document).on('change', '.status', function () {--}}
+            {{--    let status = $(this).val();--}}
+
+            {{--    Swal.fire({--}}
+            {{--        title: 'Are you sure?',--}}
+            {{--        text: 'Do you want to change the booking status?',--}}
+            {{--        icon: 'warning',--}}
+            {{--        showCancelButton: true,--}}
+            {{--        confirmButtonText: 'Yes, update it!',--}}
+            {{--        cancelButtonText: 'Cancel'--}}
+            {{--    }).then((result) => {--}}
+            {{--        if (result.isConfirmed) {--}}
+            {{--            $.ajax({--}}
+            {{--                url: '{{ route('booking.update', $booking->id ) }}',--}}
+            {{--                type: 'POST',--}}
+            {{--                data: {--}}
+            {{--                    booking_id: bookingId,--}}
+            {{--                    status: status,--}}
+            {{--                    _token: "{{ csrf_token() }}"--}}
+            {{--                },--}}
+            {{--                success: function(response) {--}}
+            {{--                    Swal.fire({--}}
+            {{--                        title: 'Updated!',--}}
+            {{--                        text: 'Booking status has been updated.',--}}
+            {{--                        icon: 'success',--}}
+            {{--                        timer: 2000,--}}
+            {{--                        showConfirmButton: false--}}
+            {{--                    });--}}
+            {{--                },--}}
+            {{--                error: function() {--}}
+            {{--                    Swal.fire({--}}
+            {{--                        title: 'Error!',--}}
+            {{--                        text: 'Failed to update the booking status.',--}}
+            {{--                        icon: 'error'--}}
+            {{--                    });--}}
+            {{--                }--}}
+            {{--            });--}}
+            {{--        }--}}
+            {{--    });--}}
+            {{--});--}}
+
+        </script>
+    @endpush
+</x-app-layout>

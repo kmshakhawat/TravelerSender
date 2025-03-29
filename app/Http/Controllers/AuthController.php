@@ -5,9 +5,13 @@ namespace App\Http\Controllers;
 use App\Actions\Travel;
 use App\Http\Services\FileHandler;
 use App\Mail\SendMail;
+use App\Models\Booking;
+use App\Models\Country;
+use App\Models\Trip;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -16,6 +20,30 @@ use Illuminate\Support\Facades\Validator;
 class AuthController extends Controller
 {
     use FileHandler;
+
+    public  function dashboard()
+    {
+        session()->forget('payment');
+        if (Auth::user()->hasRole('admin')) {
+            $active_trips = Trip::whereIn('status', ['Active', 'Confirmed', 'In Progress'])
+                ->where('departure_date', '>=', Carbon::now())
+                ->count();
+        } else {
+            $active_trips = Auth::user()->trips()
+                ->whereIn('status', ['Active', 'Confirmed', 'In Progress'])
+                ->where('departure_date', '>=', Carbon::now())
+                ->count();
+        }
+        $avg_rating = Auth::user()->averageRating();
+        $earnings = Auth::user()->earnings();
+
+        $customers = Booking::whereHas('trip', function ($query) {
+            $query->where('user_id', Auth::id());
+        })->distinct('user_id')->count('user_id');
+
+        return view('dashboard', compact('avg_rating', 'customers', 'earnings', 'active_trips'));
+
+    }
     public function signup(Request $request)
     {
         // Validate the request data
@@ -38,6 +66,7 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
+            'email_verified_at' => now(),
             'password' => Hash::make($request->password),
         ]);
         $user->assignRole('user');
@@ -57,6 +86,68 @@ class AuthController extends Controller
              'token' => $token,
          ], 200);
 
+    }
+
+
+    public function otp()
+    {
+        if (auth()->user()->otp == null) {
+            $this->sendOTPMail();
+        }
+        return view('auth.email-otp');
+    }
+    public function otpResend()
+    {
+        $this->sendOTPMail();
+        return back();
+    }
+    private function sendOTPMail()
+    {
+        $otp = rand(100000, 999999);
+        $expiry = now()->addMinutes(3);
+        auth()->user()->update([
+            'otp' => $otp,
+            'otp_expiry' => $expiry
+        ]);
+
+        $minutes = $expiry->diff(now())->format('%i minutes and %s seconds');
+
+        $mailableData = [
+            'otp' =>    $otp,
+            'minutes' =>    $minutes,
+            'template'   => 'emails.otp',
+            'subject'    => 'OTP Verification - ' . config('app.name'),
+        ];
+//        return new SendMail($mailableData);
+        Mail::to(auth()->user()->email)->send(new SendMail($mailableData));
+    }
+    public function otpVerify(Request $request)
+    {
+        $request->validate([
+            'otp' => 'required|numeric'
+        ]);
+        $user = auth()->user();
+        if ($request->otp == $user->otp) {
+            if ($user->otp_expiry > now()) {
+                $user->update([
+                    'otp' => null,
+                    'otp_verified' => true,
+                    'otp_expiry' => now()->addHours(24)
+                ]);
+
+                if ($user->verified) {
+                    return redirect()->intended('/dashboard');
+                } else {
+                    return redirect()->route('profile');
+                }
+            }
+
+            // OTP has expired
+            return back()->withErrors(['otp' => 'OTP has expired. Please request a new one.']);
+        }
+
+        // Incorrect OTP
+        return back()->withErrors(['otp' => 'Invalid OTP']);
     }
 
     public function login(Request $request)
@@ -81,7 +172,7 @@ class AuthController extends Controller
     public function profile()
     {
         $user = Auth::user()->load('profile');
-        $countries = Travel::countries();
+        $countries = Country::all();
         $currency_options = Travel::currencies();
         return view('auth.profile', compact('user', 'countries', 'currency_options'));
     }
@@ -100,8 +191,6 @@ class AuthController extends Controller
         $user->update([
             'name' => $request->name,
             'phone' => $request->phone,
-            'currency_id' => $request->currency_id,
-            'country_id' => $request->country_id,
             'verified' => $request->verified ? now() : NULL,
             'profile_photo_path'  => $this->handleFile($request->file('profile_photo_path'), $user->id.'/', $user->profile_photo_path),
         ]);
@@ -109,10 +198,12 @@ class AuthController extends Controller
         $user->profile()->updateOrCreate(
             ['user_id' => $user->id],
             [
+                'currency_id' => $request->currency_id,
                 'address_1' => $request->address_1,
                 'address_2' => $request->address_2,
+                'country_id' => $request->country_id,
+                'state_id' => $request->state_id,
                 'city' => $request->city,
-                'state' => $request->state,
                 'postcode' => $request->postcode,
             ]
         );
@@ -142,15 +233,19 @@ class AuthController extends Controller
             'id_number' => 'required|string|max:255',
             'id_front' => ['nullable', 'mimes:jpeg,jpg,png,webp,gif|max:5120'],
             'id_back' => ['nullable', 'mimes:jpeg,jpg,png,webp,image/gif|max:5120'],
+            'profile_photo_path' => ['nullable', 'mimes:jpeg,jpg,png,webp,image/gif|max:5120'],
         ]);
 
-        //if ID Type passport and Driving License then Issue Date adn Expiry Date is required
+
         if ($request->id_type == 'Passport' || $request->id_type == 'Driving License') {
             $request->validate([
                 'id_issue' => 'required|date',
                 'id_expiry' => 'required|date',
             ]);
         }
+        $user->update([
+            'profile_photo_path'  => $this->handleFile($request->file('profile_photo_path'), $user->id.'/', $user->profile_photo_path),
+        ]);
         $user->profile->updateOrCreate(
             ['user_id' => $user->id],
             [
@@ -161,7 +256,6 @@ class AuthController extends Controller
                 'dob' => $request->dob,
                 'id_front' => $this->handleFile($request->file('id_front'), $user->id.'/', $user->profile->id_front),
                 'id_back' => $this->handleFile($request->file('id_back'), $user->id.'/', $user->profile->id_back),
-                'photo' => $this->handleFile($request->file('profile_photo_path'), $user->id.'/', $user->profile->photo),
             ]
         );
 
@@ -170,6 +264,11 @@ class AuthController extends Controller
             'subject' => 'User Verification Data Update',
         ];
         Mail::to($user->email)->send(new SendMail($mailable_data));
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Verification data updated successfully',
+        ]);
 
     }
 

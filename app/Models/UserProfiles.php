@@ -12,8 +12,9 @@ class UserProfiles extends Model
         'dob',
         'address_1',
         'address_2',
+        'country_id',
+        'state_id',
         'city',
-        'state',
         'postcode',
         'id_type',
         'id_number',
@@ -23,5 +24,16 @@ class UserProfiles extends Model
         'id_back',
         'photo',
     ];
+
+
+    public function country(): BelongsTo
+    {
+        return $this->belongsTo(Country::class, 'country_id');
+    }
+
+    public function currency(): BelongsTo
+    {
+        return $this->belongsTo(Currency::class, 'currency_id');
+    }
 
 }

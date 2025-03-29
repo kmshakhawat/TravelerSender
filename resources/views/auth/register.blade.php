@@ -17,31 +17,57 @@
 
                     <div>
                         <x-label for="name" value="{{ __('Full Name') }}" />
-                        <x-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
+                        <div class="relative">
+                            <svg class="size-6 opacity-50 text-primary absolute left-3 top-1/2 transform -translate-y-1/2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                            </svg>
+                            <x-input id="name" class="block w-full ps-10" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
+                        </div>
                         <div class="invalid-feedback invalid-name"></div>
                     </div>
 
                     <div class="mt-4">
                         <x-label for="email" value="{{ __('Email Address') }}" />
-                        <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
+                        <div class="relative">
+                            <svg class="size-6 opacity-50 text-primary absolute left-3 top-1/2 transform -translate-y-1/2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+                            </svg>
+                            <x-input id="email" class="block w-full ps-10" type="email" name="email" :value="old('email')" required autocomplete="username" />
+                        </div>
                         <div class="invalid-feedback invalid-email"></div>
                     </div>
 
                     <div class="mt-4">
                         <x-label for="phone" value="{{ __('Phone Number') }}" />
-                        <x-input id="phone" class="block mt-1 w-full" type="text" name="phone" :value="old('phone')" required autofocus autocomplete="phone" />
+                        <div class="relative">
+                            <svg class="size-6 opacity-50 text-primary absolute left-3 top-1/2 transform -translate-y-1/2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
+                            </svg>
+                            <x-input id="phone" class="block w-full ps-10 phone" type="text" name="phone" :value="old('phone')" required autofocus autocomplete="phone" />
+                        </div>
+
                         <div class="invalid-feedback invalid-phone"></div>
                     </div>
 
                     <div class="mt-4">
                         <x-label for="password" value="{{ __('Password') }}" />
-                        <x-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
+                        <div class="relative">
+                            <svg class="size-6 opacity-50 text-primary absolute left-3 top-1/2 transform -translate-y-1/2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
+                            </svg>
+                            <x-input id="password" class="block w-full ps-10" type="password" name="password" required autocomplete="new-password" />
+                        </div>
                         <div class="invalid-feedback invalid-password"></div>
                     </div>
 
                     <div class="mt-4">
                         <x-label for="password_confirmation" value="{{ __('Confirm Password') }}" />
-                        <x-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
+                        <div class="relative">
+                            <svg class="size-6 opacity-50 text-primary absolute left-3 top-1/2 transform -translate-y-1/2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
+                            </svg>
+                            <x-input id="password_confirmation" class="block w-full ps-10" type="password" name="password_confirmation" required autocomplete="new-password" />
+                        </div>
                         <div class="invalid-feedback invalid-password_confirmation"></div>
                     </div>
 
@@ -63,7 +89,7 @@
                     @endif
 
                     <div class="flex flex-col items-center justify-center mt-4">
-                        <button class="mb-4 bg-primary w-full text-black py-4 px-10 text-xl font-medium rounded-md hover:bg-gray-700 hover:text-white transition ease-in-out duration-150">
+                        <button class="mb-4 btn-full">
                             {{ __('Register') }}
                         </button>
                         <a class="underline text-md text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">

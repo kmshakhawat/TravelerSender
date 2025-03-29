@@ -20,56 +20,121 @@ class Travel
     {
         return Currency::get(['id','code as name', 'symbol']);
 
-        // i want to make it id, name, code, symbol
-
     }
 
     public static function idTypes(): array
     {
-        return collect([
-            (object) ['id' => 'Passport', 'name' => 'Passport'],
-            (object) ['id' => 'National ID', 'name' => 'National ID'],
-            (object) ['id' => 'Driving License', 'name' => 'Driving License'],
-        ])->toArray();
+        return self::generateDropdown([
+            'Passport',
+            'National ID',
+            'Driving License',
+        ]);
     }
     public static function tripTypes(): array
     {
-        return collect([
-            (object) ['id' => 'One Way', 'name' => 'One Way'],
-            (object) ['id' => 'Round', 'name' => 'Round'],
-        ])->toArray();
+        return self::generateDropdown([
+            'One Way',
+            'Round',
+        ]);
     }
     public static function transportType(): array
     {
-        return collect([
-            (object) ['id' => 'Flight', 'name' => 'Flight'],
-            (object) ['id' => 'Train', 'name' => 'Train'],
-            (object) ['id' => 'Bus', 'name' => 'Bus'],
-            (object) ['id' => 'Car', 'name' => 'Car'],
-        ])->toArray();
+        return self::generateDropdown([
+            'Flight',
+            'Train',
+            'Bus',
+            'Car',
+        ]);
     }
     public static function itemType(): array
     {
-        return collect([
-            (object) ['id' => 'Documents', 'name' => 'Documents'],
-            (object) ['id' => 'Electronics', 'name' => 'Electronics'],
-            (object) ['id' => 'Clothing', 'name' => 'Clothing'],
-        ])->toArray();
+        return self::generateDropdown([
+            'Documents',
+            'Electronics',
+            'Clothing',
+        ]);
     }
     public static function packagingType(): array
     {
-        return collect([
-            (object) ['id' => 'Boxed', 'name' => 'Boxed'],
-            (object) ['id' => 'Envelope', 'name' => 'Envelope'],
-            (object) ['id' => 'Fragile', 'name' => 'Fragile'],
-        ])->toArray();
+        return self::generateDropdown([
+            'Boxed',
+            'Envelope',
+            'Fragile',
+        ]);
     }
     public static function instructionType(): array
     {
-        return collect([
-            (object) ['id' => 'Fragile', 'name' => 'Fragile'],
-            (object) ['id' => 'Refrigerated', 'name' => 'Refrigerated'],
-        ])->toArray();
+        return self::generateDropdown([
+            'Fragile',
+            'Refrigerated',
+        ]);
+    }
+
+    public static function tripStatus(): array
+    {
+        return self::generateDropdown([
+            'Pending',
+            'Confirmed',
+            'In Progress',
+            'Completed',
+            'Cancelled',
+        ]);
+    }
+    public static function userStatus(): array
+    {
+        return self::generateDropdown([
+            'Active',
+            'Inactive',
+        ]);
+    }
+    public static function bookingStatus(): array
+    {
+        return self::generateDropdown([
+            'Pending',
+            'Approved',
+            'Rejected',
+            'Completed',
+        ]);
+    }
+    public static function trackingStatus(): array
+    {
+        return self::generateDropdown([
+            'Processing',
+            'Ready for Pickup',
+            'Picked Up',
+            'In Transit',
+            'Arrived at Destination',
+            'Attempt to Delivery',
+            'Delivered',
+        ]);
+    }
+
+    public static function weightUnit(): array
+    {
+        return self::generateDropdown([
+            'KG',
+            'LBS',
+        ]);
+    }
+    public static function locationType(): array
+    {
+        return self::generateDropdown([
+            'Private',
+            'Public',
+        ]);
+    }
+    public static function parcelCollectionType(): array
+    {
+        return self::generateDropdown([
+            'Collect from Address',
+            'Send by Currier',
+            'Send by Friend',
+            'Send by Cab/Uber Driver',
+        ]);
+    }
+    private static function generateDropdown(array $fields): array
+    {
+        return collect($fields)->map(fn($field) => (object) ['id' => $field, 'name' => $field])->toArray();
     }
 
 }

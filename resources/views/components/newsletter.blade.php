@@ -15,7 +15,7 @@
                     <input type="email" name="email" class="form-input" placeholder="Enter your email address">
                 </div>
                 <div class="mt-8">
-                    <button class="btn-secondary">Subscribe Now</button>
+                    <button class="btn-primary">Subscribe Now</button>
                 </div>
             </form>
         </div>

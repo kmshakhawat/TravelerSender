@@ -28,16 +28,18 @@
                                     <div class="invalid-feedback invalid-id_number"></div>
                                 </div>
                             </div>
-                            <div id="additional_date" class="flex gap-4">
-                                <div class="w-full sm:w-1/2 mt-4">
-                                    <x-label for="id_issue" value="{{ __('Issue Date') }}" />
-                                    <x-input id="id_issue" class="block mt-1 w-full datepicker" type="text" name="id_issue" :value="$user->profile->id_issue ?? '' " autofocus autocomplete="id_issue" />
-                                    <div class="invalid-feedback invalid-id_issue"></div>
-                                </div>
-                                <div class="w-full sm:w-1/2 mt-4">
-                                    <x-label for="id_expiry" value="{{ __('Expiry Date') }}" />
-                                    <x-input id="id_expiry" class="block mt-1 w-full datepicker" type="text" name="id_expiry" :value="$user->profile->id_expiry ?? '' " autofocus autocomplete="id_expiry" />
-                                    <div class="invalid-feedback invalid-id_expiry"></div>
+                            <div id="additional_date" style="display: none">
+                                <div class="flex gap-4">
+                                    <div class="w-full sm:w-1/2 mt-4">
+                                        <x-label for="id_issue" value="{{ __('Issue Date') }}" />
+                                        <x-input id="id_issue" class="block mt-1 w-full datepicker" type="text" name="id_issue" :value="$user->profile->id_issue ?? '' " autofocus autocomplete="id_issue" />
+                                        <div class="invalid-feedback invalid-id_issue"></div>
+                                    </div>
+                                    <div class="w-full sm:w-1/2 mt-4">
+                                        <x-label for="id_expiry" value="{{ __('Expiry Date') }}" />
+                                        <x-input id="id_expiry" class="block mt-1 w-full datepicker" type="text" name="id_expiry" :value="$user->profile->id_expiry ?? '' " autofocus autocomplete="id_expiry" />
+                                        <div class="invalid-feedback invalid-id_expiry"></div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="mt-4">
@@ -55,7 +57,8 @@
                                 </div>
                                 <div class="border"></div>
                                 <div class="w-1/3">
-                                    <x-user-photo :url="$user->profile->photo ?? ''" :name="$user->name"/>
+                                    <h3 class="heading-5 mb-4">Profile Photo</h3>
+                                    <x-profile-photo :url="$user->profile_photo_url ?? ''" :name="$user->name"/>
                                 </div>
                             </div>
                             <button class="btn-primary mt-4">{{ __('Update Verification Data') }}</button>
@@ -68,6 +71,19 @@
 
     @push('scripts')
         <script>
+            $(document).ready(function () {
+                function toggleAdditionalDate() {
+                    let id_type = $('.id_type').val();
+                    if (id_type !== 'National ID') {
+                        $('#additional_date').slideDown(100);
+                    } else {
+                        $('#additional_date').slideUp(100);
+                    }
+                }
+                toggleAdditionalDate();
+                $('.id_type').on('change', toggleAdditionalDate);
+            });
+
             document.addEventListener('alpine:init', () => {
                 Alpine.data('verification', () => ({
                     submitVerification: function () {
