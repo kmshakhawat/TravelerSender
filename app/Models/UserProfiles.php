@@ -10,6 +10,7 @@ class UserProfiles extends Model
     protected $fillable = [
         'user_id',
         'dob',
+        'currency_id',
         'address_1',
         'address_2',
         'country_id',

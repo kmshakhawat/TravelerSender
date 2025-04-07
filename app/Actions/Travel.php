@@ -73,7 +73,7 @@ class Travel
     public static function tripStatus(): array
     {
         return self::generateDropdown([
-            'Pending',
+            'Active',
             'Confirmed',
             'In Progress',
             'Completed',

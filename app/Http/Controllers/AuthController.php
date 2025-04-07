@@ -198,7 +198,7 @@ class AuthController extends Controller
         $user->profile()->updateOrCreate(
             ['user_id' => $user->id],
             [
-                'currency_id' => $request->currency_id,
+//                'currency_id' => $request->currency_id,
                 'address_1' => $request->address_1,
                 'address_2' => $request->address_2,
                 'country_id' => $request->country_id,
