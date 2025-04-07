@@ -84,7 +84,7 @@
                             <div class="w-full sm:w-1/2 mt-4">
                                 <x-label for="pickup_state_id" value="{{ __('State') }}" />
                                 <x-input-dropdown id="pickup_state_id" class="w-full pickup_state_id" name="pickup_state_id" :options="[]" :selected="[]" />
-                                <div class="invalid-feedback invalid-pickup_state"></div>
+                                <div class="invalid-feedback invalid-pickup_state_id"></div>
                             </div>
                         </div>
                         <div class="flex gap-4">

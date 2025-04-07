@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('trip_user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('trip_id')->constrained()->onDelete('cascade');
             $table->string('sender_name');
             $table->string('sender_email');
@@ -43,7 +44,7 @@ return new class extends Migration
             $table->string('otp', 6)->nullable();
             $table->text('note')->nullable();
             $table->text('admin_note')->nullable();
-            $table->enum('status', ['Pending', 'Approved', 'Rejected', 'Completed'])->default('Pending');
+            $table->enum('status', ['Pending', 'Booked', 'Rejected', 'Completed'])->default('Pending');
             $table->timestamps();
         });
     }

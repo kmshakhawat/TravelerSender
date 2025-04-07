@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Cashier\Cashier;
 use Unicodeveloper\Paystack\Facades\Paystack;
 
 class PaymentController extends Controller
@@ -26,7 +27,7 @@ class PaymentController extends Controller
             // Update Booking Status
             $payment->update([
                 'trxref' => $paymentDetails['data']['reference'],
-                'payment_status' => 'completed'
+                'status' => 'completed'
             ]);
             $booking = $payment->booking;
             $booking->update(['status' => 'Approved']);
@@ -45,7 +46,7 @@ class PaymentController extends Controller
         }
     }
 
-    public function success()
+    public function success_paystack()
     {
         $payment = session('payment');
         if (!$payment) {
@@ -54,18 +55,22 @@ class PaymentController extends Controller
         return view('payment.success', compact('payment'));
     }
 
-    public function success_stripe(Request $request)
+    public function success(Request $request)
     {
         $payment = Payment::find($request->payment_id);
         if (!$payment) {
             return redirect()->route('dashboard')->with('error', 'Payment not found.');
         }
         $booking = $payment->booking;
+
+        $session = $request->user()->stripe()->checkout->sessions->retrieve($payment->stripe_session_id);
         $payment->update([
-            'payment_status' => 'completed',
-            'stripe_payment_id' => $request->get('session_id'),
+            'currency' => $session->currency,
+            'payment_status' => $session->payment_status,
+            'status' => $session->status,
+            'trxref' => $session->payment_intent,
         ]);
-        $booking->update(['status' => 'Approved']);
+        $booking->update(['status' => 'Booked']);
         $booking->tracking()->create([
             'booking_id' => $booking->id,
             'status' => 'Processing',

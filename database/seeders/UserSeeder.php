@@ -21,6 +21,7 @@ class UserSeeder extends Seeder
         $admin->verified = now();
         $admin->save();
         $admin->profile()->create([
+            'currency_id' => 1,
             'country_id' => 232,
         ]);
         $admin->assignRole('admin');

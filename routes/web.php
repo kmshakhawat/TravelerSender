@@ -70,12 +70,14 @@ Route::middleware([
     Route::get('tracking/{booking_id}', [TrackingController::class, 'index'])->name('tracking');
 
     Route::post('/payment', [PaymentController::class, 'payment'])->name('payment');
-    Route::get('/payment/success_stripe', [PaymentController::class, 'success'])->name('payment.success.stripe');
+    Route::get('/payment/success', [PaymentController::class, 'success'])->name('payment.success');
     Route::get('/payment/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
     Route::get('/payment/failed', [PaymentController::class, 'failed'])->name('payment.failed');
 
-    Route::get('/payment/callback', [PaymentController::class, 'handlePaymentCallback'])->name('payment.callback');
-    Route::get('/payment/success', [PaymentController::class, 'success'])->name('payment.success');
+//    Route::get('/payment/callback', [PaymentController::class, 'handlePaymentCallback'])->name('payment.callback');
+//    Route::get('/payment/success', [PaymentController::class, 'success'])->name('payment.success');
+
+    Route::get('/earnings', [\App\Http\Controllers\EarningController::class, 'index'])->name('earnings');
 
 
 });

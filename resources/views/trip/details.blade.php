@@ -23,12 +23,72 @@
                                 <td>{{ $trip->mode_of_transport }}</td>
                             </tr>
                             <tr>
-                                <td>From</td>
-                                <td>{{ $trip->from }}</td>
+                                <td>
+                                    <h5 class="heading-5">From</h5>
+                                </td>
+                                <td>
+                                    <div class="flex flex-col gap-2">
+                                        <div class="flex gap-1 items-center">
+                                            <span class="font-medium">Address:</span>
+                                            {{ $trip->from_address_1 }}
+                                            {{ $trip->from_address_2 ? ', '. $trip->from_address_2 : '' }}
+                                        </div>
+                                        <div class="flex gap-1 items-center">
+                                            <span class="font-medium">Country:</span>
+                                            {{ $trip->fromCountry->name ?? '' }}
+                                        </div>
+                                        <div class="flex gap-1 items-center">
+                                            <span class="font-medium">State:</span>
+                                            {{ $trip->fromState->name ?? '' }}
+                                        </div>
+                                        <div class="flex gap-1 items-center">
+                                            <span class="font-medium">City:</span>
+                                            {{ $trip->from_city }}
+                                        </div>
+                                        <div class="flex gap-1 items-center">
+                                            <span class="font-medium">Postcode:</span>
+                                            {{ $trip->from_postcode }}
+                                        </div>
+                                        <div class="flex gap-1 items-center">
+                                            <span class="font-medium">Phone:</span>
+                                            {{ $trip->from_phone }}
+                                        </div>
+                                    </div>
+                                </td>
                             </tr>
                             <tr>
-                                <td>To</td>
-                                <td>{{ $trip->to }}</td>
+                                <td>
+                                    <h5 class="heading-5">To</h5>
+                                </td>
+                                <td>
+                                    <div class="flex flex-col gap-2">
+                                        <div class="flex gap-1 items-center">
+                                            <span class="font-medium">Address:</span>
+                                            {{ $trip->to_address_1 }}
+                                            {{ $trip->to_address_2 ? ', '. $trip->to_address_2 : '' }}
+                                        </div>
+                                        <div class="flex gap-1 items-center">
+                                            <span class="font-medium">Country:</span>
+                                            {{ $trip->toCountry->name ?? '' }}
+                                        </div>
+                                        <div class="flex gap-1 items-center">
+                                            <span class="font-medium">State:</span>
+                                            {{ $trip->toState->name ?? '' }}
+                                        </div>
+                                        <div class="flex gap-1 items-center">
+                                            <span class="font-medium">City:</span>
+                                            {{ $trip->to_city }}
+                                        </div>
+                                        <div class="flex gap-1 items-center">
+                                            <span class="font-medium">Postcode:</span>
+                                            {{ $trip->to_postcode }}
+                                        </div>
+                                        <div class="flex gap-1 items-center">
+                                            <span class="font-medium">Phone:</span>
+                                            {{ $trip->to_phone }}
+                                        </div>
+                                    </div>
+                                </td>
                             </tr>
                             <tr>
                                 <td>Date & Time of Departure</td>

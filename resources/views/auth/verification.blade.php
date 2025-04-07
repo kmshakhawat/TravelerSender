@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <div x-data="verification" class="py-12">
+    <div x-data="profile" class="py-12">
         <div class="container">
             <div class="flex gap-8">
                 <div class="w-1/4">
@@ -85,7 +85,7 @@
             });
 
             document.addEventListener('alpine:init', () => {
-                Alpine.data('verification', () => ({
+                Alpine.data('profile', () => ({
                     submitVerification: function () {
                         Swal.fire({
                             title: 'Updating...',

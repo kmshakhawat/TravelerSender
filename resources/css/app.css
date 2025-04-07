@@ -112,6 +112,9 @@ input[disabled] {
 .table tr {
     @apply border border-gray-200;
 }
+.table tr:nth-child(even) {
+    @apply bg-gray-100 border-b hover:bg-primary hover:bg-opacity-20 transition duration-200
+}
 table th {
     @apply border-r;
 }

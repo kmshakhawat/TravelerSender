@@ -33,8 +33,13 @@ class CreateNewUser implements CreatesNewUsers
             'email_verified_at' => now(),
             'password' => Hash::make($input['password']),
         ]);
-
         $user->assignRole('user');
+        $user->profile()->updateOrCreate(
+            ['user_id' => $user->id],
+            [
+                'currency_id' => 1,
+            ]
+        );
         return $user;
     }
 }

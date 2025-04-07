@@ -104,7 +104,7 @@ class AuthController extends Controller
     private function sendOTPMail()
     {
         $otp = rand(100000, 999999);
-        $expiry = now()->addMinutes(3);
+        $expiry = now()->addMinutes(7);
         auth()->user()->update([
             'otp' => $otp,
             'otp_expiry' => $expiry
@@ -172,7 +172,7 @@ class AuthController extends Controller
     public function profile()
     {
         $user = Auth::user()->load('profile');
-        $countries = Country::all();
+        $countries = countries();
         $currency_options = Travel::currencies();
         return view('auth.profile', compact('user', 'countries', 'currency_options'));
     }

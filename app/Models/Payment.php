@@ -11,7 +11,17 @@ class Payment extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id', 'booking_id', 'amount', 'currency', 'payment_status', 'stripe_session_id', 'trxref'
+        'user_id',
+        'trip_user_id',
+        'booking_id',
+        'amount',
+        'net_amount',
+        'commission',
+        'currency',
+        'payment_status',
+        'stripe_session_id',
+        'trxref',
+        'status'
     ];
 
     public function user(): BelongsTo
@@ -22,5 +32,9 @@ class Payment extends Model
     public function booking()
     {
         return $this->belongsTo(Booking::class);
+    }
+    public function trip()
+    {
+        return $this->belongsTo(Trip::class, 'trip_user_id', 'user_id');
     }
 }

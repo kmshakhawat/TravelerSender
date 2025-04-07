@@ -1,9 +1,9 @@
 <x-guest-layout>
 
     <x-slide />
-    <div class="bg-[#B8E0AD] px-8 py-10">
+    <div class="bg-gray-200 px-8 py-10">
         <div class="container mx-auto">
-            <h3 class="heading-3 text-center text-[#000000] mb-8">Why choose Gage Digital?</h3>
+            <h3 class="heading-3 text-center text-[#000000] mb-8">Why choose SendTins?</h3>
             <div class="flex text-center text-lg">
                 <div class="w-1/3">
                     <img src="{{ asset('asset/img/icon-lock.png') }}" alt="Lock" class="inline-block mb-4">

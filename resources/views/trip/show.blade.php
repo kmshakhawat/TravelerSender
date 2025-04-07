@@ -27,70 +27,36 @@
                                     <td>{{ $trip->mode_of_transport }}</td>
                                 </tr>
                                 <tr>
-                                    <td colspan="2">
+                                    <td>
                                         <h5 class="heading-5">From</h5>
                                     </td>
-                                </tr>
-                                <tr>
-                                    <td>Address Line 1</td>
-                                    <td>{{ $trip->from_address_1 }}</td>
-                                </tr>
-                                <tr>
-                                    <td>Address Line 2</td>
-                                    <td>{{ $trip->from_address_2 }}</td>
-                                </tr>
-                                <tr>
-                                    <td>Country</td>
-                                    <td>{{ $trip->fromCountry->name ?? '' }}</td>
-                                </tr>
-                                <tr>
-                                    <td>State</td>
-                                    <td>{{ $trip->fromState->name ?? '' }}</td>
-                                </tr>
-                                <tr>
-                                    <td>City</td>
-                                    <td>{{ $trip->from_city }}</td>
-                                </tr>
-                                <tr>
-                                    <td>Postcode</td>
-                                    <td>{{ $trip->from_postcode }}</td>
-                                </tr>
-                                <tr>
-                                    <td>Phone</td>
-                                    <td>{{ $trip->from_phone }}</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2">
-                                        <h5 class="heading-5">To</h5>
+                                    <td>
+                                        <div>
+                                            <p>Address Line 1: {{ $trip->from_address_1 }}</p>
+                                            <p>Address Line 2: {{ $trip->from_address_2 }}</p>
+                                            <p>Country: {{ $trip->fromCountry->name ?? '' }}</p>
+                                            <p>State: {{ $trip->fromState->name ?? '' }}</p>
+                                            <p>City: {{ $trip->from_city }}</p>
+                                            <p>Postcode: {{ $trip->from_postcode }}</p>
+                                            <p>Phone: {{ $trip->from_phone }}</p>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Address Line 1</td>
-                                    <td>{{ $trip->to_address_1 }}</td>
-                                </tr>
-                                <tr>
-                                    <td>Address Line 2</td>
-                                    <td>{{ $trip->to_address_2 }}</td>
-                                </tr>
-                                <tr>
-                                    <td>Country</td>
-                                    <td>{{ $trip->toCountry->name ?? '' }}</td>
-                                </tr>
-                                <tr>
-                                    <td>State</td>
-                                    <td>{{ $trip->toState->name ?? '' }}</td>
-                                </tr>
-                                <tr>
-                                    <td>City</td>
-                                    <td>{{ $trip->to_city }}</td>
-                                </tr>
-                                <tr>
-                                    <td>Postcode</td>
-                                    <td>{{ $trip->to_postcode }}</td>
-                                </tr>
-                                <tr>
-                                    <td>Phone</td>
-                                    <td>{{ $trip->to_phone }}</td>
+                                    <td>
+                                        <h5 class="heading-5">To</h5>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <p>Address Line 1: {{ $trip->to_address_1 }}</p>
+                                            <p>Address Line 2: {{ $trip->to_address_2 }}</p>
+                                            <p>Country: {{ $trip->toCountry->name ?? '' }}</p>
+                                            <p>State: {{ $trip->toState->name ?? '' }}</p>
+                                            <p>City: {{ $trip->to_city }}</p>
+                                            <p>Postcode: {{ $trip->to_postcode }}</p>
+                                            <p>Phone: {{ $trip->to_phone }}</p>
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>Date & Time of Departure</td>

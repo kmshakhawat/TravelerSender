@@ -46,7 +46,7 @@ class TripController extends Controller
         $handling_instruction_options = Travel::instructionType();
         $packaging_requirement_options = Travel::packagingType();
         $weight_unit_options = Travel::weightUnit();
-        $countries = Country::all();
+        $countries = countries();
         return view('trip.create', compact('trip', 'countries', 'type_option', 'transport_type_option', 'item_type_option', 'packaging_requirement_options', 'handling_instruction_options', 'weight_unit_options'));
     }
 
@@ -185,7 +185,7 @@ class TripController extends Controller
         $packaging_requirement_options = Travel::packagingType();
         $status_options = Travel::tripStatus();
         $weight_unit_options = Travel::weightUnit();
-        $countries = Country::all();
+        $countries = countries();
 
         if (auth()->user()->hasRole('admin')) {
             $trip->load('stopovers');

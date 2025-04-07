@@ -11,6 +11,7 @@ class Booking extends Model
     use HasFactory;
     protected $fillable = [
         'user_id',
+        'trip_user_id',
         'trip_id',
         'sender_name',
         'sender_email',
@@ -82,5 +83,9 @@ class Booking extends Model
     public function deliveryState(): BelongsTo
     {
         return $this->belongsTo(State::class, 'delivery_state_id');
+    }
+    public function payment()
+    {
+        return $this->hasOne(Payment::class, 'booking_id');
     }
 }

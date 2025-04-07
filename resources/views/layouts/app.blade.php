@@ -115,10 +115,7 @@
                 Alpine.store('app', {
                     showModal: false,
                 })
-            })
-        </script>
-
-        <script>
+            });
 
             function countryStateDropdown(countrySelector, stateSelector, selectedStateId = null) {
                 async function loadStates(country_id, stateSelect) {

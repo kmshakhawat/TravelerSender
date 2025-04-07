@@ -25,7 +25,7 @@ class BookingController extends Controller
     public function index()
     {
         if (auth()->user()->hasRole('admin')) {
-            $bookings = Booking::with('products')
+            $bookings = Booking::with(['products','payment'])
                 ->orderBy('id', 'DESC')
                 ->paginate(10);
         } else {
@@ -46,7 +46,7 @@ class BookingController extends Controller
         $item_type_option = Travel::itemType();
         $location_type_options = Travel::locationType();
         $collection_type_options = Travel::parcelCollectionType();
-        $countries = Country::all();
+        $countries = countries();
         return view('booking.booking-form', compact('trip', 'countries', 'item_type_option', 'location_type_options', 'collection_type_options'));
     }
 
@@ -86,8 +86,12 @@ class BookingController extends Controller
                 'pickup_date' => 'required|date',
             ]);
         }
+
+        $trip_user_id = Trip::where('id', $request->trip_id)->first()->user_id;
+
         $booking = Booking::create([
             'user_id' => auth()->id(),
+            'trip_user_id' => $trip_user_id,
             'trip_id' => $request->trip_id,
             'sender_name' => $request->sender_name,
             'sender_email' => $request->sender_email,
@@ -152,43 +156,45 @@ class BookingController extends Controller
 
         $payment = Payment::create([
             'user_id' => $booking->user_id,
+            'trip_user_id' => $booking->trip_user_id,
             'booking_id' => $booking->id,
             'amount' => $booking->trip->price,
-            'currency' => auth()->user()->currency->code ?? 'NGN',
-            'payment_status' => 'pending',
+            'currency' => auth()->user()->currency->code ?? 'ngn',
+            'net_amount' => $booking->trip->price * 0.75,
+            'commission' => $booking->trip->price * 0.25,
         ]);
 
         /* Stripe Payment */
-//        $checkoutSession = auth()->user()->checkout([
-//            [
-//                'price_data' => [
-//                    'unit_amount' => $payment->amount * 100, // Amount in cents
-//                    'currency' => $payment->currency,
-//                    'product_data' => [
-//                        'name' => 'Booking Payment',
-//                    ],
-//                ],
-//                'quantity' => 1,
-//            ]
-//        ], [
-//            'success_url' => route('payment.success', ['payment_id' => $payment->id]),
-//            'cancel_url' => route('payment.cancel', ['payment_id' => $payment->id]),
-//        ]);
-//
-//        $payment->update([
-//            'stripe_session_id' => $checkoutSession->id,
-//        ]);
+        $checkoutSession = auth()->user()->checkout([
+            [
+                'price_data' => [
+                    'unit_amount' => $payment->amount * 100, // Amount in cents
+                    'currency' => $payment->currency,
+                    'product_data' => [
+                        'name' => 'Booking Payment',
+                    ],
+                ],
+                'quantity' => 1,
+            ]
+        ], [
+            'success_url' => route('payment.success', ['payment_id' => $payment->id]),
+            'cancel_url' => route('payment.cancel', ['payment_id' => $payment->id]),
+        ]);
+
+        $payment->update([
+            'stripe_session_id' => $checkoutSession->id,
+        ]);
         /* Stripe Payment */
 
-        $paymentData = [
-            'email' => auth()->user()->email, // Customer email
-            'amount' => $payment->amount * 100, // Convert amount to kobo
-            'currency' => $payment->currency,
-            'reference' => Paystack::genTranxRef(), // Generate unique transaction reference
-            'callback_url' => route('payment.callback', ['payment_id' => $payment->id]),
-        ];
-
-        $checkoutSession = Paystack::getAuthorizationUrl($paymentData);
+//        $paymentData = [
+//            'email' => auth()->user()->email, // Customer email
+//            'amount' => $payment->amount * 100, // Convert amount to kobo
+//            'currency' => $payment->currency,
+//            'reference' => Paystack::genTranxRef(), // Generate unique transaction reference
+//            'callback_url' => route('payment.callback', ['payment_id' => $payment->id]),
+//        ];
+//
+//        $checkoutSession = Paystack::getAuthorizationUrl($paymentData);
 
         return response()->json([
             'status' => 'success',
@@ -216,7 +222,7 @@ class BookingController extends Controller
         ]);
     }
 
-    private function bookingOTP(Booking $booking, $email)
+    private function bookingOTP(Booking $booking, $email, $subject = null)
     {
         $otp = rand(100000, 999999);
         $booking->update([
@@ -226,7 +232,7 @@ class BookingController extends Controller
         $mailableData = [
             'otp' =>    $otp,
             'template'   => 'emails.booking.otp',
-            'subject'    => 'OTP Verification - ' . config('app.name'),
+            'subject'    => 'Booking OTP Verification - ' . config('app.name'),
         ];
         Mail::to($email)->send(new SendMail($mailableData));
     }

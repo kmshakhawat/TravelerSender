@@ -51,14 +51,6 @@
                 let count = 0;
             @endif
 
-{{--        @if(auth()->user()->otp_expiry < now() )--}}
-{{--            let count = 0;--}}
-{{--        @else--}}
-{{--            let count = 180;--}}
-{{--        @endif--}}
-
-
-
             let counter = setInterval(timer, 1000);
             function timer() {
                 count--;
