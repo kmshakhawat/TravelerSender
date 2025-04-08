@@ -17,12 +17,19 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Booking::with('products')
-            ->whereHas('trip', function ($query) {
-                $query->where('user_id', auth()->id());
-            })
-            ->orderBy('id', 'DESC')
-            ->paginate(10);
+        if (auth()->user()->hasRole('admin')) {
+            $orders = Booking::with(['products','payment'])
+                ->orderBy('id', 'DESC')
+                ->paginate(10);
+        } else {
+            $orders = Booking::with(['products','payment'])
+                ->whereHas('trip', function ($query) {
+                    $query->where('user_id', auth()->id());
+                })
+                ->orderBy('id', 'DESC')
+                ->paginate(10);
+        }
+
         return view('order.index', compact('orders'));
     }
 

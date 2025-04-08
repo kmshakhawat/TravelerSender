@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('My Booking') }}
+            {{ __('Booking List') }}
         </h2>
     </x-slot>
     <div class="py-12">
@@ -121,7 +121,7 @@
                                     <a href="{{ route('booking.show', $booking->id) }}">
                                         @if($booking->status === 'Pending')
                                             <x-status :content="$booking->status" :type="'info'" />
-                                        @elseif($booking->status === 'Approved')
+                                        @elseif($booking->status === 'Booked')
                                             <x-status :content="$booking->status" :type="'success'" />
                                         @elseif($booking->status === 'Rejected')
                                             <x-status :content="$booking->status" :type="'danger'" />

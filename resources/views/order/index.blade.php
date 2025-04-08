@@ -120,7 +120,7 @@
                                     <a href="{{ route('order.show', $order->id) }}">
                                         @if($order->status === 'Pending')
                                             <x-status :content="$order->status" :type="'info'" />
-                                        @elseif($order->status === 'Approved')
+                                        @elseif($order->status === 'Booked')
                                             <x-status :content="$order->status" :type="'success'" />
                                         @elseif($order->status === 'Rejected')
                                             <x-status :content="$order->status" :type="'danger'" />

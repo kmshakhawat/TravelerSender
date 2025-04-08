@@ -91,7 +91,7 @@ class Travel
     {
         return self::generateDropdown([
             'Pending',
-            'Approved',
+            'Booked',
             'Rejected',
             'Completed',
         ]);

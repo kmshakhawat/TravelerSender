@@ -10,13 +10,22 @@ class EarningController extends Controller
 {
     public function index()
     {
-        $earnings = Payment::class::where('trip_user_id', Auth::id())
+        if (auth()->user()->hasRole('admin')) {
+            $earnings = Payment::with(['trip', 'booking'])
+                ->where('payment_status', 'paid')
+                ->where('status', 'complete')
+                ->orderBy('created_at', 'desc')
+                ->paginate(10);
+            return view('earnings.admin.index', compact('earnings'));
+        } else {
+        $earnings = Payment::where('trip_user_id', Auth::id())
             ->with(['trip', 'booking'])
             ->where('payment_status', 'paid')
             ->where('status', 'complete')
             ->orderBy('created_at', 'desc')
             ->paginate(10);
+            return view('earnings.index', compact('earnings'));
+        }
 
-        return view('earnings.index', compact('earnings'));
     }
 }

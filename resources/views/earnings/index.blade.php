@@ -23,7 +23,7 @@
                             Status
                         </td>
                         <td class="py-2 pl-2 flex justify-end">
-                            Action
+                            Payouts
                         </td>
                         </thead>
                         <tbody class="text-sm">
@@ -57,8 +57,10 @@
                                     <x-status :content="$earning->status" :type="'error'" />
                                 @endif
                             </td>
-                            <td>
-                                <button class="btn-primary">Withdrow</button>
+                            <td class="text-end">
+                                <div class="flex items-center justify-end space-x-3">
+                                    <button class="btn-primary">Withdrow</button>
+                                </div>
                             </td>
                         </tr>
                         @empty

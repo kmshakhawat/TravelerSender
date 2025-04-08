@@ -35,6 +35,7 @@ class BookingController extends Controller
                 ->paginate(10);
         }
         return view('booking.index', compact('bookings'));
+
     }
 
     /**
