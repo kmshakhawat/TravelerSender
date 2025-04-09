@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\NewsletterSubscriberController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\PaymentController;
@@ -36,7 +37,7 @@ Route::get('/', function () {
 });
 Route::middleware([
     'auth:sanctum',
-    'otp',
+//    'otp',
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
@@ -88,7 +89,7 @@ Route::group(['middleware' => ['auth:sanctum', config('jetstream.auth_session'),
         Route::put('/users/{user}/update-verification', [UserController::class, 'updateVerification'])->name('user.update.verification');
     });
 });
-
+Route::resource('/newsletter', NewsletterSubscriberController::class);
 Route::get('/otp', [AuthController::class, 'otp'])->name('otp');
 Route::get('/otp-resend', [AuthController::class, 'otpResend'])->name('otp.resend');
 Route::post('/otp-verify', [AuthController::class, 'otpVerify'])->name('otp.verify');

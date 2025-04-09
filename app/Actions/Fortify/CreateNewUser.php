@@ -2,8 +2,10 @@
 
 namespace App\Actions\Fortify;
 
+use App\Mail\SendMail;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 use Laravel\Jetstream\Jetstream;
@@ -40,6 +42,13 @@ class CreateNewUser implements CreatesNewUsers
                 'currency_id' => 1,
             ]
         );
+        $mailable_data = [
+            'name' => $user->name,
+            'template' => 'emails.welcome',
+            'subject' => 'Welcome to '. config('app.name'),
+        ];
+        Mail::to($user->email)->send(new SendMail($mailable_data));
+
         return $user;
     }
 }

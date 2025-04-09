@@ -60,6 +60,7 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
+            'email_verified_at' => now(),
             'status' => $request->status,
             'verified' => $request->verified ? now() : NULL,
             'password' => Hash::make($request->password),
@@ -70,6 +71,7 @@ class UserController extends Controller
         $user->profile()->updateOrCreate(
             ['user_id' => $user->id],
             [
+                'currency_id' => 1,
                 'address_1' => $request->address_1,
                 'address_2' => $request->address_2,
                 'country_id' => $request->country_id,
@@ -89,6 +91,7 @@ class UserController extends Controller
         $token = $user->createToken('token')->plainTextToken;
 
         $mailable_data = [
+            'name' => $user->name,
             'template' => 'emails.welcome',
             'subject' => 'Welcome to our platform',
         ];
@@ -167,6 +170,20 @@ class UserController extends Controller
                 'id_back' => $this->handleFile($request->file('id_back'), $user->id.'/', $user->profile->id_back ?? null),
             ]
         );
+
+        if ($user->verified) {
+            $mailable_data = [
+                'name' => $user->name,
+                'template' => 'emails.verification-approved',
+                'subject' => 'Your Verification has been Approved',
+            ];
+            Mail::to($user->email)->send(new SendMail($mailable_data));
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'User updated successfully',
+        ]);
 
     }
 

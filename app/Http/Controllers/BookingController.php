@@ -153,6 +153,39 @@ class BookingController extends Controller
             }
         }
 
+
+        /* Mail to User */
+        $base_data = [
+            'name' => $booking->user->name,
+            'trip_from' => $booking->trip->fromCountry->name,
+            'trip_to' => $booking->trip->toCountry->name,
+            'traveller_name' => $booking->trip->user->name,
+            'departure_date' => $booking->trip->departure_date,
+            'arrival_date' => $booking->trip->arrival_date,
+            'created' => $booking->trip->created_at,
+            'url' => config('app.url') . '/booking/' . $booking->id,
+            'order_url' => config('app.url') . '/order/' . $booking->id,
+        ];
+
+        $recipients = [
+            $booking->user->email => [
+                'subject' => 'Your Trip Booking is Confirmed!',
+                'template' => 'emails.booking.confirmation'
+            ],
+            $booking->trip->user->email => [
+                'subject' => 'You’ve Received a New Booking for Your Trip!',
+                'template' => 'emails.booking.confirmation-traveller'
+            ],
+            config('app.admin.email') => [
+                'subject' => 'New Trip Booking Received – '. $booking->user->name .' → ' . $booking->trip->user->name,
+                'template' => 'emails.booking.confirmation-admin'
+            ]
+        ];
+        foreach ($recipients as $email => $recipient_data) {
+            $mailable_data = array_merge($base_data, $recipient_data);
+            Mail::to($email)->send(new SendMail($mailable_data));
+        }
+
         $this->bookingOTP($booking, $request->sender_email);
 
         $payment = Payment::create([
@@ -239,7 +272,7 @@ class BookingController extends Controller
     }
     public function otpResend(Booking $booking)
     {
-        $this->bookingOTP($booking, $booking->sender_email);
+        $this->bookingOTP($booking, $booking->user->email);
         return new JsonResponse([
             'status' => 'success',
             'message' => 'OTP sent successfully'
@@ -263,6 +296,9 @@ class BookingController extends Controller
             $booking->trip->update([
                 'status' => 'In Progress'
             ]);
+
+            $this->bookingOTP($booking, $booking->user->email);
+
             return new JsonResponse([
                 'status' => 'success',
                 'message' => 'OTP verified successfully'
@@ -293,6 +329,35 @@ class BookingController extends Controller
             $booking->trip->update([
                 'status' => 'Completed'
             ]);
+
+            $base_data = [
+                'name' => $booking->user->name,
+                'trip_from' => $booking->trip->fromCountry->name,
+                'trip_to' => $booking->trip->toCountry->name,
+                'traveller_name' => $booking->trip->user->name,
+                'departure_date' => $booking->trip->departure_date,
+                'arrival_date' => $booking->trip->arrival_date,
+                'delivery_date' => $booking->trip->updated_at,
+                'rating_url' => config('app.url') . '/rating/' . $booking->trip->user->id
+            ];
+
+            $recipients = [
+                $booking->user->email => [
+                    'subject' => 'Parcel Delivered Successfully!',
+                    'template' => 'emails.booking.delivered'
+                ],
+                config('app.admin.email') => [
+                    'subject' => 'Parcel Delivered – '. $booking->user->name .' → ' . $booking->trip->toCountry->name,
+                    'template' => 'emails.booking.delivered-admin'
+                ]
+            ];
+
+            foreach ($recipients as $email => $recipient_data) {
+                $mailable_data = array_merge($base_data, $recipient_data);
+                Mail::to($email)->send(new SendMail($mailable_data));
+            }
+
+
 
             return new JsonResponse([
                 'status' => 'success',

@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Actions\Travel;
 use App\Http\Services\FileHandler;
+use App\Mail\SendMail;
 use App\Models\Country;
 use App\Models\Trip;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class TripController extends Controller
 {
@@ -79,9 +81,6 @@ class TripController extends Controller
             'handling_instruction' => 'required',
             'price' => 'required|numeric',
         ]);
-        // validation message
-        $validate['from_address_2'] = $request->from_address_2;
-
 
         $departure_date = $request->departure_date;
         $arrival_date = $request->arrival_date;
@@ -148,6 +147,26 @@ class TripController extends Controller
                 $trip->stopovers()->createMany($stopovers);
             }
         }
+
+        $mailable_data = [
+            'name' => $trip->user->name,
+            'template' => 'emails.add-trip',
+            'subject' => 'Your Trip Has Been Successfully Added',
+        ];
+        Mail::to($trip->user->email)->send(new SendMail($mailable_data));
+
+        $mailable_data_admin = [
+            'name' => $trip->user->name,
+            'email' => $trip->user->email,
+            'trip_from' => $trip->fromCountry->name,
+            'trip_to' => $trip->toCountry->name,
+            'departure_date' => $trip->departure_date,
+            'arrival_date' => $trip->arrival_date,
+            'created' => $trip->created_at,
+            'template' => 'emails.add-trip-admin',
+            'subject' => ' New Trip Added by '. $trip->user->name,
+        ];
+        Mail::to(config('app.admin.email'))->send(new SendMail($mailable_data_admin));
 
         return response()->json([
             'status' => 'success',

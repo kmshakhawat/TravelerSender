@@ -260,10 +260,21 @@ class AuthController extends Controller
         );
 
         $mailable_data = [
-            'template' => 'emails.verification',
-            'subject' => 'User Verification Data Update',
+            'name' => $user->name,
+            'template' => 'emails.verification-process',
+            'subject' => 'Your Verification is in Process',
         ];
         Mail::to($user->email)->send(new SendMail($mailable_data));
+
+        $mailable_data_admin = [
+            'name' => $user->name,
+            'email' => $user->email,
+            'date' => now(),
+            'template' => 'emails.verification-submitted',
+            'subject' => 'New Verification Submitted by '. $user->name,
+        ];
+        Mail::to(config('app.admin.email'))->send(new SendMail($mailable_data_admin));
+
 
         return response()->json([
             'status' => 'success',
