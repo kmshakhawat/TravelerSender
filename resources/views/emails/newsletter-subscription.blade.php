@@ -9,7 +9,7 @@
 <li>Expert insights and tips</li>
 </ul>
 <p>Keep an eye on your inbox for exciting content coming your way soon!</p>
-<p>If you have any questions or feedback, feel free to reach out at info@doballi.com. We're here to make your experience exceptional.</p>
+<p>If you have any questions or feedback, feel free to reach out at {{ config('app.admin.support') }}. We're here to make your experience exceptional.</p>
 <p>Welcome aboard, and thank you for connecting with us!</p>
 @endcomponent
 

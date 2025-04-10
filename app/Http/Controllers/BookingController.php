@@ -186,7 +186,7 @@ class BookingController extends Controller
             Mail::to($email)->send(new SendMail($mailable_data));
         }
 
-        $this->bookingOTP($booking, $request->sender_email);
+        $this->bookingOTP($booking, $request->sender_email, 'Pickup OTP Verification - ' . config('app.name'));
 
         $payment = Payment::create([
             'user_id' => $booking->user_id,
@@ -258,6 +258,11 @@ class BookingController extends Controller
 
     private function bookingOTP(Booking $booking, $email, $subject = null)
     {
+        if ($subject) {
+            $email_subject = $subject;
+        } else {
+            $email_subject = 'OTP Verification - ' . config('app.name');
+        }
         $otp = rand(100000, 999999);
         $booking->update([
             'otp' => $otp,
@@ -266,13 +271,22 @@ class BookingController extends Controller
         $mailableData = [
             'otp' =>    $otp,
             'template'   => 'emails.booking.otp',
-            'subject'    => 'Booking OTP Verification - ' . config('app.name'),
+            'subject'    => $email_subject,
         ];
         Mail::to($email)->send(new SendMail($mailableData));
     }
-    public function otpResend(Booking $booking)
+    public function otpResend(Booking $booking, Request $request)
     {
-        $this->bookingOTP($booking, $booking->user->email);
+        $request->validate([
+            'type' => 'required|in:pickup,delivery'
+        ]);
+
+        if ($request->type === 'pickup') {
+            $this->bookingOTP($booking, $booking->sender_email, 'Pickup OTP Verification - ' . config('app.name'));
+        } else {
+            $this->bookingOTP($booking, $booking->receiver_email, 'Delivery OTP Verification - ' . config('app.name'));
+        }
+
         return new JsonResponse([
             'status' => 'success',
             'message' => 'OTP sent successfully'
@@ -297,7 +311,7 @@ class BookingController extends Controller
                 'status' => 'In Progress'
             ]);
 
-            $this->bookingOTP($booking, $booking->user->email);
+            $this->bookingOTP($booking, $booking->receiver_email, 'Delivery OTP Verification - ' . config('app.name'));
 
             return new JsonResponse([
                 'status' => 'success',
@@ -343,6 +357,10 @@ class BookingController extends Controller
 
             $recipients = [
                 $booking->user->email => [
+                    'subject' => 'Parcel Delivered Successfully!',
+                    'template' => 'emails.booking.delivered'
+                ],
+                $booking->sender_email => [
                     'subject' => 'Parcel Delivered Successfully!',
                     'template' => 'emails.booking.delivered'
                 ],

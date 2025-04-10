@@ -16,16 +16,14 @@ class EarningController extends Controller
                 ->where('status', 'complete')
                 ->orderBy('created_at', 'desc')
                 ->paginate(10);
-            return view('earnings.admin.index', compact('earnings'));
         } else {
-        $earnings = Payment::where('trip_user_id', Auth::id())
-            ->with(['trip', 'booking'])
-            ->where('payment_status', 'paid')
-            ->where('status', 'complete')
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
-            return view('earnings.index', compact('earnings'));
+            $earnings = Payment::where('trip_user_id', Auth::id())
+                ->with(['trip', 'booking'])
+                ->where('payment_status', 'paid')
+                ->where('status', 'complete')
+                ->orderBy('created_at', 'desc')
+                ->paginate(10);
         }
-
+        return view('earnings.index', compact('earnings'));
     }
 }

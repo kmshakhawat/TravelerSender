@@ -24,6 +24,7 @@ return new class extends Migration
             $table->foreignIdFor(State::class, 'state_id')->nullable()->constrained()->nullOnDelete();
             $table->string('city')->nullable();
             $table->string('postcode')->nullable();
+            $table->text('bank_details')->nullable();
             $table->string('id_type')->nullable();
             $table->string('id_number')->nullable();
             $table->string('id_issue')->nullable();

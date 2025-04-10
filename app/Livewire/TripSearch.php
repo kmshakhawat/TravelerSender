@@ -28,10 +28,16 @@ class TripSearch extends Component
     public function render()
     {
         $trips = Trip::when($this->from, function ($query) {
-            $query->where('from', 'like', '%' . $this->from . '%');
+            $query->where('from_city', 'like', '%' . $this->from . '%');
+            $query->orWhereHas('fromCountry', function ($query) {
+                $query->where('name', 'like', '%' . $this->from . '%');
+            });
         })
             ->when($this->to, function ($query) {
-                $query->where('to', 'like', '%' . $this->to . '%');
+                $query->where('to_city', 'like', '%' . $this->to . '%');
+                $query->orWhereHas('toCountry', function ($query) {
+                    $query->where('name', 'like', '%' . $this->to . '%');
+                });
             })
             ->when($this->departure_date, function ($query) {
                 $query->whereDate('departure_date', Carbon::parse($this->departure_date)->format('Y-m-d'));

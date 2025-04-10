@@ -13,8 +13,6 @@ color: #ff2d20;
 "
 >{{ $data['otp'] }}</p>
 @endcomponent
-<p>This OTP will expire in 7 minutes.</p>
-
 <p style="font-size: 14px">DO NOT share this code with anyone.<br>
 If you have not made this request, please contact us.</p>
 <p style="font-weight: 700;margin-top: 50px;">Your {{ config('app.name') }} Team.</p>

@@ -75,6 +75,11 @@
                                     <div class="invalid-feedback invalid-postcode"></div>
                                 </div>
                             </div>
+                            <div class="mt-4">
+                                <x-label for="bank_details" value="{{ __('Bank Details') }}" />
+                                <textarea name="bank_details" class="form-input" id="bank_details" cols="30" rows="5">{{ $user->profile->bank_details ?? '' }}</textarea>
+                                <div class="invalid-feedback invalid-bank_details"></div>
+                            </div>
                             {{--                            <div class="flex gap-4">--}}
                             {{--                                <div class="w-full sm:w-1/2 mt-4">--}}
                             {{--                                    <x-label for="currency_id" value="{{ __('Currency') }}" />--}}

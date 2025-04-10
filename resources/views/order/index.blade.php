@@ -295,28 +295,32 @@
                                 window.showJsonErrorMessage(error);
                             });
                     },
-                    resendOTP : function (booking) {
+                    resendOTP: function(booking, type) {
                         Swal.fire({
-                            title            : 'Resending OTP...',
+                            title: 'Resending OTP...',
                             allowOutsideClick: true,
-                            icon             : 'info',
-                            didOpen          : () => {
+                            icon: 'info',
+                            didOpen: () => {
                                 Swal.showLoading();
                             }
                         });
+
+                        let formData = new FormData();
+                        formData.append('type', type);
+
                         axios({
-                            method : 'POST',
-                            url    : route('booking.resend-otp', booking),
-                            data   : booking,
+                            method: 'POST',
+                            url: route('booking.resend-otp', booking),
+                            data: formData,
                             headers: {
                                 'Content-Type': 'multipart/form-data'
                             }
                         })
                             .then(response => {
                                 Swal.fire({
-                                    title            : 'Success!',
-                                    text             : response.data.message,
-                                    icon             : 'success',
+                                    title: 'Success!',
+                                    text: response.data.message,
+                                    icon: 'success',
                                     confirmButtonText: 'OK'
                                 });
                             })

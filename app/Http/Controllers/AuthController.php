@@ -205,6 +205,7 @@ class AuthController extends Controller
                 'state_id' => $request->state_id,
                 'city' => $request->city,
                 'postcode' => $request->postcode,
+                'bank_details' => $request->bank_details,
             ]
         );
 

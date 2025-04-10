@@ -54,6 +54,10 @@
                                     <td>Country</td>
                                     <td>{{ $user->profile->country->name ?? '' }}</td>
                                 </tr>
+                                <tr>
+                                    <td>Bank Details</td>
+                                    <td>{{ $user->profile->bank_details ?? '' }}</td>
+                                </tr>
                                 @if($user->photo)
                                     <tr>
                                         <td class="align-top">Photo</td>

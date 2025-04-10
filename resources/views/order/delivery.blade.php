@@ -1,5 +1,5 @@
 <div x-data="travel">
-    <form id="delivery" x-ref="deliveryForm" @submit.prevent="deliveryVerify({{ $booking }})" method="POST">
+    <form id="delivery" x-ref="deliveryForm" @submit.prevent="deliveryVerify({{ $booking->id }})" method="POST">
         @csrf
         @method('POST')
         <div class="bg-white p-6 rounded min-w-96">
@@ -7,8 +7,9 @@
             <div class="mt-6">
                 <div class="mt-4">
                     <x-label for="status" value="{{ __('OTP') }}" />
+                    <small class="text-primary">An email has been sent to {{ $booking->receiver_email }}</small>
                     <x-input id="otp" class="block w-full" type="text" name="otp" :value="old('otp')" autocomplete="otp" />
-                    <button @click.prevent="resendOTP({{ $booking }})" class="mt-2 text-primary">Resend OTP</button>
+                    <button @click.prevent="resendOTP({{ $booking->id }}, 'delivery')" class="mt-2 text-primary">Resend OTP</button>
                     <div class="invalid-feedback invalid-otp"></div>
                 </div>
 

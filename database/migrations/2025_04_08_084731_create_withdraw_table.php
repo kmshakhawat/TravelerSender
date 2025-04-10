@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('payouts', function (Blueprint $table) {
+        Schema::create('withdraw', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users');
             $table->string('amount');
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('payouts');
+        Schema::dropIfExists('withdraw');
     }
 };

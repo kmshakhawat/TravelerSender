@@ -20,6 +20,9 @@
                             Net Amount
                         </td>
                         <td class="py-2 pl-2">
+                            Commission
+                        </td>
+                        <td class="py-2 pl-2">
                             Status
                         </td>
                         <td class="py-2 pl-2 flex justify-end">
@@ -43,13 +46,16 @@
                                 </div>
                             </td>
                             <td class="py-3 pl-5">
-                                {{ getPrice($earning->trip->currency, $earning->trip->price) }}
+                                {{ getPrice($earning->trip->currency, $earning->amount) }}
                             </td>
                             <td class="py-3 pl-5">
                                 {{ getPrice($earning->trip->currency, $earning->net_amount) }}
                             </td>
                             <td class="py-3 pl-5">
-                                @if($earning->status === 'complete')
+                                {{ getPrice($earning->trip->currency, $earning->commission) }}
+                            </td>
+                            <td class="py-3 pl-5">
+                                @if($earning->status === 'pending')
                                     <x-status :content="$earning->status" :type="'info'" />
                                 @elseif($earning->status === 'complete')
                                     <x-status :content="$earning->status" :type="'success'" />
@@ -59,7 +65,7 @@
                             </td>
                             <td class="text-end">
                                 <div class="flex items-center justify-end space-x-3">
-                                    <button class="btn-primary">Withdrow</button>
+                                    <button class="btn-primary">Withdraw</button>
                                 </div>
                             </td>
                         </tr>
