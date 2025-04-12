@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('withdraw', function (Blueprint $table) {
+        Schema::create('withdraws', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('payment_id')->constrained('payments');
             $table->string('amount');
             $table->string('currency');
             $table->enum('status', ['Pending', 'Processing', 'Completed', 'Rejected'])->default('Pending');
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('withdraw');
+        Schema::dropIfExists('withdraws');
     }
 };

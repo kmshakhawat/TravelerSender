@@ -5,7 +5,7 @@
 <p style="font-weight: 500">Delivery Details:</p>
 <p>Trip Route: {{ $data['trip_from'] }} → {{ $data['trip_to'] }}</p>
 <p>Delivered By: {{ $data['traveller_name'] }}</p>
-<p>Delivery Date: {{ $data['delivery'] }}</p>
+<p>Delivery Date: {{ $data['delivery_date'] }}</p>
 @endcomponent
 @component('mail::panel')
 <p>We hope your parcel has been delivered safely! To help us improve our services and recognize exceptional travelers, we’d love for you to rate your experience.</p>

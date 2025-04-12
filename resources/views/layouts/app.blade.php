@@ -70,9 +70,12 @@
 
             @if (!Auth::user()->verified)
                 <div class="container">
-                    <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 rounded-lg mt-8" role="alert">
-                        <h5 class="heading-5">{{ __('Account Not Verified') }}</h5>
-                        {{ __('Please update your profile and complete the ID verification process to continue. You can update your details in your Profile and Account Verification Menu.') }}
+                    <div class="flex justify-between items-center bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 rounded-lg mt-8" role="alert">
+                        <div>
+                            <h5 class="heading-5">{{ __('Account Not Verified') }}</h5>
+                            {{ __('Please update your profile and complete the ID verification process to continue. You can update your details in your Profile and Account Verification Menu.') }}
+                        </div>
+                        <a class="btn-primary" href="{{ route('profile') }}">Update Now</a>
                     </div>
                 </div>
             @endif

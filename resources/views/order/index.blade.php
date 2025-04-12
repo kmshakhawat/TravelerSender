@@ -142,6 +142,8 @@
                                 </td>
                                 <td class="py-3 pl-2">
                                     <div class="flex items-center justify-end space-x-3">
+
+                                        @if($order->latestTracking->status != 'Delivered')
                                         @if ($order->latestTracking && in_array($order->latestTracking->status, ['Processing', 'Ready for Pickup', 'Delivered']))
                                         <button @click.prevent="bookingPickup({{ $order->id }})" class="!flex gap-1 btn-secondary">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -159,6 +161,7 @@
                                                 </svg>
                                                 Delivery
                                             </button>
+                                        @endif
                                         @endif
                                         <a class="!flex gap-1 btn-primary" href="{{ route('order.show', $order->id) }}">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -383,4 +386,5 @@
         </script>
 
     @endpush
+
 </x-app-layout>

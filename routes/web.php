@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\WithdrawController;
 use App\Http\Controllers\NewsletterSubscriberController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RatingController;
@@ -37,7 +38,7 @@ Route::get('/', function () {
 });
 Route::middleware([
     'auth:sanctum',
-//    'otp',
+    'otp',
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
@@ -78,7 +79,9 @@ Route::middleware([
 //    Route::get('/payment/callback', [PaymentController::class, 'handlePaymentCallback'])->name('payment.callback');
 //    Route::get('/payment/success', [PaymentController::class, 'success'])->name('payment.success');
 
-    Route::get('/earnings', [\App\Http\Controllers\EarningController::class, 'index'])->name('earnings');
+    Route::get('/withdraw', [WithdrawController::class, 'index'])->name('withdraw');
+    Route::get('/withdraw/{payment}/request', [WithdrawController::class, 'withdraw'])->name('withdraw.request');
+    Route::post('/withdraw/{payment}/submit', [WithdrawController::class, 'withdrawStore'])->name('withdraw.store');
 
 
 });

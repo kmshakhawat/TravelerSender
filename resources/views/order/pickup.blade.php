@@ -3,7 +3,7 @@
         @csrf
         @method('POST')
         <div class="bg-white p-6 rounded min-w-96">
-            <h1 class="text-xl font-semibold capitalize mb-5 pb-4 border-b">Pickup Verify</h1>
+            <h3 class="text-xl font-semibold capitalize mb-5 pb-4 border-b">Pickup Verify</h3>
             <div class="mt-6">
                 <div class="mt-4">
                     <x-label for="status" value="{{ __('OTP') }}" />

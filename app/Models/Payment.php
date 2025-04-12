@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Payment extends Model
 {
@@ -28,13 +29,21 @@ class Payment extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function tripUser(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'trip_user_id', 'id');
+    }
 
-    public function booking()
+    public function booking(): BelongsTo
     {
         return $this->belongsTo(Booking::class);
     }
-    public function trip()
+    public function trip(): BelongsTo
     {
         return $this->belongsTo(Trip::class, 'trip_user_id', 'user_id');
+    }
+    public function withdraw(): BelongsTo
+    {
+        return $this->belongsTo(Withdraw::class);
     }
 }

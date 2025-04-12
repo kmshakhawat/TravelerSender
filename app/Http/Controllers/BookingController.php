@@ -43,6 +43,10 @@ class BookingController extends Controller
      */
     public function create()
     {
+        if (!auth()->user()->verified) {
+            return redirect()->route('trip.search')->with('error', 'Please verify your account before booking again.');
+        }
+
         $trip = Trip::where('id', request('trip'))->first();
         $item_type_option = Travel::itemType();
         $location_type_options = Travel::locationType();
@@ -338,6 +342,7 @@ class BookingController extends Controller
             ]);
             $booking->update([
                 'otp' => null,
+                'status' => 'Booked',
             ]);
 
             $booking->trip->update([
