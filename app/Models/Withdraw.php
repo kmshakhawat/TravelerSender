@@ -11,6 +11,14 @@ class Withdraw extends Model
         'payment_id',
         'amount',
         'currency',
+        'pay_to',
+        'note',
         'status',
     ];
+
+    public function payment()
+    {
+        return $this->belongsTo(Payment::class);
+    }
+
 }

@@ -14,18 +14,33 @@ class TrackingController extends Controller
      */
     public function index($booking_id)
     {
-        $tracking = Tracking::select('status', 'description', 'status_update_at')
+        $tracking = Tracking::select('status', 'description', 'estimated_delivery', 'status_update_at')
             ->where('booking_id', $booking_id)
             ->orderBy('status_update_at', 'desc')
             ->get()
             ->unique('status');
 
+        $steps = [
+            'Processing',
+            'Ready for Pickup',
+            'Picked Up',
+            'In Transit',
+            'Arrived at Destination',
+            'Attempt to Deliver',
+            'Delivered',
+        ];
+        $currentStatus = Tracking::where('booking_id', $booking_id)
+            ->orderBy('status_update_at', 'desc')
+            ->value('status');
+
+        $currentStep = array_search($currentStatus, $steps);
+        $currentStep = $currentStep !== false ? $currentStep : 0;
 
         if ($tracking->isEmpty()) {
             return view('tracking.index', ['tracking' => null, 'booking_id' => $booking_id]);
         }
 
-        return view('tracking.index', compact('tracking', 'booking_id'));
+        return view('tracking.index', compact('tracking', 'booking_id', 'currentStep'));
     }
 
     public function status()
@@ -102,6 +117,7 @@ class TrackingController extends Controller
     public function edit(Tracking $tracking)
     {
         abort_if(!request()->ajax(), 403);
+        $tracking->load('latest');
         $tracking_status = Travel::trackingStatus();
         $latest = $tracking->latest;
         $edit = view('tracking.edit', compact('tracking', 'latest', 'tracking_status'))->render();

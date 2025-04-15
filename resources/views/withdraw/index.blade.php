@@ -55,9 +55,9 @@
                                 {{ getPrice($withdraw->trip->currency, $withdraw->commission) }}
                             </td>
                             <td class="py-3 pl-5">
-                                @if($withdraw->status === 'pending')
+                                @if($withdraw->status === 'Pending')
                                     <x-status :content="$withdraw->status" :type="'info'" />
-                                @elseif($withdraw->status === 'complete')
+                                @elseif($withdraw->status === 'Complete')
                                     <x-status :content="$withdraw->status" :type="'success'" />
                                 @elseif($withdraw->status === 'Failed')
                                     <x-status :content="$withdraw->status" :type="'error'" />
@@ -65,7 +65,12 @@
                             </td>
                             <td class="text-end">
                                 <div class="flex items-center justify-end space-x-3">
-                                    <button @click.prevent="submitWithdraw({{ $withdraw->id }})" class="btn-primary">Withdraw</button>
+                                    @if($withdraw->withdraw->id)
+                                        <button class="btn-primary">{{ $withdraw->withdraw->status }}</button>
+                                        <button @click.prevent="submitPayment({{ $withdraw->id }})" class="btn-secondary">Pay Now!</button>
+                                    @else
+                                        <button @click.prevent="submitWithdraw({{ $withdraw->id }})" class="btn-primary">Withdraw</button>
+                                    @endif
                                 </div>
                             </td>
                         </tr>
@@ -120,6 +125,55 @@
                             method : 'POST',
                             url    : route('withdraw.store', payment),
                             data   : new FormData(this.$refs.withdrawForm),
+                            headers: {
+                                'Content-Type': 'multipart/form-data'
+                            }
+                        })
+                            .then(response => {
+
+                                Swal.fire({
+                                    title            : 'Success!',
+                                    text             : response.data.message,
+                                    icon             : 'success',
+                                    confirmButtonText: 'OK'
+                                });
+                                this.$store.app.showModal = false;
+                                location.reload();
+                            })
+                            .catch(error => {
+                                window.showJsonErrorMessage(error);
+                            });
+                    },
+                    submitPayment     : function (payment) {
+                        axios.get(route('withdraw.payment', payment))
+                            .then(response => {
+                                this.$nextTick(() => {
+                                    flatpickr(".datepicker", {
+                                        altInput: true,
+                                        altFormat: "F j, Y",
+                                        dateFormat: "Y-m-d",
+                                    });
+                                });
+                                this.$store.app.showModal       = true;
+                                this.$refs.modalContent.innerHTML = response.data.withdraw;
+                            })
+                            .catch(error => {
+                                console.log(error);
+                            });
+                    },
+                    paymentAction    : function (payment) {
+                        Swal.fire({
+                            title            : 'Processing...',
+                            allowOutsideClick: true,
+                            icon             : 'info',
+                            didOpen          : () => {
+                                Swal.showLoading();
+                            }
+                        });
+                        axios({
+                            method : 'POST',
+                            url    : route('withdraw.store', payment),
+                            data   : new FormData(this.$refs.payForm),
                             headers: {
                                 'Content-Type': 'multipart/form-data'
                             }

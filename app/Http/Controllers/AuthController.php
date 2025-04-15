@@ -186,7 +186,7 @@ class AuthController extends Controller
             'address_1' => 'required|string',
             'city' => 'required|string|max:255',
             'postcode' => 'required|string|max:255',
-            'profile_photo_path' => ['nullable', 'mimes:jpeg,jpg,png,webp,gif|max:5120'],
+            'profile_photo_path' => ['nullable', 'mimes:jpeg,jpg,png,webp,gif', 'max:5120'],
         ]);
         $user->update([
             'name' => $request->name,
@@ -232,9 +232,9 @@ class AuthController extends Controller
         $request->validate([
             'id_type' => 'required|string|max:255',
             'id_number' => 'required|string|max:255',
-            'id_front' => ['nullable', 'mimes:jpeg,jpg,png,webp,gif|max:5120'],
-            'id_back' => ['nullable', 'mimes:jpeg,jpg,png,webp,image/gif|max:5120'],
-            'profile_photo_path' => ['nullable', 'mimes:jpeg,jpg,png,webp,image/gif|max:5120'],
+            'id_front' => ['nullable', 'mimes:jpeg,jpg,png,webp,gif', 'max:5120'],
+            'id_back' => ['nullable', 'mimes:jpeg,jpg,png,webp,image/gif', 'max:5120'],
+            'profile_photo_path' => ['nullable', 'mimes:jpeg,jpg,png,webp,image/gif','max:5120'],
         ]);
 
 

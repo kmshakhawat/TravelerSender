@@ -49,12 +49,26 @@
             </div>
             <div class="my-4 border-b border-gray-100"></div>
             <div class="flex gap-4">
-                @if(auth()->user()->verified)
-                    @if($booking)
-                        <a class="btn-primary" href="{{ route('booking', $trip->id) }}">Send my Parcel</a>
-                    @endif
-                    <a class="btn-primary" href="{{ route('message', $trip->user_id) }}">Message</a>
+                @if($booking)
+                    <a class="btn-primary"
+                       @if(Auth::user()->verified)
+                           href="{{ route('booking', $trip->id) }}"
+                       @else
+                           @click.prevent="verifiedAlert"
+                        @endif
+                    >
+                        Send my Parcel
+                    </a>
                 @endif
+                <a class="btn-primary"
+                   @if(Auth::user()->verified)
+                       href="{{ route('message', $trip->user_id) }}"
+                   @else
+                       @click.prevent="verifiedAlert"
+                    @endif
+                >
+                    Message
+                </a>
                 <a class="btn-secondary" href="{{ route('trip.details', $trip->id) }}">Details</a>
             </div>
         </div>

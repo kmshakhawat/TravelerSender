@@ -10,12 +10,12 @@
 }
 .invalid-feedback {color: red;}
 .btn-primary {
-    @apply bg-primary inline-block text-white rounded-md px-4 py-2 border border-transparent
+    @apply bg-primary inline-block text-white rounded-md px-4 py-2 border border-transparent cursor-pointer
     hover:border hover:text-primary hover:border-primary hover:bg-transparent
     transition ease-in-out duration-300;
 }
 .btn-secondary {
-    @apply bg-transparent inline-block text-primary rounded-md px-4 py-2 border border-primary
+    @apply bg-transparent inline-block text-primary rounded-md px-4 py-2 border border-primary cursor-pointer
     hover:bg-primary hover:border-transparent hover:text-white
     transition ease-in-out duration-300;
 }

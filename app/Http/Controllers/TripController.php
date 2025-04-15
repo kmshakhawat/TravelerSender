@@ -148,6 +148,7 @@ class TripController extends Controller
             }
         }
 
+
         $mailable_data = [
             'name' => $trip->user->name,
             'template' => 'emails.add-trip',

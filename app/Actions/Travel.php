@@ -104,7 +104,7 @@ class Travel
             'Picked Up',
             'In Transit',
             'Arrived at Destination',
-            'Attempt to Delivery',
+            'Attempt to Deliver',
             'Delivered',
         ]);
     }
@@ -130,6 +130,15 @@ class Travel
             'Send by Currier',
             'Send by Friend',
             'Send by Cab/Uber Driver',
+        ]);
+    }
+    public static function paymentStatus(): array
+    {
+        return self::generateDropdown([
+            'Pending',
+            'Processing',
+            'Completed',
+            'Rejected'
         ]);
     }
     private static function generateDropdown(array $fields): array

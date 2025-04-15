@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Payment extends Model
 {
@@ -42,8 +43,8 @@ class Payment extends Model
     {
         return $this->belongsTo(Trip::class, 'trip_user_id', 'user_id');
     }
-    public function withdraw(): BelongsTo
+    public function withdraw(): HasOne
     {
-        return $this->belongsTo(Withdraw::class);
+        return $this->hasOne(Withdraw::class);
     }
 }

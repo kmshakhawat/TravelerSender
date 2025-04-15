@@ -65,17 +65,24 @@ class PaymentController extends Controller
 
         $session = $request->user()->stripe()->checkout->sessions->retrieve($payment->stripe_session_id);
         $payment->update([
-            'currency' => $session->currency,
+            'currency' => $payment->trip->currency,
             'payment_status' => $session->payment_status,
-            'status' => $session->status,
+            'status' => ucfirst($session->status),
             'trxref' => $session->payment_intent,
         ]);
         $booking->update(['status' => 'Booked']);
-        $booking->tracking()->create([
-            'booking_id' => $booking->id,
-            'status' => 'Processing',
-            'status_update_at' => now(),
-        ]);
+        $booking->tracking()->createMany(
+            [
+                'booking_id' => $booking->id,
+                'status' => 'Processing',
+                'status_update_at' => now(),
+            ],
+            [
+                'booking_id' => $booking->id,
+                'status' => 'Ready for Pickup',
+                'status_update_at' => now(),
+            ]
+        );
         $booking->trip->update(['status' => 'Confirmed']);
 
         return view('payment.success', compact('payment'));

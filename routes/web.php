@@ -70,6 +70,8 @@ Route::middleware([
     Route::get('/message/{receiverId?}', Chat::class)->name('message');
 
     Route::get('tracking/{booking_id}', [TrackingController::class, 'index'])->name('tracking');
+    Route::get('tracking/{tracking}/edit', [TrackingController::class, 'edit'])->name('tracking.edit');
+    Route::post('tracking/store', [TrackingController::class, 'store'])->name('tracking.store');
 
     Route::post('/payment', [PaymentController::class, 'payment'])->name('payment');
     Route::get('/payment/success', [PaymentController::class, 'success'])->name('payment.success');
@@ -82,6 +84,8 @@ Route::middleware([
     Route::get('/withdraw', [WithdrawController::class, 'index'])->name('withdraw');
     Route::get('/withdraw/{payment}/request', [WithdrawController::class, 'withdraw'])->name('withdraw.request');
     Route::post('/withdraw/{payment}/submit', [WithdrawController::class, 'withdrawStore'])->name('withdraw.store');
+    Route::get('/withdraw/{payment}/payment', [WithdrawController::class, 'withdrawPayment'])->name('withdraw.payment');
+    Route::post('/withdraw/{payment}/submit', [WithdrawController::class, 'withdrawUpdate'])->name('withdraw.store');
 
 
 });

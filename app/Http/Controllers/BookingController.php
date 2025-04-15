@@ -197,7 +197,7 @@ class BookingController extends Controller
             'trip_user_id' => $booking->trip_user_id,
             'booking_id' => $booking->id,
             'amount' => $booking->trip->price,
-            'currency' => auth()->user()->currency->code ?? 'ngn',
+            'currency' => $booking->trip->currency,
             'net_amount' => $booking->trip->price * 0.75,
             'commission' => $booking->trip->price * 0.25,
         ]);
@@ -335,11 +335,28 @@ class BookingController extends Controller
         ]);
         if ($request->otp == $booking->otp) {
 
-            Tracking::create([
-                'booking_id' => $booking->id,
-                'status' => 'Delivered',
-                'status_update_at' => now(),
-            ]);
+            Tracking::createMany(
+                [
+                    'booking_id' => $booking->id,
+                    'status' => 'In Transit',
+                    'status_update_at' => now(),
+                ],
+                [
+                    'booking_id' => $booking->id,
+                    'status' => 'Arrived at Destination',
+                    'status_update_at' => now(),
+                ],
+                [
+                    'booking_id' => $booking->id,
+                    'status' => 'Attempt to Deliver',
+                    'status_update_at' => now(),
+                ],
+                [
+                    'booking_id' => $booking->id,
+                    'status' => 'Delivered',
+                    'status_update_at' => now(),
+                ]
+            );
             $booking->update([
                 'otp' => null,
                 'status' => 'Booked',

@@ -20,7 +20,7 @@
         <!-- Styles -->
         @livewireStyles
     </head>
-    <body class="font-sans antialiased">
+    <body x-data="verification" class="font-sans antialiased">
         @include('layouts.inc.header')
         <x-banner />
 
@@ -69,8 +69,8 @@
             @endif
 
             @if (!Auth::user()->verified)
-                <div class="container">
-                    <div class="flex justify-between items-center bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 rounded-lg mt-8" role="alert">
+                <div class="container py-5">
+                    <div class="flex justify-between items-center bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 rounded-lg" role="alert">
                         <div>
                             <h5 class="heading-5">{{ __('Account Not Verified') }}</h5>
                             {{ __('Please update your profile and complete the ID verification process to continue. You can update your details in your Profile and Account Verification Menu.') }}

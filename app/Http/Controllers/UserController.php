@@ -133,7 +133,6 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-//        dd($request->all());
         $user = User::find($user->id)->load('profile');
 
         if ($request->id_type == 'Passport' || $request->id_type == 'Driving License') {
