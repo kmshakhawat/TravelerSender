@@ -24,6 +24,7 @@
     <body>
         @include('layouts.inc.header')
         <div class="font-sans text-gray-900 text-lg antialiased min-h-60">
+
             {{ $slot }}
         </div>
         @include('layouts.inc.footer')

@@ -100,3 +100,28 @@ Route::resource('/newsletter', NewsletterSubscriberController::class);
 Route::get('/otp', [AuthController::class, 'otp'])->name('otp');
 Route::get('/otp-resend', [AuthController::class, 'otpResend'])->name('otp.resend');
 Route::post('/otp-verify', [AuthController::class, 'otpVerify'])->name('otp.verify');
+
+/* Frontend Page Route */
+
+Route::get('/about', function (){
+    return view('page.about');
+})->name('about');
+Route::get('/how-it-works', function (){
+    return view('page.how-it-works');
+})->name('how-it-works');
+Route::get('/trust-safety', function (){
+    return view('page.trust-safety');
+})->name('trust-safety');
+Route::get('/terms', function (){
+    return view('page.terms');
+})->name('terms');
+Route::get('/privacy', function (){
+    return view('page.privacy');
+})->name('privacy');
+Route::get('/faq', function (){
+    return view('page.faq');
+})->name('faq');
+Route::get('/contact', function (){
+    return view('page.contact');
+})->name('contact');
+

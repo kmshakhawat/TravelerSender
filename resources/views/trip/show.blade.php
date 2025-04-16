@@ -118,7 +118,7 @@
                                 @endif
                                 <tr>
                                     <td>Price</td>
-                                    <td>{{ getPrice($trip->currency, $trip->price) }}</td>
+                                    <td>{{ getPrice($trip->price, $trip->currency) }}</td>
                                 </tr>
 {{--                                @if($trip->photo)--}}
 {{--                                    <tr>--}}

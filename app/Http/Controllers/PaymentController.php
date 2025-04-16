@@ -71,7 +71,7 @@ class PaymentController extends Controller
             'trxref' => $session->payment_intent,
         ]);
         $booking->update(['status' => 'Booked']);
-        $booking->tracking()->createMany(
+        $booking->tracking()->createMany([
             [
                 'booking_id' => $booking->id,
                 'status' => 'Processing',
@@ -82,7 +82,7 @@ class PaymentController extends Controller
                 'status' => 'Ready for Pickup',
                 'status_update_at' => now(),
             ]
-        );
+        ]);
         $booking->trip->update(['status' => 'Confirmed']);
 
         return view('payment.success', compact('payment'));

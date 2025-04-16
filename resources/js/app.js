@@ -57,6 +57,21 @@ let slide = new Swiper(".slide", {
         prevEl: ".slide-prev",
     },
 });
+let review = new Swiper(".review", {
+    spaceBetween: 20,
+    slidesPerView: 1,
+    loop: true,
+    effect: "fade",
+    autoHeight: true,
+    autoplay: {
+        delay: 5000,
+        disableOnInteraction: false,
+    },
+    navigation: {
+        nextEl: ".review-next",
+        prevEl: ".review-prev",
+    },
+});
 $(document).ready(function () {
     $('.select2').select2();
 });

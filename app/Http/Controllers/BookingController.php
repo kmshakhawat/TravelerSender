@@ -335,7 +335,7 @@ class BookingController extends Controller
         ]);
         if ($request->otp == $booking->otp) {
 
-            Tracking::createMany(
+            Tracking::createMany([
                 [
                     'booking_id' => $booking->id,
                     'status' => 'In Transit',
@@ -356,7 +356,7 @@ class BookingController extends Controller
                     'status' => 'Delivered',
                     'status_update_at' => now(),
                 ]
-            );
+            ]);
             $booking->update([
                 'otp' => null,
                 'status' => 'Booked',

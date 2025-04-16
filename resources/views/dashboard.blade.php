@@ -30,7 +30,7 @@
                                 </svg>
                                 <h4 class="heading-5">Total Earnings</h4>
                             </div>
-                            <div class="text-3xl font-semibold text-primary">{{ Auth::user()->profile?->currency->symbol . $earnings }}</div>
+                            <div class="text-3xl font-semibold text-primary">{{ getPrice($earnings) }}</div>
                         </div>
                         <div class="bg-white p-4 rounded">
                             <div class="flex gap-1 mb-4">

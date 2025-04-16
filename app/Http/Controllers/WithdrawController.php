@@ -73,7 +73,7 @@ class WithdrawController extends Controller
         $mailable_data_admin = [
             'traveller_name' => $payment->tripUser->name,
             'traveller_email' => $payment->tripUser->email,
-            'amount' => getPrice($payment->currency, $payment->net_amount),
+            'amount' => getPrice($payment->net_amount, $payment->currency),
             'requested_at' => getDateFormat(now()),
             'template' => 'emails.admin.withdraw',
             'subject' => 'Withdraw Request'. ' - form '. $payment->tripUser->name,
@@ -82,7 +82,7 @@ class WithdrawController extends Controller
 
         $mailable_data = [
             'name' => $payment->tripUser->name,
-            'amount' => getPrice($payment->currency, $payment->net_amount),
+            'amount' => getPrice($payment->net_amount, $payment->currency),
             'template' => 'emails.withdraw',
             'subject' => 'Withdraw Request',
         ];
@@ -119,7 +119,7 @@ class WithdrawController extends Controller
 
         $mailable_data = [
             'name' => $payment->tripUser->name,
-            'amount' => getPrice($payment->currency, $payment->net_amount),
+            'amount' => getPrice($payment->net_amount, $payment->currency),
             'template' => 'emails.withdraw-paid',
             'subject' => 'Withdraw Confirmation',
         ];

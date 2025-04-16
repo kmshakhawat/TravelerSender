@@ -166,7 +166,7 @@
                             </div>
                             <div class="flex justify-between items-center py-3 border-t border-gray-100">
                                 Price:
-                                <span class="price">{{ getPrice($trip->currency, $trip->price) }}</span>
+                                <span class="price">{{ getPrice($trip->price, $trip->currency) }}</span>
                             </div>
                             <div class="flex justify-between items-center py-3 border-t border-gray-100">
                                 Departure Date:

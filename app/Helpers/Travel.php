@@ -3,9 +3,13 @@
 use App\Models\Country;
 use App\Models\Currency;
 
-function getPrice($currency, $price)
+function getPrice($price, $currency = NULL)
 {
-    $currency = Currency::where('code', $currency)->first()->symbol;
+    if ($currency) {
+        $currency = Currency::where('code', $currency)->first()->symbol;
+    } else {
+        $currency = '₦';
+    }
     return $currency . '' . $price;
 
 }

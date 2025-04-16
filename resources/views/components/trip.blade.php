@@ -19,7 +19,7 @@
                     </div>
                 </div>
                 <div class="flex-1 text-right">
-                    <div class="price">{{ getPrice($trip->currency, $trip->price) }}</div>
+                    <div class="price">{{ getPrice($trip->price, $trip->currency) }}</div>
                 </div>
             </div>
             <div class="my-4 border-b border-gray-100"></div>

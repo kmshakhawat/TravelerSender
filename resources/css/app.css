@@ -47,10 +47,10 @@
     @apply text-4xl font-bold;
 }
 .heading-4 {
-    @apply text-3xl font-semibold;
+    @apply text-3xl font-bold;
 }
 .heading-5 {
-    @apply text-xl font-semibold;
+    @apply text-xl font-bold;
 }
 .heading-title {
     @apply border-b border-gray-300 pb-2 mb-4;
@@ -126,6 +126,20 @@ table th {
 }
 div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm {
     @apply !bg-primary text-white;
+}
+
+.review-prev:after,
+.review-next:after{
+    @apply text-primary;
+}
+.page-content p {
+    @apply mb-2;
+}
+.page-content ul.list {
+    @apply mb-4 list-disc ms-5;
+}
+.page-content ul.list li {
+    @apply mb-2;
 }
 
 /* Admin CSS */

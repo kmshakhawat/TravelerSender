@@ -46,13 +46,13 @@
                                 </div>
                             </td>
                             <td class="py-3 pl-5">
-                                {{ getPrice($withdraw->trip->currency, $withdraw->amount) }}
+                                {{ getPrice($withdraw->amount, $withdraw->trip->currency) }}
                             </td>
                             <td class="py-3 pl-5">
-                                {{ getPrice($withdraw->trip->currency, $withdraw->net_amount) }}
+                                {{ getPrice($withdraw->net_amount, $withdraw->trip->currency) }}
                             </td>
                             <td class="py-3 pl-5">
-                                {{ getPrice($withdraw->trip->currency, $withdraw->commission) }}
+                                {{ getPrice($withdraw->commission, $withdraw->trip->currency) }}
                             </td>
                             <td class="py-3 pl-5">
                                 @if($withdraw->status === 'Pending')

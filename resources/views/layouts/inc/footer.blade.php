@@ -17,7 +17,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
                             </svg>
                         </span>
-                    Email: <a href="mailto:info@domain.com">info@domain.com</a>
+                    Email: <a href="mailto:admin@sendtins.com">admin@sendtins.com</a>
                 </div>
                 <div class="flex gap-2 mb-5">
                         <span>
@@ -38,22 +38,17 @@
             <div class="w-full sm:w-1/2 lg:w-3/12 px-4 mb-4">
                 <h4 class="footer-title">Company</h4>
                 <ul class="links">
-                    <li><a href="">About us</a></li>
-                    <li><a href="">How to Works</a></li>
-                    <li><a href="">Help Center</a></li>
-                    <li><a href="">Blog</a></li>
-                    <li><a href="">Press</a></li>
-                    <li><a href="">Careers</a></li>
+                    <li><a href="{{ route('about') }}">About us</a></li>
+                    <li><a href="{{ route('how-it-works') }}">How to Works</a></li>
+                    <li><a href="{{ route('faq') }}">FAQ</a></li>
                 </ul>
             </div>
             <div class="w-full sm:w-1/2 lg:w-2/12 px-4 mb-4">
                 <h4 class="footer-title">Services</h4>
                 <ul class="links">
-                    <li><a href="">Collections</a></li>
-                    <li><a href="">Testimonials</a></li>
-                    <li><a href="">Terms of Use</a></li>
-                    <li><a href="">Privacy Policy</a></li>
-                    <li><a href="">Trust & Safety</a></li>
+                    <li><a href="{{ route('terms') }}">Terms of Use</a></li>
+                    <li><a href="{{ route('privacy') }}">Privacy Policy</a></li>
+                    <li><a href="{{ route('trust-safety') }}">Trust & Safety</a></li>
                 </ul>
             </div>
             <div class="w-full sm:w-1/2 lg:w-3/12 px-4 mb-4">
@@ -99,8 +94,8 @@
                         </a>
                     </div>
                     <ul class="mb-3 flex justify-end gap-5">
-                        <li><a href="">Terms of use</a></li>
-                        <li><a href="">Privacy policy</a></li>
+                        <li><a href="{{ route('terms') }}">Terms of use</a></li>
+                        <li><a href="{{ route('privacy') }}">Privacy policy</a></li>
                     </ul>
                 </div>
             </div>

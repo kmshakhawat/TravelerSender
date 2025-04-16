@@ -45,7 +45,7 @@
                         {{ $trip->type_of_item }}
                     </td>
                     <td class="py-3 pl-2">
-                        {{ getPrice($trip->currency, $trip->price) }}  / {{ $trip->available_space .' '. $trip->weight_unit }}
+                        {{ getPrice($trip->price, $trip->currency) }}  / {{ $trip->available_space .' '. $trip->weight_unit }}
                     </td>
                     <td class="py-3 pl-2">
                         @if($trip->status === 'Active')
