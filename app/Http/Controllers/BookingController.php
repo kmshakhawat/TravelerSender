@@ -48,6 +48,11 @@ class BookingController extends Controller
         }
 
         $trip = Trip::where('id', request('trip'))->first();
+
+        if (auth()->id() === $trip->user_id) {
+            return redirect()->route('trip.search')->with('error', 'You’re not allowed to book your own trip.');
+        }
+
         $item_type_option = Travel::itemType();
         $location_type_options = Travel::locationType();
         $collection_type_options = Travel::parcelCollectionType();
@@ -335,7 +340,7 @@ class BookingController extends Controller
         ]);
         if ($request->otp == $booking->otp) {
 
-            Tracking::createMany([
+            $booking->tracking()->createMany([
                 [
                     'booking_id' => $booking->id,
                     'status' => 'In Transit',

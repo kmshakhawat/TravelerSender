@@ -39,10 +39,6 @@ class Payment extends Model
     {
         return $this->belongsTo(Booking::class);
     }
-    public function trip(): BelongsTo
-    {
-        return $this->belongsTo(Trip::class, 'trip_user_id', 'user_id');
-    }
     public function withdraw(): HasOne
     {
         return $this->hasOne(Withdraw::class);

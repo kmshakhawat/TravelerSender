@@ -13,6 +13,7 @@ class Booking extends Model
         'user_id',
         'trip_user_id',
         'trip_id',
+        'tracking_number',
         'sender_name',
         'sender_email',
         'sender_phone',
@@ -59,7 +60,7 @@ class Booking extends Model
     }
     public function latestTracking()
     {
-        return $this->hasOne(Tracking::class)->latest('status_update_at');
+        return $this->hasOne(Tracking::class)->latest('id');
     }
 
     public function rating()

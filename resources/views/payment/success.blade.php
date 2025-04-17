@@ -4,7 +4,6 @@
             {{ __('Payment Successful') }}
         </h2>
     </x-slot>
-
     <div class="py-12">
         <div class="container">
 

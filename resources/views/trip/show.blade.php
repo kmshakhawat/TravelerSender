@@ -18,10 +18,10 @@
                         </div>
                         <div class="overflow-auto">
                             <table class="w-full table mb-8 whitespace-nowrap">
-                                <tr>
-                                    <td>Trip Type</td>
-                                    <td>{{ $trip->trip_type }}</td>
-                                </tr>
+{{--                                <tr>--}}
+{{--                                    <td>Trip Type</td>--}}
+{{--                                    <td>{{ $trip->trip_type }}</td>--}}
+{{--                                </tr>--}}
                                 <tr>
                                     <td>Mode of Transport</td>
                                     <td>{{ $trip->mode_of_transport }}</td>

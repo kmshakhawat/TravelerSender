@@ -17,11 +17,11 @@
                             @method('PUT')
                             <h3 class="heading-5 mb-4 heading-title">Trip Information</h3>
                             <div class="flex gap-4">
-                                <div class="w-full sm:w-1/2 mt-4">
-                                    <x-label for="trip_type" value="{{ __('Trip Type') }}" />
-                                    <x-input-dropdown class="trip_type" name="trip_type" :options="$type_option" :selected="[$trip->trip_type]"/>
-                                    <div class="invalid-feedback invalid-trip_type"></div>
-                                </div>
+{{--                                <div class="w-full sm:w-1/2 mt-4">--}}
+{{--                                    <x-label for="trip_type" value="{{ __('Trip Type') }}" />--}}
+{{--                                    <x-input-dropdown class="trip_type" name="trip_type" :options="$type_option" :selected="[$trip->trip_type]"/>--}}
+{{--                                    <div class="invalid-feedback invalid-trip_type"></div>--}}
+{{--                                </div>--}}
                                 <div class="w-full sm:w-1/2 mt-4">
                                     <x-label for="mode_of_transport" value="{{ __('Mode of Transport') }}" />
                                     <x-input-dropdown class="mode_of_transport" name="mode_of_transport" :options="$transport_type_option" :selected="[$trip->mode_of_transport]"/>

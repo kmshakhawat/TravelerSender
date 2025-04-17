@@ -31,6 +31,7 @@ return new class extends Migration
             $table->string('id_expiry')->nullable();
             $table->string('id_front')->nullable();
             $table->string('id_back')->nullable();
+            $table->text('note')->nullable();
             $table->timestamps();
         });
     }

@@ -15,7 +15,7 @@
                         <p class="mb-5">Please <a class="underline" href="{{ route('profile') }}">click here</a> to update your bank details.</p>
                     @endif
                     <x-label for="status" value="{{ __('Amount') }}" />
-                    <x-input id="amount" class="block w-full" type="text" name="amount" :value="getPrice($payment->currency, $payment->net_amount)" disabled autocomplete="amount" />
+                    <x-input id="amount" class="block w-full" type="text" name="amount" :value="getPrice($payment->net_amount, $payment->currency)" disabled autocomplete="amount" />
                     <div class="invalid-feedback invalid-amount"></div>
                 </div>
 

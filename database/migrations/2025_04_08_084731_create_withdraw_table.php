@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('payment_id')->constrained('payments');
             $table->string('amount');
             $table->string('currency');
-            $table->string('pay_to')->nullable();
+            $table->text('pay_to')->nullable();
             $table->text('note')->nullable();
             $table->enum('status', ['Pending', 'Processing', 'Completed', 'Rejected'])->default('Pending');
             $table->timestamps();

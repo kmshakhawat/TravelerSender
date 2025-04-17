@@ -94,11 +94,14 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(UserProfiles::class);
     }
 
-    public function unreadMessages(): HasMany
+
+    public function unreadMessages()
     {
-        return $this->hasMany(Message::class, 'receiver_id')
-            ->where('read_at', false); // Assuming you have an 'is_read' column
+        return $this->hasMany(Message::class, 'sender_id')
+            ->where('receiver_id', auth()->id())
+            ->whereNull('read_at');
     }
+
     public function latestMessage()
     {
         return $this->hasOne(Message::class, 'sender_id')
@@ -144,4 +147,5 @@ class User extends Authenticatable implements MustVerifyEmail
             $this->otp_expiry !== null &&
             $this->otp_expiry > now();
     }
+
 }

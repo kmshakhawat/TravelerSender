@@ -21,4 +21,10 @@ class Withdraw extends Model
         return $this->belongsTo(Payment::class);
     }
 
+    public function trip() {
+        return $this->belongsTo(Trip::class);
+    }
+
+
+
 }

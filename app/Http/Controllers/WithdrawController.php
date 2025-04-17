@@ -16,14 +16,14 @@ class WithdrawController extends Controller
     public function index()
     {
         if (auth()->user()->hasRole('admin')) {
-            $withdraws = Payment::with(['trip', 'booking', 'withdraw'])
+            $withdraws = Payment::with(['booking','withdraw'])
                 ->where('payment_status', 'paid')
                 ->where('status', 'complete')
                 ->orderBy('created_at', 'desc')
                 ->paginate(10);
         } else {
             $withdraws = Payment::where('trip_user_id', Auth::id())
-                ->with(['trip', 'booking', 'withdraw'])
+                ->with(['booking', 'withdraw'])
                 ->where('payment_status', 'paid')
                 ->where('status', 'complete')
                 ->orderBy('created_at', 'desc')

@@ -28,12 +28,13 @@
                 <tr class="odd:bg-white bg-gray-100 border-b hover:bg-primary hover:bg-opacity-20 transition duration-200">
                     <td class="py-3 pl-5">
                         <div class="flex flex-col">
-                            <div class="flex items-center gap-2">{{ $trip->fromCountry->name ?? '' }}
+                            <div class="flex items-center gap-2">
+                                {{ $trip->fromCountry->name ?? '' }} {{ $trip->from_city ? '('. $trip->from_city .')' : '' }}
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-move-right">
                                     <path d="M18 8L22 12L18 16"/>
                                     <path d="M2 12H22"/>
                                 </svg>
-                                {{ $trip->toCountry->name ?? '' }}
+                                {{ $trip->toCountry->name ?? '' }} {{ $trip->to_city ? '('. $trip->to_city .')' : '' }}
                             </div>
                             <div class="text-xs text-gray-500">{{ getDateFormat($trip->departure_date) }} to {{ getDateFormat($trip->arrival_date) }}</div>
                         </div>

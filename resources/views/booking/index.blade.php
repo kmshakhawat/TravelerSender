@@ -14,6 +14,9 @@
                             Trip
                         </td>
                         <td class="py-2 pl-2">
+                            Reference
+                        </td>
+                        <td class="py-2 pl-2">
                             Sender
                         </td>
                         <td class="py-2 pl-2">
@@ -44,15 +47,18 @@
                                 <td class="py-3 pl-2">
                                     <div class="flex flex-col">
                                         <a class="flex items-center gap-2" href="{{ route('trip.show', $booking->trip->id) }}">
-                                            {{ $booking->trip->fromCountry->name ?? '' }}
+                                            {{ $booking->trip->fromCountry->name ?? '' }} {{ $booking->trip->from_city ? '('. $booking->trip->from_city .')' : '' }}
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-move-right">
                                                 <path d="M18 8L22 12L18 16"/>
                                                 <path d="M2 12H22"/>
                                             </svg>
-                                            {{ $booking->trip->toCountry->name ?? '' }}
+                                            {{ $booking->trip->toCountry->name ?? '' }} {{ $booking->trip->to_city ? '('. $booking->trip->to_city .')' : '' }}
                                         </a>
                                         <div class="text-xs text-gray-500">{{ getDateFormat($booking->trip->departure_date) }} to {{ getDateFormat($booking->trip->arrival_date) }}</div>
                                     </div>
+                                </td>
+                                <td class="py-3 pl-2">
+                                    {{ $booking->tracking_number }}
                                 </td>
                                 <td class="py-3 pl-25">
                                     <div class="flex flex-col">

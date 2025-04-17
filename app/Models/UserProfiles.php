@@ -25,6 +25,7 @@ class UserProfiles extends Model
         'id_front',
         'id_back',
         'photo',
+        'note',
     ];
 
 

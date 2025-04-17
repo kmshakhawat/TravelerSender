@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('trip_user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('trip_id')->constrained()->onDelete('cascade');
+            $table->string('tracking_number')->unique()->nullable();
             $table->string('sender_name');
             $table->string('sender_email');
             $table->string('sender_phone');

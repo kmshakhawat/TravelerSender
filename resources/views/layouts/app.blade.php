@@ -52,7 +52,7 @@
                 </div>
             @endif
             @if(session('error'))
-                <div class="container mt-5">
+                <div class="container py-5">
                     <div class="w-full flex items-center justify-between rounded bg-red-100 px-6 py-2 border border-red-300">
                         <div class="flex items-center space-x-6">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24"

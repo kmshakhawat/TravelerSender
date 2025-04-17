@@ -31,49 +31,49 @@
                         </thead>
                         <tbody class="text-sm">
                         @forelse($withdraws as $withdraw)
-                        <tr>
-                            <td class="py-3 pl-5">
-                                <div class="flex flex-col">
-                                    <a class="flex items-center gap-2" href="{{ route('trip.show', $withdraw->trip->id) }}">
-                                        {{ $withdraw->trip->fromCountry->name ?? '' }}
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-move-right">
-                                            <path d="M18 8L22 12L18 16"/>
-                                            <path d="M2 12H22"/>
-                                        </svg>
-                                        {{ $withdraw->trip->toCountry->name ?? '' }}
-                                    </a>
-                                    <div class="text-xs text-gray-500">{{ getDateFormat($withdraw->trip->departure_date) }} to {{ getDateFormat($withdraw->trip->arrival_date) }}</div>
-                                </div>
-                            </td>
-                            <td class="py-3 pl-5">
-                                {{ getPrice($withdraw->amount, $withdraw->trip->currency) }}
-                            </td>
-                            <td class="py-3 pl-5">
-                                {{ getPrice($withdraw->net_amount, $withdraw->trip->currency) }}
-                            </td>
-                            <td class="py-3 pl-5">
-                                {{ getPrice($withdraw->commission, $withdraw->trip->currency) }}
-                            </td>
-                            <td class="py-3 pl-5">
-                                @if($withdraw->status === 'Pending')
-                                    <x-status :content="$withdraw->status" :type="'info'" />
-                                @elseif($withdraw->status === 'Complete')
-                                    <x-status :content="$withdraw->status" :type="'success'" />
-                                @elseif($withdraw->status === 'Failed')
-                                    <x-status :content="$withdraw->status" :type="'error'" />
-                                @endif
-                            </td>
-                            <td class="text-end">
-                                <div class="flex items-center justify-end space-x-3">
-                                    @if($withdraw->withdraw->id)
-                                        <button class="btn-primary">{{ $withdraw->withdraw->status }}</button>
-                                        <button @click.prevent="submitPayment({{ $withdraw->id }})" class="btn-secondary">Pay Now!</button>
-                                    @else
-                                        <button @click.prevent="submitWithdraw({{ $withdraw->id }})" class="btn-primary">Withdraw</button>
+                            <tr>
+                                <td class="py-3 pl-5">
+                                    <div class="flex flex-col">
+                                        <a class="flex items-center gap-2" href="{{ route('trip.show', $withdraw->booking->trip->id) }}">
+                                            {{ $withdraw->booking->trip->fromCountry->name ?? '' }}
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-move-right">
+                                                <path d="M18 8L22 12L18 16"/>
+                                                <path d="M2 12H22"/>
+                                            </svg>
+                                            {{ $withdraw->booking->trip->toCountry->name ?? '' }}
+                                        </a>
+                                        <div class="text-xs text-gray-500">{{ getDateFormat($withdraw->booking->trip->departure_date) }} to {{ getDateFormat($withdraw->booking->trip->arrival_date) }}</div>
+                                    </div>
+                                </td>
+                                <td class="py-3 pl-5">
+                                    {{ getPrice($withdraw->amount, $withdraw->booking->trip->currency) }}
+                                </td>
+                                <td class="py-3 pl-5">
+                                    {{ getPrice($withdraw->net_amount, $withdraw->booking->trip->currency) }}
+                                </td>
+                                <td class="py-3 pl-5">
+                                    {{ getPrice($withdraw->commission, $withdraw->booking->trip->currency) }}
+                                </td>
+                                <td class="py-3 pl-5">
+                                    @if($withdraw->status === 'Pending')
+                                        <x-status :content="$withdraw->status" :type="'info'" />
+                                    @elseif($withdraw->status === 'Complete')
+                                        <x-status :content="$withdraw->status" :type="'success'" />
+                                    @elseif($withdraw->status === 'Failed')
+                                        <x-status :content="$withdraw->status" :type="'error'" />
                                     @endif
-                                </div>
-                            </td>
-                        </tr>
+                                </td>
+                                <td class="text-end">
+                                    <div class="flex items-center justify-end space-x-3">
+                                        @if($withdraw->withdraw)
+                                            <button class="btn-primary">{{ $withdraw->withdraw->status }}</button>
+                                            <button @click.prevent="submitPayment({{ $withdraw->id }})" class="btn-secondary">Pay Now!</button>
+                                        @else
+                                            <button @click.prevent="submitWithdraw({{ $withdraw->id }})" class="btn-primary">Withdraw</button>
+                                        @endif
+                                    </div>
+                                </td>
+                            </tr>
                         @empty
                             <tr class="bg-gray-100 align-top hover:bg-primary hover:bg-opacity-20 transition duration-200">
                                 <td colspan="10" class="text-center py-4">

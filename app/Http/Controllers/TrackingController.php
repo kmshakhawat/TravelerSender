@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Travel;
+use App\Models\Booking;
 use App\Models\Tracking;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -106,9 +107,11 @@ class TrackingController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Tracking $tracking)
+    public function search(Request $request)
     {
-        //
+        $tracking_number = $request->get('trackingNumber');
+        $tracking = Booking::where('tracking_number', $tracking_number);
+        return view('tracking.search');
     }
 
     /**

@@ -2,6 +2,7 @@
 
 use App\Models\Country;
 use App\Models\Currency;
+use App\Models\Message;
 
 function getPrice($price, $currency = NULL)
 {
@@ -28,4 +29,12 @@ function countries(): \Illuminate\Support\Collection
         $index = array_search($country->id, $default);
         return $index !== false ? $index : count($default) + $country->id;
     })->values();
+}
+
+function unReadMessage()
+{
+    $count = Message::where('receiver_id', auth()->id())->whereNull('read_at')->count();
+    if ($count) {
+        echo '<sup class="bg-primary text-white px-1 rounded-full">' . $count . '</sup>';
+    }
 }

@@ -72,9 +72,12 @@ Route::middleware([
     Route::get('tracking/{booking_id}', [TrackingController::class, 'index'])->name('tracking');
     Route::get('tracking/{tracking}/edit', [TrackingController::class, 'edit'])->name('tracking.edit');
     Route::post('tracking/store', [TrackingController::class, 'store'])->name('tracking.store');
+    Route::get('tracking', [TrackingController::class, 'search'])->name('tracking.search');
+
 
     Route::post('/payment', [PaymentController::class, 'payment'])->name('payment');
     Route::get('/payment/success', [PaymentController::class, 'success'])->name('payment.success');
+    Route::get('/payment/complete', [PaymentController::class, 'complete'])->name('payment.complete');
     Route::get('/payment/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
     Route::get('/payment/failed', [PaymentController::class, 'failed'])->name('payment.failed');
 
@@ -85,7 +88,7 @@ Route::middleware([
     Route::get('/withdraw/{payment}/request', [WithdrawController::class, 'withdraw'])->name('withdraw.request');
     Route::post('/withdraw/{payment}/submit', [WithdrawController::class, 'withdrawStore'])->name('withdraw.store');
     Route::get('/withdraw/{payment}/payment', [WithdrawController::class, 'withdrawPayment'])->name('withdraw.payment');
-    Route::post('/withdraw/{payment}/submit', [WithdrawController::class, 'withdrawUpdate'])->name('withdraw.store');
+//    Route::post('/withdraw/{payment}/submit', [WithdrawController::class, 'withdrawUpdate'])->name('withdraw.store');
 
 
 });

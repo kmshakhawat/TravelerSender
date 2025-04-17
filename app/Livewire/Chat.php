@@ -19,7 +19,7 @@ class Chat extends Component
     {
         if ($receiverId) {
             if (auth()->id() == $receiverId) {
-                return redirect()->route('dashboard');
+                return redirect()->route('dashboard')->with('error', 'You cannot send message to yourself.');
             }
             $this->receiver = User::find($receiverId);
         } else {
@@ -45,6 +45,9 @@ class Chat extends Component
                         ->where('sender_id', auth()->id())
                 );
         })
+            ->withCount(['unreadMessages' => function ($query) {
+                $query->where('receiver_id', auth()->id())->whereNull('read_at');
+            }])
             ->orderByDesc(
                 Message::select('created_at')
                     ->whereColumn('sender_id', 'users.id')
@@ -73,13 +76,20 @@ class Chat extends Component
             return collect();
         }
 
-        return Message::where(function ($query) {
+        $messages = Message::where(function ($query) {
             $query->where('sender_id', auth()->id())
                 ->where('receiver_id', $this->receiver->id);
         })->orWhere(function ($query) {
             $query->where('sender_id', $this->receiver->id)
                 ->where('receiver_id', auth()->id());
         })->orderBy('created_at', 'asc')->get();
+
+        $unread = $messages->where('receiver_id', auth()->id())->whereNull('read_at');
+        foreach ($unread as $msg) {
+            $msg->update(['read_at' => now()]);
+        }
+
+        return $messages;
 
     }
 

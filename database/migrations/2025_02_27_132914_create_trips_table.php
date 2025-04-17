@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('trips', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->string('trip_type', 20);
+            $table->string('trip_type', 20)->nullable();
             $table->string('mode_of_transport', 20);
             $table->string('from_address_1')->nullable();
             $table->string('from_address_2')->nullable();

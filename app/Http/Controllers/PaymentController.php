@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Laravel\Cashier\Cashier;
 use Unicodeveloper\Paystack\Facades\Paystack;
 
@@ -70,7 +71,8 @@ class PaymentController extends Controller
             'status' => ucfirst($session->status),
             'trxref' => $session->payment_intent,
         ]);
-        $booking->update(['status' => 'Booked']);
+        $trackingNumber = 'ST-' . now()->format('YmdHis') . strtoupper(Str::random(4));
+        $booking->update(['tracking_number' => $trackingNumber, 'status' => 'Booked']);
         $booking->tracking()->createMany([
             [
                 'booking_id' => $booking->id,
@@ -85,7 +87,7 @@ class PaymentController extends Controller
         ]);
         $booking->trip->update(['status' => 'Confirmed']);
 
-        return view('payment.success', compact('payment'));
+        return redirect()->route('payment.complete')->with('payment', $payment);
     }
 
     public function cancel(Request $request)
@@ -101,5 +103,16 @@ class PaymentController extends Controller
     public function failed()
     {
         return view('payment.failed');
+    }
+
+    public function complete()
+    {
+        $payment = session('payment');
+        if ($payment) {
+            return view('payment.success', compact('payment'));
+        }
+        else {
+            return redirect()->route('dashboard')->with('error', 'Payment not found.');
+        }
     }
 }
