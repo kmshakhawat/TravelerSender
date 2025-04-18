@@ -8,12 +8,11 @@
                 <div class="mt-4">
                     <x-label for="status" value="{{ __('Bank Details') }}" />
                     @if($payment->tripUser->profile->bank_details)
-                    <div class="mb-4 text-xs">
-                        {{ $payment->tripUser->profile->bank_details }}
-                    </div>
-                    @else
-                        <p class="mb-5">Please <a class="underline" href="{{ route('profile') }}">click here</a> to update your bank details.</p>
+                        <div class="mb-4 text-sm">
+                            {{ $payment->tripUser->profile->bank_details }}
+                        </div>
                     @endif
+                    <p class="mb-5 text-xs text-primary">Please <a class="underline" href="{{ route('profile') }}">click here</a> to update your bank details.</p>
                     <x-label for="status" value="{{ __('Amount') }}" />
                     <x-input id="amount" class="block w-full" type="text" name="amount" :value="getPrice($payment->net_amount, $payment->currency)" disabled autocomplete="amount" />
                     <div class="invalid-feedback invalid-amount"></div>

@@ -66,8 +66,23 @@
                                 <td class="text-end">
                                     <div class="flex items-center justify-end space-x-3">
                                         @if($withdraw->withdraw)
-                                            <button class="btn-primary">{{ $withdraw->withdraw->status }}</button>
-                                            <button @click.prevent="submitPayment({{ $withdraw->id }})" class="btn-secondary">Pay Now!</button>
+                                            @auth
+                                                @if(!in_array($withdraw->withdraw->status, ['Completed', 'Rejected']))
+                                                    @if(auth()->user()->hasRole('admin'))
+                                                        <button @click.prevent="submitPayment({{ $withdraw->id }})" class="btn-secondary">Pay Now!</button>
+                                                    @endif
+                                                @endif
+                                            @endauth
+                                                @if($withdraw->withdraw->status === 'Pending')
+                                                    <x-status :content="$withdraw->withdraw->status" :type="'info'" />
+                                                @elseif($withdraw->withdraw->status === 'Processing')
+                                                    <x-status :content="$withdraw->withdraw->status" :type="'success'" />
+                                                @elseif($withdraw->withdraw->status === 'Completed')
+                                                    <x-status :content="$withdraw->withdraw->status" :type="'verified'" />
+                                                @elseif($withdraw->withdraw->status === 'Rejected')
+                                                    <x-status :content="$withdraw->withdraw->status" :type="'error'" />
+                                                @endif
+{{--                                                <button class="btn-primary">{{ $withdraw->withdraw->status }}</button>--}}
                                         @else
                                             <button @click.prevent="submitWithdraw({{ $withdraw->id }})" class="btn-primary">Withdraw</button>
                                         @endif
@@ -172,7 +187,7 @@
                         });
                         axios({
                             method : 'POST',
-                            url    : route('withdraw.store', payment),
+                            url    : route('withdraw.update', payment),
                             data   : new FormData(this.$refs.payForm),
                             headers: {
                                 'Content-Type': 'multipart/form-data'

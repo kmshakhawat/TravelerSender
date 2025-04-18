@@ -1,4 +1,30 @@
 <div>
+    <div class="grid grid-cols-1 col-end-auto sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 items-end justify-end">
+        <select wire:model.change="from_country" name="from_country" class="search-input">
+            <option value="">From</option>
+            @foreach($countries as $country)
+                <option
+                    value="{{ $country->id }}" @selected($from_country === $country->id)>{{ $country->name }}</option>
+            @endforeach
+        </select>
+        <select wire:model.change="to_country" name="to_country" class="search-input">
+            <option value="">To</option>
+            @foreach($countries as $country)
+                <option
+                    value="{{ $country->id }}" @selected($to_country === $country->id)>{{ $country->name }}</option>
+            @endforeach
+        </select>
+        <input wire:model.live="city" type="text" name="city" value="{{ $city }}" placeholder="City"
+               class="search-input">
+        <select wire:model.change="status" name="status" class="search-input">
+            <option value="">Status</option>
+            @foreach($status_options as $key => $value)
+                <option
+                    value="{{ $key }}" @selected($status === $value)>{{ $value }}</option>
+            @endforeach
+        </select>
+        <a class="btn-primary text-center xl:max-w-[120px]" href="{{ route('trip.index') }}">Reset</a>
+    </div>
     <div class="overflow-auto">
         <table class="w-full table my-8 whitespace-nowrap">
             <thead class="bg-secondary text-gray-100 font-bold">

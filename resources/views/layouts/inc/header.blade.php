@@ -6,17 +6,40 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="/">
-                        <img class="max-w-52" src="{{ asset('asset/img/logo.svg') }}" alt="{{ config('app.name') }}">
+                        <img class="max-w-40 sm:max-w-52" src="{{ asset('asset/img/logo.svg') }}" alt="{{ config('app.name') }}">
                     </a>
                 </div>
             </div>
 
+
+            <!-- Menu -->
+
             <div class="flex gap-10">
-                <a class="font-medium text-lg hover:text-primary" href="/">Home</a>
-                <a class="font-medium text-lg hover:text-primary" href="{{ route('about') }}">About</a>
-                <a class="font-medium text-lg hover:text-primary" href="{{ route('trip.search') }}">Trip Search</a>
-                <a class="font-medium text-lg hover:text-primary" href="{{ route('contact') }}">Contact</a>
+                <div x-data="{ open: false }" class="z-10 flex-1">
+                    <div :class="{ 'flex' : open, 'hidden' : open === false }" class="
+                    fixed flex-col items-center justify-center z-40 bg-primary text-white top-0 left-0 w-full h-screen leading-loose tracking-wider gap-8 hidden
+                    lg:relative lg:w-auto lg:h-auto lg:flex lg:flex-row lg:justify-start lg:text-black lg:bg-transparent">
+                        <a class="font-medium text-lg hover:text-primary" href="/">Home</a>
+                        <a class="font-medium text-lg hover:text-primary" href="{{ route('about') }}">About</a>
+                        <a class="font-medium text-lg hover:text-primary" href="{{ route('trip.search') }}">Trip Search</a>
+                        <a class="font-medium text-lg hover:text-primary" href="{{ route('contact') }}">Contact</a>
+
+
+                        <button @click="open = false" type="button" :class="{ 'block' : open, 'hidden' : !open }" class="lg:hidden absolute top-0 right-0 leading-none p-8 text-xl z-50 hidden">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                    <button @click="open = true" type="button" :class="{ 'hidden' : open, 'block' : !open }" class="block lg:hidden text-4xl font-thin">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                        </svg>
+                    </button>
+                </div>
             </div>
+
+            <!-- / Menu -->
 
             <!-- start::Black overlay -->
             <div :class="menuOpen ? '!block' : 'hidden'" @click="menuOpen = false"
@@ -32,7 +55,7 @@
                             <img class="size-10 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url ?: 'https://ui-avatars.com/api/?name='.urlencode($name).'&color=7F9CF5&background=EBF4FF' }}" alt="{{ Auth::user()->name }}" />
                         @endif
                         <div class="px-2 flex items-center">
-                            {{ Auth::user()->name }}
+                            <div class="hidden sm:block">{{ Auth::user()->name }}</div>
                             <svg class="ms-2 -me-0.5 size-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
                             </svg>

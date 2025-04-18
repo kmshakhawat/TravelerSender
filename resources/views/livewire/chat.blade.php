@@ -4,7 +4,7 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Chat') }}
             </h2>
-{{--            <a class="btn-secondary" href="{{ route('chat') }}">Back</a>--}}
+            <a class="btn-secondary" href="{{ route('dashboard') }}">Back</a>
         </div>
     </x-slot>
     <div class="container py-12">

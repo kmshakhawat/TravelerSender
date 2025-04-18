@@ -1,8 +1,11 @@
 <x-app-layout>
     <x-slot name="header" class="flex">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Trips') }}
-        </h2>
+        <div class="flex justify-between items-center">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ __('Trips') }}
+            </h2>
+            <a class="btn-primary" href="{{ route('trip.create') }}">Add New Trip</a>
+        </div>
     </x-slot>
     <div x-data="trip" class="py-12">
         <div class="container">
@@ -12,10 +15,6 @@
                 </div>
                 <div class="w-3/4">
                     <div class="bg-white border border-gray-50 rounded shadow p-4">
-                        <div class="flex justify-end">
-                            <a class="btn-primary" href="{{ route('trip.create') }}">Add New Trip</a>
-                        </div>
-
                         <livewire:trips />
                     </div>
                 </div>

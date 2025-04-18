@@ -1,19 +1,20 @@
 <div>
-{{--    <div class="grid grid-cols-1 col-end-auto sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 items-end justify-end">--}}
-{{--        <div class="flex w-full flex-col">--}}
-{{--            <label for="country_id" class="block text-sm font-medium text-gray-700">Country</label>--}}
-{{--            <select wire:model.change="country_id" name="country_id" class="form-input">--}}
-{{--                <option value="">All</option>--}}
-{{--                @foreach($countries as $country)--}}
-{{--                    <option--}}
-{{--                        value="{{ $country->id }}" @selected($country_id === $country->id)>{{ $country->name }}</option>--}}
-{{--                @endforeach--}}
-{{--            </select>--}}
-{{--        </div>--}}
-{{--        <input wire:model.live="search" type="search" name="search" value="{{ $search }}" placeholder="Search"--}}
-{{--               class="w-full border border-gray-300 rounded px-4 py-2">--}}
-{{--        <a class="btn-primary text-center xl:max-w-[120px]" href="{{ route('user.index') }}">Reset</a>--}}
-{{--    </div>--}}
+    <div class="grid grid-cols-1 col-end-auto sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 items-end justify-end">
+        <div class="flex w-full flex-col">
+            <select wire:model.change="country_id" name="country_id" class="search-input">
+                <option value="">Country</option>
+                @foreach($countries as $country)
+                    <option
+                        value="{{ $country->id }}" @selected($country_id === $country->id)>{{ $country->name }}</option>
+                @endforeach
+            </select>
+        </div>
+        <input wire:model.live="city" type="text" name="city" value="{{ $city }}" placeholder="City"
+               class="search-input">
+        <input wire:model.live="search" type="text" name="search" value="{{ $search }}" placeholder="Keyword"
+               class="search-input">
+        <a class="btn-primary text-center xl:max-w-[120px]" href="{{ route('user.index') }}">Reset</a>
+    </div>
 
 
     <div class="overflow-auto">
@@ -93,6 +94,14 @@
                         </a>
                     </td>
                     <td class="py-3 pl-2 flex items-center justify-center space-x-3">
+
+                        <div x-data="verifyToggle({{ $user->id }}, {{ $user->verified ? 1 : 0 }})" class="flex gap-4 mt-4 items-center">
+                            <label @click.prevent="confirmToggle" class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" name="verified" @checked($user->verified) class="sr-only peer">
+                                <div class="w-[45px] h-6 bg-gray-200 hover:bg-gray-300 peer-focus:outline-0 peer-focus:ring-transparent rounded-full peer transition-all ease-in-out duration-500 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#2563EB] hover:peer-checked:bg-primary"></div>
+                            </label>
+                        </div>
+
                         <a href="{{ route('user.show', $user->id) }}">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                  stroke="currentColor" class="h-5 w-5 text-green-500 hover:text-green-800">

@@ -58,6 +58,9 @@
 .form-input {
     @apply w-full min-h-12 py-2 text-base text-black border-gray-300 rounded focus:border-primary focus:ring-primary;
 }
+.search-input {
+    @apply w-full min-h-8 py-2 text-base text-black border-gray-300 rounded focus:border-primary focus:ring-primary;
+}
 .select2.select2-container {
     @apply !w-full;
 }
@@ -98,7 +101,7 @@ input[disabled] {
     @apply flex flex-col gap-5 text-xl text-white;
 }
 .slide-title {
-    @apply text-5xl font-bold text-white;
+    @apply text-3xl xl:text-5xl font-bold text-white;
 }
 .footer-title {
     @apply text-xl font-bold mb-4;

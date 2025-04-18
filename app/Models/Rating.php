@@ -10,7 +10,7 @@ class Rating extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['traveler_id', 'user_id', 'rating', 'review'];
+    protected $fillable = ['user_id', 'traveler_id', 'booking_id', 'rating', 'review'];
 
     public function traveler(): BelongsTo
     {

@@ -6,11 +6,11 @@
     </x-slot>
     <div x-data="users" class="py-12">
         <div class="container">
-            <div class="flex gap-8">
-                <div class="w-1/4">
+            <div class="flex flex-col md:flex-row gap-8">
+                <div class="w-full md:w-1/4">
                     <x-user-sidebar />
                 </div>
-                <div class="w-3/4">
+                <div class="w-full md:w-3/4">
                     <div class="bg-white border border-gray-50 rounded shadow p-4">
                         <div class="flex items-center justify-between heading-title">
                             <h3 class="heading-5 mb-4">{{ $user->name }} Information</h3>

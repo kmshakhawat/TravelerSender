@@ -7,11 +7,11 @@
 
     <div x-data="user" class="py-12">
         <div class="container">
-            <div class="flex gap-8">
-                <div class="w-1/4">
+            <div class="flex flex-col md:flex-row gap-8">
+                <div class="w-full md:w-1/4">
                     <x-user-sidebar />
                 </div>
-                <div class="w-3/4">
+                <div class="w-full md:w-3/4">
                     <div class="bg-white border border-gray-50 rounded shadow p-4">
                         <h3 class="heading-5 mb-4 heading-title">{{ __('Create User') }}</h3>
                         <form id="create" name="create" @submit.prevent="createUser()">
@@ -140,6 +140,11 @@
                                     <div class="w-[53px] h-7 bg-gray-200 hover:bg-gray-300 peer-focus:outline-0 peer-focus:ring-transparent rounded-full peer transition-all ease-in-out duration-500 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-primary hover:peer-checked:bg-primary"></div>
                                 </label>
                                 <label class="inline-block">Verified</label>
+                            </div>
+                            <div class="mt-4">
+                                <x-label for="note" value="{{ __('Admin Note') }}" />
+                                <textarea name="note" class="form-input" id="note" rows="2">{{ $user->profile->note ?? '' }}</textarea>
+                                <div class="invalid-feedback invalid-note"></div>
                             </div>
                             <button class="btn-primary mt-4">{{ __('Create User') }}</button>
                         </form>

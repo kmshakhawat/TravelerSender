@@ -84,6 +84,7 @@ class UserController extends Controller
                 'id_issue' => $request->id_issue,
                 'id_expiry' => $request->id_expiry,
                 'dob' => $request->dob,
+                'note' => $request->note,
                 'id_front' => $this->handleFile($request->file('id_front'), $user->id.'/', null),
                 'id_back' => $this->handleFile($request->file('id_back'), $user->id.'/', null),
             ]
@@ -167,6 +168,7 @@ class UserController extends Controller
                 'id_issue' => $request->id_issue,
                 'id_expiry' => $request->id_expiry,
                 'dob' => $request->dob,
+                'note' => $request->note,
                 'id_front' => $this->handleFile($request->file('id_front'), $user->id.'/', $user->profile->id_front ?? null),
                 'id_back' => $this->handleFile($request->file('id_back'), $user->id.'/', $user->profile->id_back ?? null),
             ]
@@ -175,6 +177,8 @@ class UserController extends Controller
         if ($user->verified) {
             $mailable_data = [
                 'name' => $user->name,
+                'login_url' => config('app.url') . '/login',
+                'email' => $user->email,
                 'template' => 'emails.verification-approved',
                 'subject' => 'Your Verification has been Approved',
             ];

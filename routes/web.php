@@ -88,7 +88,7 @@ Route::middleware([
     Route::get('/withdraw/{payment}/request', [WithdrawController::class, 'withdraw'])->name('withdraw.request');
     Route::post('/withdraw/{payment}/submit', [WithdrawController::class, 'withdrawStore'])->name('withdraw.store');
     Route::get('/withdraw/{payment}/payment', [WithdrawController::class, 'withdrawPayment'])->name('withdraw.payment');
-//    Route::post('/withdraw/{payment}/submit', [WithdrawController::class, 'withdrawUpdate'])->name('withdraw.store');
+    Route::post('/withdraw/{payment}/update', [WithdrawController::class, 'withdrawUpdate'])->name('withdraw.update');
 
 
 });

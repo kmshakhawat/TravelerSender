@@ -4,7 +4,7 @@
         <p>
             We talk about Africa, recruitment, talent, human resources, {{ config('app.name') }} news and tips for employers.
         </p>
-        <div class="mx-auto w-96">
+        <div class="mx-auto max-w-96">
             <form id="newsletterForm" class="mt-5" method="POST" @submit.prevent="submitNewsletter">
                 @csrf
                 @method('POST')

@@ -2,16 +2,17 @@
     <div class="swiper slide">
         <div class="swiper-wrapper">
             <div class="swiper-slide relative">
-                <img src="{{ asset('asset/img/slide.jpg') }}" alt="Slide" class="w-full">
+                <img src="{{ asset('asset/img/slide.jpg') }}" alt="Slide" class="hidden md:block w-full">
+                <div class="block md:hidden h-[500px] bg-cover" style="background-image: url({{ asset('asset/img/slide.jpg') }})"></div>
                 <div class="absolute w-full h-full top-0 ">
                     <div class="container h-full mx-auto">
                         <div class="flex h-full items-center">
-                            <div class="w-1/2 slide-content">
+                            <div class="w-full xl:w-1/2 slide-content p-5 md:p-0">
                                 <h3 class="slide-title">{{ config('app.name') }} - Smart Delivery, Powered by Travelers</h3>
                                 <p>A peer-to-peer delivery network connecting trusted travelers with people who need parcels delivered across cities or countries.</p>
-                                <div class="flex gap-4">
-                                    <p><a class="btn-primary" href="{{ route('trip.search') }}">Send a Parcel</a></p>
-                                    <p><a class="btn-secondary" href="{{ route('register') }}">Become a Traveller</a></p>
+                                <div class="flex flex-col md:flex-row gap-4">
+                                    <p><a class="w-full text-center sm:w-auto btn-primary" href="{{ route('trip.search') }}">Send a Parcel</a></p>
+                                    <p><a class="w-full text-center sm:w-auto btn-secondary" href="{{ route('register') }}">Become a Traveller</a></p>
                                 </div>
                             </div>
                         </div>

@@ -7,11 +7,11 @@
 
     <div x-data="user" class="py-12">
         <div class="container">
-            <div class="flex gap-8">
-                <div class="w-1/4">
+            <div class="flex flex-col md:flex-row gap-8">
+                <div class="w-full md:w-1/4">
                     <x-user-sidebar />
                 </div>
-                <div class="w-3/4">
+                <div class="w-full md:w-3/4">
                     <div class="bg-white border border-gray-50 rounded shadow p-4">
                         <h3 class="heading-5 mb-4 heading-title">{{ __('User Profile') }}</h3>
                         <form id="update" name="profile" @submit.prevent="updateUser({{ $user }})">
@@ -73,7 +73,7 @@
                             </div>
                             <div class="mt-4">
                                 <x-label for="bank_details" value="{{ __('Bank Details') }}" />
-                                <textarea name="bank_details" class="form-input" id="bank_details" cols="30" rows="5">{{ $user->profile->bank_details ?? '' }}</textarea>
+                                <textarea name="bank_details" class="form-input" id="bank_details" rows="2">{{ $user->profile->bank_details ?? '' }}</textarea>
                                 <div class="invalid-feedback invalid-bank_details"></div>
                             </div>
                             {{--                            <div class="flex gap-4">--}}
@@ -137,13 +137,10 @@
                                 </label>
                                 <label class="inline-block">Verified</label>
                             </div>
-                            <div class="flex gap-4 mt-4 items-center">
-                                <textarea class="form-input" name="note">{{ $user->profile->note }}</textarea>
-                            </div>
                             <div class="mt-4">
                                 <x-label for="note" value="{{ __('Admin Note') }}" />
-                                <textarea name="bank_details" class="form-input" id="bank_details" cols="30" rows="5">{{ $user->profile->bank_details ?? '' }}</textarea>
-                                <div class="invalid-feedback invalid-bank_details"></div>
+                                <textarea name="note" class="form-input" id="note" rows="2">{{ $user->profile->note ?? '' }}</textarea>
+                                <div class="invalid-feedback invalid-note"></div>
                             </div>
                             <button class="btn-primary mt-4">{{ __('Update User') }}</button>
                         </form>

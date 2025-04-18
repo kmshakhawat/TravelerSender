@@ -98,6 +98,7 @@ class WithdrawController extends Controller
     public function withdrawPayment(Payment $payment)
     {
         $payment->load(['tripUser', 'withdraw']);
+
         $statusOptions = Travel::paymentStatus();
         $withdraw =  view('withdraw.pay-form', compact('payment', 'statusOptions'))->render();
 
