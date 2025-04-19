@@ -15,6 +15,9 @@
                             Trip
                         </td>
                         <td class="py-2 pl-2">
+                            Reference
+                        </td>
+                        <td class="py-2 pl-2">
                             Sender
                         </td>
                         <td class="py-2 pl-2">
@@ -51,6 +54,9 @@
                                         </a>
                                         <div class="text-xs text-gray-500">{{ getDateFormat($order->trip->departure_date) }} to {{ getDateFormat($order->trip->arrival_date) }}</div>
                                     </div>
+                                </td>
+                                <td class="py-3 pl-2">
+                                    {{ $order->tracking_number }}
                                 </td>
                                 <td class="py-3 pl-2">
                                     <div class="flex flex-col">

@@ -14,6 +14,12 @@
                     <h3 class="heading-5 mb-4 heading-title">Order Details</h3>
                     <table class="w-full table mb-8 whitespace-nowrap">
                         <tr>
+                            <th class="w-64">Reference</th>
+                            <td>
+                                {{ $order->tracking_number }}
+                            </td>
+                        </tr>
+                        <tr>
                             <th class="w-64">Order By</th>
                             <td>
                                 <div class="flex flex-col gap-2">

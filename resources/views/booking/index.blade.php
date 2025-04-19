@@ -136,9 +136,9 @@
                                 </td>
                                 <td class="py-3 pl-2">
                                     @if($booking->latestTracking)
-                                    <a class="btn-secondary" href="{{ route('tracking', $booking->id) }}">
-                                        {{ $booking->latestTracking->status ?? '' }}
-                                    </a>
+                                        <a class="btn-secondary" href="{{ route('tracking', '?trackingNumber=' . $booking->tracking_number) }}">
+                                            {{ $booking->latestTracking->status ?? '' }}
+                                        </a>
                                     @endif
                                 </td>
                                 <td class="py-3 pl-2">

@@ -49,6 +49,10 @@ class BookingController extends Controller
 
         $trip = Trip::where('id', request('trip'))->first();
 
+        if (!$trip) {
+            return redirect()->route('trip.search')->with('error', 'Trip not found.');
+        }
+
         if (auth()->id() === $trip->user_id) {
             return redirect()->route('trip.search')->with('error', 'You’re not allowed to book your own trip.');
         }

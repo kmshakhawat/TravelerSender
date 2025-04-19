@@ -72,7 +72,7 @@ Route::middleware([
     Route::get('tracking/{booking_id}', [TrackingController::class, 'index'])->name('tracking');
     Route::get('tracking/{tracking}/edit', [TrackingController::class, 'edit'])->name('tracking.edit');
     Route::post('tracking/store', [TrackingController::class, 'store'])->name('tracking.store');
-    Route::get('tracking', [TrackingController::class, 'search'])->name('tracking.search');
+    Route::get('/tracking', [TrackingController::class, 'search'])->name('tracking.search');
 
 
     Route::post('/payment', [PaymentController::class, 'payment'])->name('payment');

@@ -66,7 +66,7 @@ class PaymentController extends Controller
 
         $session = $request->user()->stripe()->checkout->sessions->retrieve($payment->stripe_session_id);
         $payment->update([
-            'currency' => $payment->trip->currency,
+            'currency' => $payment->currency,
             'payment_status' => $session->payment_status,
             'status' => ucfirst($session->status),
             'trxref' => $session->payment_intent,

@@ -109,9 +109,45 @@ class TrackingController extends Controller
      */
     public function search(Request $request)
     {
+        $tracking = collect();
+        $currentStep = 0;
+        $steps = [];
+        $completedStatuses = 0;
+
         $tracking_number = $request->get('trackingNumber');
-        $tracking = Booking::where('tracking_number', $tracking_number);
-        return view('tracking.search');
+        $booking = Booking::where('tracking_number', $tracking_number)->first();
+
+        if ($booking) {
+            $steps = [
+                'Processing',
+                'Ready for Pickup',
+                'Picked Up',
+                'In Transit',
+                'Arrived at Destination',
+                'Attempt to Deliver',
+                'Delivered',
+            ];
+
+            $tracking = Tracking::select('status', 'description', 'estimated_delivery', 'status_update_at')
+                ->where('booking_id', $booking->id)
+                ->orderBy('status_update_at', 'asc')
+                ->get()
+                ->reverse()
+                ->unique('status')
+                ->sortBy(function ($item) use ($steps) {
+                    return array_search($item->status, $steps);
+                })
+                ->values();
+
+            $completedStatuses = $tracking->pluck('status')->toArray();
+            $currentStatus = end($completedStatuses);
+            $currentStep = array_search($currentStatus, $steps);
+
+//            $map_from = $booking->trip->from_city . ', ' . $booking->trip->fromCountry->name;
+//            $map_to = $booking->trip->to_city . ', ' . $booking->trip->toCountry->name;
+        }
+
+        return view('tracking.search', compact('tracking', 'steps', 'completedStatuses', 'currentStep'));
     }
 
     /**

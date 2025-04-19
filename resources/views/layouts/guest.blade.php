@@ -24,6 +24,14 @@
     <body>
         @include('layouts.inc.header')
         <div class="font-sans text-gray-900 text-lg antialiased min-h-60">
+            <!-- Page Heading -->
+            @if (isset($header))
+                <header class="bg-white shadow">
+                    <div class="container py-6">
+                        {{ $header }}
+                    </div>
+                </header>
+            @endif
 
             {{ $slot }}
         </div>
