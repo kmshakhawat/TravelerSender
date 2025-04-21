@@ -17,19 +17,24 @@
             <div class="flex gap-10">
                 <div x-data="{ open: false }" class="z-10 flex-1">
                     <div :class="{ 'flex' : open, 'hidden' : open === false }" class="
-                    fixed flex-col items-center justify-center z-40 bg-primary text-white top-0 left-0 w-full h-screen leading-loose tracking-wider gap-8 hidden
+                    fixed flex-col items-center justify-center z-40 bg-gray-200 text-white top-0 left-0 w-full h-screen leading-loose tracking-wider gap-8 hidden
                     lg:relative lg:w-auto lg:h-auto lg:flex lg:flex-row lg:justify-start lg:text-black lg:bg-transparent">
-                        <a class="font-medium text-lg hover:text-primary" href="/">Home</a>
-                        <a class="font-medium text-lg hover:text-primary" href="{{ route('about') }}">About</a>
-                        <a class="font-medium text-lg hover:text-primary" href="{{ route('trip.search') }}">Trip Search</a>
-                        <a class="font-medium text-lg hover:text-primary" href="{{ route('contact') }}">Contact</a>
+                        <a class="font-medium text-lg text-black hover:text-primary" href="/">Home</a>
+                        <a class="font-medium text-lg text-black hover:text-primary" href="{{ route('about') }}">About</a>
+                        <a class="font-medium text-lg text-black hover:text-primary" href="{{ route('trip.search') }}">Trip Search</a>
+                        <a class="font-medium text-lg text-black hover:text-primary" href="{{ route('contact') }}">Contact</a>
 
+                        <div class="sm:hidden flex items-center gap-6 text-lg font-medium">
+                            <a class="btn-secondary" href="{{ route('register') }}">Registration</a>
+                            <a class="btn-primary" href="{{ route('login') }}">Sign in</a>
+                        </div>
 
-                        <button @click="open = false" type="button" :class="{ 'block' : open, 'hidden' : !open }" class="lg:hidden absolute top-0 right-0 leading-none p-8 text-xl z-50 hidden">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <button @click="open = false" type="button" :class="{ 'block' : open, 'hidden' : !open }" class="lg:hidden absolute top-0 right-0 leading-none text-black p-8 text-xl z-50 hidden">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="parentColor" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
                             </svg>
                         </button>
+
                     </div>
                     <button @click="open = true" type="button" :class="{ 'hidden' : open, 'block' : !open }" class="block lg:hidden text-4xl font-thin">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -46,8 +51,9 @@
                  class="fixed z-30 inset-0 bg-black opacity-40 transition-opacity hidden"></div>
             <!-- end::Black overlay -->
 
-            <div class="flex items-center">
+
                 @auth
+                <div class="flex items-center">
                     <button
                         @click="menuOpen = true"
                         class="flex items-center text-base font-medium bg-gray-100 rounded-full focus:outline-none transition">
@@ -181,13 +187,14 @@
                         </div>
 
                     </aside>
+                </div>
                 @else
-                    <div class="flex items-center gap-6 text-lg font-medium">
+                    <div class="hidden sm:flex items-center gap-6 text-lg font-medium">
                         <a class="btn-secondary" href="{{ route('register') }}">Registration</a>
                         <a class="btn-primary" href="{{ route('login') }}">Sign in</a>
                     </div>
                 @endauth
-            </div>
+
 
         </div>
     </div>

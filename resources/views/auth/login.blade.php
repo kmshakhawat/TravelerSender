@@ -1,10 +1,10 @@
 <x-guest-layout>
     <div x-data="login" class="container mx-auto py-10">
-        <div class="flex items-center">
-            <div class="w-8/12">
+        <div class="flex flex-col sm:flex-row items-center">
+            <div class="w-full sm:w-1/2 lg:w-8/12 order-2 sm:order-1 mb-10">
                 <img src="{{ asset('asset/img/register.jpg') }}" alt="Register" class="w-3/4 mx-auto">
             </div>
-            <div class="w-4/12">
+            <div class="w-full sm:w-1/2 lg:w-4/12 order-1 sm:order-2 mb-10">
                 <h1 class="text-3xl font-bold mb-4">{{ __('Sign In') }}</h1>
 
                 <form method="POST" id="login" @submit.prevent="userLogin">

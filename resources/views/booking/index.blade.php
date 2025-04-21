@@ -124,6 +124,7 @@
                                     </div>
                                 </td>
                                 <td class="py-3 pl-2">
+
                                     <a href="{{ route('booking.show', $booking->id) }}">
                                         @if($booking->status === 'Pending')
                                             <x-status :content="$booking->status" :type="'info'" />
@@ -152,6 +153,7 @@
                                 </td>
                                 <td class="py-3 pl-2">
                                     <div class="flex items-center justify-end space-x-3">
+                                        @
                                         @if($booking->latestTracking && $booking->latestTracking->status === 'Delivered')
                                             @if(!$booking->rating)
                                                 <a class="!flex gap-1 btn-secondary" href="{{ route('rating.create', $booking->id) }}">

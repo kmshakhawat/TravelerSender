@@ -9,149 +9,151 @@
     </x-slot>
     <div x-data="trip" class="py-12">
         <div class="container">
-            <div class="flex gap-8">
-                <div class="w-full sm:w-2/3">
+            <div class="flex flex-col lg:flex-row gap-8">
+                <div class="w-full lg:w-2/3">
 {{--                    <img class="rounded w-full " src="{{ $trip->photo ? Storage::disk('public')->url($trip->photo) : 'https://ui-avatars.com/api/?name='.urlencode($trip->user->name).'&color=7F9CF5&background=EBF4FF' }}" alt="{{ $trip->user->name }}">--}}
                     <div class="bg-white border border-gray-50 mb-8 rounded shadow p-4">
-                        <table class="w-full table mb-8 whitespace-nowrap">
-                            <tr>
-                                <td>Trip Type</td>
-                                <td>{{ $trip->trip_type }}</td>
-                            </tr>
-                            <tr>
-                                <td>Mode of Transport</td>
-                                <td>{{ $trip->mode_of_transport }}</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <h5 class="heading-5">From</h5>
-                                </td>
-                                <td>
-                                    <div class="flex flex-col gap-2">
-                                        <div class="flex gap-1 items-center">
-                                            <span class="font-medium">Address:</span>
-                                            {{ $trip->from_address_1 }}
-                                            {{ $trip->from_address_2 ? ', '. $trip->from_address_2 : '' }}
-                                        </div>
-                                        <div class="flex gap-1 items-center">
-                                            <span class="font-medium">Country:</span>
-                                            {{ $trip->fromCountry->name ?? '' }}
-                                        </div>
-                                        <div class="flex gap-1 items-center">
-                                            <span class="font-medium">State:</span>
-                                            {{ $trip->fromState->name ?? '' }}
-                                        </div>
-                                        <div class="flex gap-1 items-center">
-                                            <span class="font-medium">City:</span>
-                                            {{ $trip->from_city }}
-                                        </div>
-                                        <div class="flex gap-1 items-center">
-                                            <span class="font-medium">Postcode:</span>
-                                            {{ $trip->from_postcode }}
-                                        </div>
-                                        <div class="flex gap-1 items-center">
-                                            <span class="font-medium">Phone:</span>
-                                            {{ $trip->from_phone }}
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <h5 class="heading-5">To</h5>
-                                </td>
-                                <td>
-                                    <div class="flex flex-col gap-2">
-                                        <div class="flex gap-1 items-center">
-                                            <span class="font-medium">Address:</span>
-                                            {{ $trip->to_address_1 }}
-                                            {{ $trip->to_address_2 ? ', '. $trip->to_address_2 : '' }}
-                                        </div>
-                                        <div class="flex gap-1 items-center">
-                                            <span class="font-medium">Country:</span>
-                                            {{ $trip->toCountry->name ?? '' }}
-                                        </div>
-                                        <div class="flex gap-1 items-center">
-                                            <span class="font-medium">State:</span>
-                                            {{ $trip->toState->name ?? '' }}
-                                        </div>
-                                        <div class="flex gap-1 items-center">
-                                            <span class="font-medium">City:</span>
-                                            {{ $trip->to_city }}
-                                        </div>
-                                        <div class="flex gap-1 items-center">
-                                            <span class="font-medium">Postcode:</span>
-                                            {{ $trip->to_postcode }}
-                                        </div>
-                                        <div class="flex gap-1 items-center">
-                                            <span class="font-medium">Phone:</span>
-                                            {{ $trip->to_phone }}
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Date & Time of Departure</td>
-                                <td>{{ getDateFormat($trip->departure_date) }}</td>
-                            </tr>
-                            <tr>
-                                <td>Estimated Time of Arrival</td>
-                                <td>{{ getDateFormat($trip->arrival_date) }}</td>
-                            </tr>
-                            @if($trip->stopovers)
+                        <div class="table-responsive">
+                            <table class="w-full table mb-8 whitespace-nowrap">
                                 <tr>
-                                    <td class="align-top">Stopovers</td>
+                                    <td>Trip Type</td>
+                                    <td>{{ $trip->trip_type }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Mode of Transport</td>
+                                    <td>{{ $trip->mode_of_transport }}</td>
+                                </tr>
+                                <tr>
                                     <td>
-                                        <div class="flex flex-col">
-                                            @foreach($trip->stopovers as $stopover)
-                                                <div class="font-medium">
-                                                    {{ $stopover->location }}
-                                                </div>
-                                                @unless ($loop->last)
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-primary">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25 12 21m0 0-3.75-3.75M12 21V3" />
-                                                    </svg>
-                                                @endunless
-                                            @endforeach
+                                        <h5 class="heading-5">From</h5>
+                                    </td>
+                                    <td>
+                                        <div class="flex flex-col gap-2">
+                                            <div class="flex gap-1 items-center">
+                                                <span class="font-medium">Address:</span>
+                                                {{ $trip->from_address_1 }}
+                                                {{ $trip->from_address_2 ? ', '. $trip->from_address_2 : '' }}
+                                            </div>
+                                            <div class="flex gap-1 items-center">
+                                                <span class="font-medium">Country:</span>
+                                                {{ $trip->fromCountry->name ?? '' }}
+                                            </div>
+                                            <div class="flex gap-1 items-center">
+                                                <span class="font-medium">State:</span>
+                                                {{ $trip->fromState->name ?? '' }}
+                                            </div>
+                                            <div class="flex gap-1 items-center">
+                                                <span class="font-medium">City:</span>
+                                                {{ $trip->from_city }}
+                                            </div>
+                                            <div class="flex gap-1 items-center">
+                                                <span class="font-medium">Postcode:</span>
+                                                {{ $trip->from_postcode }}
+                                            </div>
+                                            <div class="flex gap-1 items-center">
+                                                <span class="font-medium">Phone:</span>
+                                                {{ $trip->from_phone }}
+                                            </div>
                                         </div>
                                     </td>
                                 </tr>
-                            @endif
-                            <tr>
-                                <td colspan="2">
-                                    <h3 class="heading-5">Luggage & Courier Details</h3>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Available Space/Weight Limit (in kg/lbs)</td>
-                                <td>{{ $trip->available_space . ' ' . $trip->weight_unit }}</td>
-                            </tr>
-                            <tr>
-                                <td>Type of Items Allowed</td>
-                                <td>{{ $trip->type_of_item }}</td>
-                            </tr>
-                            <tr>
-                                <td>Packaging Requirements</td>
-                                <td>{{ $trip->packaging_requirement }}</td>
-                            </tr>
-                            <tr>
-                                <td>Handling Instructions</td>
-                                <td>{{ $trip->handling_instruction }}</td>
-                            </tr>
-                            <tr>
-                                <td>Note</td>
-                                <td>{{ $trip->note }}</td>
-                            </tr>
-                            @if(Auth::user()->hasRole('admin'))
-                            <tr>
-                                <td>Admin Note</td>
-                                <td>{{ $trip->admin_note }}</td>
-                            </tr>
-                            @endif
-                        </table>
+                                <tr>
+                                    <td>
+                                        <h5 class="heading-5">To</h5>
+                                    </td>
+                                    <td>
+                                        <div class="flex flex-col gap-2">
+                                            <div class="flex gap-1 items-center">
+                                                <span class="font-medium">Address:</span>
+                                                {{ $trip->to_address_1 }}
+                                                {{ $trip->to_address_2 ? ', '. $trip->to_address_2 : '' }}
+                                            </div>
+                                            <div class="flex gap-1 items-center">
+                                                <span class="font-medium">Country:</span>
+                                                {{ $trip->toCountry->name ?? '' }}
+                                            </div>
+                                            <div class="flex gap-1 items-center">
+                                                <span class="font-medium">State:</span>
+                                                {{ $trip->toState->name ?? '' }}
+                                            </div>
+                                            <div class="flex gap-1 items-center">
+                                                <span class="font-medium">City:</span>
+                                                {{ $trip->to_city }}
+                                            </div>
+                                            <div class="flex gap-1 items-center">
+                                                <span class="font-medium">Postcode:</span>
+                                                {{ $trip->to_postcode }}
+                                            </div>
+                                            <div class="flex gap-1 items-center">
+                                                <span class="font-medium">Phone:</span>
+                                                {{ $trip->to_phone }}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Date & Time of Departure</td>
+                                    <td>{{ getDateFormat($trip->departure_date) }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Estimated Time of Arrival</td>
+                                    <td>{{ getDateFormat($trip->arrival_date) }}</td>
+                                </tr>
+                                @if($trip->stopovers)
+                                    <tr>
+                                        <td class="align-top">Stopovers</td>
+                                        <td>
+                                            <div class="flex flex-col">
+                                                @foreach($trip->stopovers as $stopover)
+                                                    <div class="font-medium">
+                                                        {{ $stopover->location }}
+                                                    </div>
+                                                    @unless ($loop->last)
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-primary">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25 12 21m0 0-3.75-3.75M12 21V3" />
+                                                        </svg>
+                                                    @endunless
+                                                @endforeach
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endif
+                                <tr>
+                                    <td colspan="2">
+                                        <h3 class="heading-5">Luggage & Courier Details</h3>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Available Space/Weight Limit (in kg/lbs)</td>
+                                    <td>{{ $trip->available_space . ' ' . $trip->weight_unit }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Type of Items Allowed</td>
+                                    <td>{{ $trip->type_of_item }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Packaging Requirements</td>
+                                    <td>{{ $trip->packaging_requirement }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Handling Instructions</td>
+                                    <td>{{ $trip->handling_instruction }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Note</td>
+                                    <td>{{ $trip->note }}</td>
+                                </tr>
+                                @if(Auth::user()->hasRole('admin'))
+                                    <tr>
+                                        <td>Admin Note</td>
+                                        <td>{{ $trip->admin_note }}</td>
+                                    </tr>
+                                @endif
+                            </table>
+                        </div>
                     </div>
                 </div>
-                <div class="w-full sm:w-1/3">
+                <div class="w-full lg:w-1/3">
                     <div class="bg-white border border-gray-50 rounded shadow p-4">
                         <div class="overflow-auto">
                             <div class="rounded-full w-40 h-40 ring-2 my-2 ring-primary mx-auto overflow-hidden flex items-center justify-center ">

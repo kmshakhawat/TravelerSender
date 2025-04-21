@@ -72,7 +72,6 @@ Route::middleware([
     Route::get('tracking/{booking_id}', [TrackingController::class, 'index'])->name('tracking');
     Route::get('tracking/{tracking}/edit', [TrackingController::class, 'edit'])->name('tracking.edit');
     Route::post('tracking/store', [TrackingController::class, 'store'])->name('tracking.store');
-    Route::get('/tracking', [TrackingController::class, 'search'])->name('tracking.search');
 
 
     Route::post('/payment', [PaymentController::class, 'payment'])->name('payment');
@@ -105,6 +104,8 @@ Route::get('/otp-resend', [AuthController::class, 'otpResend'])->name('otp.resen
 Route::post('/otp-verify', [AuthController::class, 'otpVerify'])->name('otp.verify');
 
 /* Frontend Page Route */
+
+Route::get('/tracking', [TrackingController::class, 'search'])->name('tracking.search');
 
 Route::get('/about', function (){
     return view('page.about');

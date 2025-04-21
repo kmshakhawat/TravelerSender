@@ -23,7 +23,7 @@
                     <button type="button" class="btn-secondary" onclick="addProduct()">+ Add New Product</button>
 
                     <h3 class="heading-5 mt-8 mb-4 heading-title">Sender Details</h3>
-                    <div class="flex gap-4">
+                    <div class="flex flex-col sm:flex-row sm:gap-4">
                         <div class="w-full sm:w-1/3 mt-4">
                             <x-label for="sender_name" value="{{ __('Name') }}" />
                             <div class="relative">
@@ -55,7 +55,7 @@
                             <div class="invalid-feedback invalid-sender_phone"></div>
                         </div>
                     </div>
-                    <div class="flex gap-4">
+                    <div class="flex flex-col sm:flex-row sm:gap-4">
                         <div class="w-full sm:w-1/2 mt-4">
                             <x-label for="collection_type" value="{{ __('Convenient Parcel Collection') }}" />
                             <x-input-dropdown class="collection_type !w-64" name="collection_type" :options="$collection_type_options" :selected="[]"/>
@@ -99,7 +99,7 @@
                                 <div class="invalid-feedback invalid-pickup_postcode"></div>
                             </div>
                         </div>
-                        <div class="flex gap-4">
+                        <div class="flex flex-col sm:flex-row sm:gap-4">
                             <div class="w-full sm:w-1/2 mt-4">
                                 <x-label for="pickup_location_type" value="{{ __('Pickup Location Type') }}" />
                                 <x-input-dropdown :search="false" class="w-full" name="pickup_location_type" :options="$location_type_options" :selected="[]"/>
@@ -119,7 +119,7 @@
                     </div>
 
                     <h3 class="heading-5 mt-8 mb-4 heading-title">Receiver Details</h3>
-                    <div class="flex gap-4">
+                    <div class="flex flex-col sm:flex-row sm:gap-4">
                         <div class="w-full sm:w-1/3 mt-4">
                             <x-label for="receiver_name" value="{{ __('Name') }}" />
                             <div class="relative">
@@ -187,7 +187,7 @@
                             <div class="invalid-feedback invalid-delivery_postcode"></div>
                         </div>
                     </div>
-                    <div class="flex gap-4">
+                    <div class="flex flex-col sm:flex-row sm:gap-4">
                         <div class="w-full sm:w-1/2 mt-4">
                             <x-label for="delivery_location_type" value="{{ __('Delivery Location Type') }}" />
                             <x-input-dropdown :search="false" class="w-full" name="delivery_location_type" :options="$location_type_options" :selected="[]"/>
@@ -249,7 +249,7 @@
                 return `
             <div class="border p-3 mb-3 product" data-index="${index}">
                 <h5 class="text-lg font-medium mb-4 heading-title">Product <span>${index + 1}</span></h5>
-                <div class="flex gap-4">
+                <div class="flex flex-col sm:flex-row sm:gap-4">
                     <div class="w-full sm:w-1/2 mt-4">
                         <x-label value="{{ __('Name') }}" />
                         <x-input class="block w-full" type="text" name="products[${index}][name]" required />
@@ -260,7 +260,7 @@
                         <x-input-dropdown class="type_of_item" name="products[${index}][type]" :options="$item_type_option" :selected="[]"/>
                     </div>
                 </div>
-                <div class="flex gap-4">
+                <div class="flex flex-col sm:flex-row sm:gap-4">
                     <div class="w-full sm:w-1/5 mt-4">
                         <x-label value="{{ __('Quantity') }}" />
                         <x-input class="block w-full" type="text" name="products[${index}][quantity]" required />
@@ -288,7 +288,7 @@
                         <x-input class="block w-full" type="text" name="products[${index}][height]" required />
                     </div>
                 </div>
-                <div class="flex gap-4">
+                <div class="flex flex-col sm:flex-row sm:gap-4">
                     <div class="w-full sm:w-1/4 mt-4">
                         <x-label value="{{ __('Box') }}" />
                         <select class="form-input" name="products[${index}][box]">

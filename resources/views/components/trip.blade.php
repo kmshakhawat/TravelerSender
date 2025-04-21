@@ -1,14 +1,14 @@
 @props(['trip', 'booking' => false])
 @if($trip)
     <div class="bg-white border border-gray-10 rounded-lg p-4 mb-4">
-    <div class="flex items-center gap-8">
+    <div class="flex flex-col sm:flex-row items-center gap-8">
         <div class="w-full sm:w-1/4">
             <a href="{{ route('trip.details', $trip->id) }}">
                 <img class="rounded-lg w-full" src="{{ $trip->user->profile_photo_path ? Storage::disk('public')->url($trip->user->profile_photo_path) : 'https://ui-avatars.com/api/?name='.urlencode($trip->user->name).'&color=7F9CF5&background=EBF4FF' }}" alt="{{ $trip->user->name }}">
             </a>
         </div>
         <div class="w-full sm:w-3/4 text-[#888888]">
-            <div class="flex">
+            <div class="flex flex-col sm:flex-row">
                 <div class="flex-1">
                     <h3 class="font-bold text-2xl text-black mb-1"><a href="{{ route('trip.details', $trip->id) }}">{{ $trip->user->name }}</a></h3>
                     <div class="flex gap-1">
@@ -18,7 +18,7 @@
                         {{ $trip->user->averageRating() }} rating
                     </div>
                 </div>
-                <div class="flex-1 text-right">
+                <div class="flex-1 sm:text-right">
                     <div class="price">{{ getPrice($trip->price, $trip->currency) }}</div>
                 </div>
             </div>
@@ -48,7 +48,7 @@
                 {{ $trip->available_space.' '. $trip->weight_unit }}
             </div>
             <div class="my-4 border-b border-gray-100"></div>
-            <div class="flex gap-4">
+            <div class="flex flex-col text-center sm:flex-row gap-4">
                 @if($booking)
                     <a class="btn-primary"
                        @if(Auth::user()->verified)

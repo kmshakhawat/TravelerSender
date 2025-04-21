@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enam\BookingStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -42,6 +43,10 @@ class Booking extends Model
         'admin_note',
         'status',
     ];
+
+//    protected $casts = [
+//        'status' => BookingStatus::class,
+//    ];
 
     public function trip()
     {

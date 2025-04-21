@@ -3,13 +3,13 @@
 
     <div x-data="register" class="container mx-auto py-10">
 
-        <div class="flex items-center">
+        <div class="flex flex-col sm:flex-row items-center">
 
-            <div class="w-7/12">
+            <div class="w-full md:w-7/12 order-2 sm:order-1 mb-10">
                 <img src="{{ asset('asset/img/register.jpg') }}" alt="Register" class="w-3/4 mx-auto">
             </div>
 
-            <div class="w-5/12">
+            <div class="w-full md:w-5/12 order-1 sm:order-2 mb-10">
                 <h1 class="text-3xl font-bold mb-4">{{ __('Traveller profile') }}</h1>
 
                 <form id="registrationForm" method="POST" @submit.prevent="userRegister">

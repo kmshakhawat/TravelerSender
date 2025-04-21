@@ -13,13 +13,13 @@
 
                 <div class="text-center">
                     <form name="tracking" method="GET" action="{{ route('tracking.search') }}">
-                        <input class="form-input mb-4 !text-xl !text-center !min-h-16" type="text" name="trackingNumber" value="{{ request('trackingNumber') }}" placeholder="Enter Tracking Number">
+                        <input class="form-input mb-4 !text-xl !text-center !min-h-16" type="text" name="trackingNumber" value="{{ request('trackingNumber') }}" placeholder="Enter Tracking Number" required autocomplete="off" />
                         <button class="btn-primary" type="submit">Search</button>
                     </form>
                 </div>
 
                 @if($tracking->isNotEmpty())
-                    <div class="flex justify-between items-top my-10">
+                    <div class="flex flex-col sm:flex-row justify-between items-top my-10">
                         @php
                             $icons_old = [
                                 '📦',
@@ -64,7 +64,7 @@
                                 </div>
 
                                 @if ($index < count($steps) - 1)
-                                    <div class="absolute top-[35px] left-16 z-10 w-full h-1 border-t-2 border-dotted
+                                    <div class="absolute top-[35px] left-0 sm:left-16 z-10 w-full h-1 border-t-2 border-dotted
                 {{ in_array($steps[$index + 1], $completedStatuses) ? 'border-green-500' : 'border-gray-300' }} z-0">
                                     </div>
                                 @endif
@@ -74,7 +74,7 @@
                     </div>
 
                     @foreach ($tracking as $index => $track)
-                        <div class="relative flex items-center space-x-4 py-6">
+                        <div class="hidden sm:flex relative items-center space-x-4 py-6">
                             <!-- Step Icon -->
                             <div class="relative z-50">
                                 <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white text-lg font-semibold">
@@ -97,7 +97,6 @@
                                 @endif
                             </div>
                         </div>
-
                     @endforeach
 
                 @else

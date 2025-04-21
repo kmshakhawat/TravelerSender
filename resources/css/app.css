@@ -109,6 +109,9 @@ input[disabled] {
 .links a {
     @apply py-1 block hover:text-gray-700;
 }
+.table-responsive {
+    @apply overflow-x-auto;
+}
 .table {
     @apply w-full;
 }

@@ -41,6 +41,7 @@
                     <li><a href="{{ route('about') }}">About us</a></li>
                     <li><a href="{{ route('how-it-works') }}">How to Works</a></li>
                     <li><a href="{{ route('faq') }}">FAQ</a></li>
+                    <li><a href="{{ route('tracking.search') }}">Track your Parcel</a></li>
                 </ul>
             </div>
             <div class="w-full sm:w-1/2 lg:w-2/12 px-4 mb-4">

@@ -58,7 +58,7 @@ class TripController extends Controller
     public function store(Request $request)
     {
         $validate = $request->validate([
-            'trip_type' => 'required',
+//            'trip_type' => 'required',
             'mode_of_transport' => 'required',
             'from_address_1' => 'required',
             'from_country_id' => 'required',
@@ -224,7 +224,7 @@ class TripController extends Controller
     public function update(Request $request, Trip $trip)
     {
         $validate = $request->validate([
-            'trip_type' => 'required',
+//            'trip_type' => 'required',
             'mode_of_transport' => 'required',
             'from_address_1' => 'required',
             'from_country_id' => 'required',
