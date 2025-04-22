@@ -7,6 +7,7 @@ use App\Http\Services\FileHandler;
 use App\Mail\SendMail;
 use App\Models\Booking;
 use App\Models\Country;
+use App\Models\Payment;
 use App\Models\Trip;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
@@ -24,24 +25,59 @@ class AuthController extends Controller
     public  function dashboard()
     {
         session()->forget('payment');
+        $totals = 0;
+
         if (Auth::user()->hasRole('admin')) {
             $active_trips = Trip::whereIn('status', ['Active', 'Confirmed', 'In Progress'])
                 ->where('departure_date', '>=', Carbon::now())
                 ->count();
+            $bookings = Booking::with(['products','payment'])
+                ->orderBy('id', 'DESC')
+                ->limit(5)->get();
+
+            $trips = Trip::with(['stopovers'])
+                ->orderBy('id', 'DESC')
+                ->paginate(10);
+
+            $earnings = Payment::whereHas('booking', function ($query) {
+                    $query->where('status', 'Completed');
+                })
+                ->where('payment_status', 'paid')
+                ->sum('commission');
+            $totals = Payment::whereHas('booking', function ($query) {
+                $query->where('status', 'Completed');
+            })
+                ->where('payment_status', 'paid')
+                ->sum('amount');
+
+            $customers = User::where('status', 'Active')->role('user')->count('id');
+
         } else {
             $active_trips = Auth::user()->trips()
                 ->whereIn('status', ['Active', 'Confirmed', 'In Progress'])
                 ->where('departure_date', '>=', Carbon::now())
                 ->count();
+
+            $bookings = Booking::with(['products','payment'])
+                ->where('user_id', auth()->id())
+                ->orderBy('id', 'DESC')
+                ->limit(5)->get();
+
+            $trips = Trip::with(['stopovers'])
+                ->where('user_id', auth()->id())
+                ->orderBy('id', 'DESC')
+                ->paginate(10);
+
+            $earnings = Auth::user()->earnings();
+            $customers = Booking::whereHas('trip', function ($query) {
+                $query->where('user_id', Auth::id());
+            })->distinct('user_id')->count('user_id');
         }
         $avg_rating = Auth::user()->averageRating();
-        $earnings = Auth::user()->earnings();
 
-        $customers = Booking::whereHas('trip', function ($query) {
-            $query->where('user_id', Auth::id());
-        })->distinct('user_id')->count('user_id');
 
-        return view('dashboard', compact('avg_rating', 'customers', 'earnings', 'active_trips'));
+
+        return view('dashboard', compact('bookings', 'trips', 'avg_rating', 'customers', 'earnings', 'totals', 'active_trips'));
 
     }
     public function signup(Request $request)

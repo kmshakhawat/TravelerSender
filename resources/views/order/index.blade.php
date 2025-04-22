@@ -128,8 +128,10 @@
                                             <x-status :content="$order->status" :type="'info'" />
                                         @elseif($order->status === 'Booked')
                                             <x-status :content="$order->status" :type="'success'" />
-                                        @elseif($order->status === 'Rejected')
+                                        @elseif($order->status === 'Cancelled')
                                             <x-status :content="$order->status" :type="'danger'" />
+                                        @elseif($order->status === 'Completed')
+                                            <x-status :content="$order->status" :type="'verified'" />
                                         @endif
                                     </a>
                                 </td>
@@ -390,7 +392,6 @@
                 }));
             });
         </script>
-
     @endpush
 
 </x-app-layout>

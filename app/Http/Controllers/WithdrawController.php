@@ -19,6 +19,9 @@ class WithdrawController extends Controller
             $withdraws = Payment::with(['booking','withdraw'])
                 ->where('payment_status', 'paid')
                 ->where('status', 'complete')
+                ->whereHas('booking', function ($query) {
+                    $query->where('status', 'Completed');
+                })
                 ->orderBy('created_at', 'desc')
                 ->paginate(10);
         } else {
@@ -26,6 +29,9 @@ class WithdrawController extends Controller
                 ->with(['booking', 'withdraw'])
                 ->where('payment_status', 'paid')
                 ->where('status', 'complete')
+                ->whereHas('booking', function ($query) {
+                    $query->where('status', 'Completed');
+                })
                 ->orderBy('created_at', 'desc')
                 ->paginate(10);
         }

@@ -45,7 +45,7 @@ return new class extends Migration
             $table->string('otp', 6)->nullable();
             $table->text('note')->nullable();
             $table->text('admin_note')->nullable();
-            $table->enum('status', ['Pending', 'Booked', 'Rejected', 'Completed'])->default('Pending');
+            $table->enum('status', ['Pending', 'Booked', 'Cancelled', 'Completed'])->default('Pending');
             $table->timestamps();
         });
     }

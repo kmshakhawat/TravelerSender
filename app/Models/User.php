@@ -131,6 +131,9 @@ class User extends Authenticatable implements MustVerifyEmail
     public function earnings()
     {
         return $this->hasMany(Payment::class, 'trip_user_id')
+            ->whereHas('booking', function ($query) {
+                $query->where('status', 'Completed');
+            })
             ->where('payment_status', 'paid')
             ->sum('net_amount');
     }

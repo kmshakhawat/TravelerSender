@@ -59,6 +59,9 @@ Route::middleware([
     Route::post('/booking/{booking}/delivery-otp', [BookingController::class, 'deliveryVerify'])->name('booking.delivery-otp');
     Route::post('/booking/{booking}/resend-otp', [BookingController::class, 'otpResend'])->name('booking.resend-otp');
 
+//    Route::get('/booking/{booking}/cancel', [BookingController::class, 'cancel'])->name('booking.cancel');
+//    Route::post('/booking/{booking}/cancel', [BookingController::class, 'cancelStore'])->name('booking.cancel.store');
+
     Route::resource('/order', OrderController::class);
 
     Route::get('/rating/{booking}', [RatingController::class, 'create'])->name('rating.create');

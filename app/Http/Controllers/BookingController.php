@@ -29,7 +29,7 @@ class BookingController extends Controller
                 ->orderBy('id', 'DESC')
                 ->paginate(10);
         } else {
-            $bookings = Booking::with('products')
+            $bookings = Booking::with(['products','payment'])
                 ->where('user_id', auth()->id())
                 ->orderBy('id', 'DESC')
                 ->paginate(10);
@@ -466,6 +466,8 @@ class BookingController extends Controller
             'message' => 'Booking updated successfully'
         ], 200);
     }
+
+
 
     /**
      * Remove the specified resource from storage.

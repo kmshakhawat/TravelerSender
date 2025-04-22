@@ -23,7 +23,7 @@
                             Commission
                         </td>
                         <td class="py-2 pl-2">
-                            Status
+                            Booking Status
                         </td>
                         <td class="py-2 pl-2 flex justify-end">
                             Payouts
@@ -55,12 +55,14 @@
                                     {{ getPrice($withdraw->commission, $withdraw->booking->trip->currency) }}
                                 </td>
                                 <td class="py-3 pl-5">
-                                    @if($withdraw->status === 'Pending')
-                                        <x-status :content="$withdraw->status" :type="'info'" />
-                                    @elseif($withdraw->status === 'Complete')
-                                        <x-status :content="$withdraw->status" :type="'success'" />
-                                    @elseif($withdraw->status === 'Failed')
-                                        <x-status :content="$withdraw->status" :type="'error'" />
+                                    @if($withdraw->booking->status === 'Pending')
+                                        <x-status :content="$withdraw->booking->status" :type="'info'" />
+                                    @elseif($withdraw->booking->status === 'Booked')
+                                        <x-status :content="$withdraw->booking->status" :type="'success'" />
+                                    @elseif($withdraw->booking->status === 'Cancelled')
+                                        <x-status :content="$withdraw->booking->status" :type="'error'" />
+                                    @elseif($withdraw->booking->status === 'Completed')
+                                        <x-status :content="$withdraw->booking->status" :type="'verified'" />
                                     @endif
                                 </td>
                                 <td class="text-end">

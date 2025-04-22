@@ -21,7 +21,12 @@
                             <tr>
                                 <th class="w-64">Reference</th>
                                 <td>
-                                    {{ $booking->tracking_number }}
+                                    <div class="flex items-center gap-5">
+                                        {{ $booking->tracking_number }}
+                                        <a target="_blank" href="{{ route('tracking', '?trackingNumber=' . $booking->tracking_number) }}" class="btn-secondary">
+                                            Tracking Details
+                                        </a>
+                                    </div>
                                 </td>
                             </tr>
                             <tr>

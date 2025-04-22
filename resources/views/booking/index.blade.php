@@ -130,14 +130,16 @@
                                             <x-status :content="$booking->status" :type="'info'" />
                                         @elseif($booking->status === 'Booked')
                                             <x-status :content="$booking->status" :type="'success'" />
-                                        @elseif($booking->status === 'Rejected')
+                                        @elseif($booking->status === 'Cancelled')
                                             <x-status :content="$booking->status" :type="'danger'" />
+                                        @elseif($booking->status === 'Completed')
+                                            <x-status :content="$booking->status" :type="'verified'" />
                                         @endif
                                     </a>
                                 </td>
                                 <td class="py-3 pl-2">
                                     @if($booking->latestTracking)
-                                        <a class="btn-secondary" href="{{ route('tracking', '?trackingNumber=' . $booking->tracking_number) }}">
+                                        <a target="_blank" class="btn-secondary" href="{{ route('tracking', '?trackingNumber=' . $booking->tracking_number) }}">
                                             {{ $booking->latestTracking->status ?? '' }}
                                         </a>
                                     @endif
@@ -153,7 +155,6 @@
                                 </td>
                                 <td class="py-3 pl-2">
                                     <div class="flex items-center justify-end space-x-3">
-                                        @
                                         @if($booking->latestTracking && $booking->latestTracking->status === 'Delivered')
                                             @if(!$booking->rating)
                                                 <a class="!flex gap-1 btn-secondary" href="{{ route('rating.create', $booking->id) }}">
@@ -168,6 +169,7 @@
                                                 </a>
                                             @endif
                                         @endif
+
                                         <a class="flex gap-1 bg-primary text-white px-3 py-2 rounded" href="{{ route('booking.show', $booking->id) }}">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                                  stroke="currentColor" class="h-5 w-5 text-white">
@@ -212,4 +214,196 @@
             </div>
         </div>
     </div>
+
+    @push('scripts')
+        <script>
+            document.addEventListener('alpine:init', () => {
+                Alpine.data('travel', () => ({
+                    cancelBooking     : function (booking) {
+                        axios.get(route('booking.cancel', booking))
+                            .then(response => {
+                                this.$nextTick(() => {
+                                    flatpickr(".datepicker", {
+                                        altInput: true,
+                                        altFormat: "F j, Y",
+                                        dateFormat: "Y-m-d",
+                                    });
+                                });
+                                this.$store.app.showModal       = true;
+                                this.$refs.modalContent.innerHTML = response.data.edit;
+                            })
+                            .catch(error => {
+                                console.log(error);
+                            });
+                    },
+                    updateTracking    : function () {
+                        Swal.fire({
+                            title            : 'Updating...',
+                            allowOutsideClick: true,
+                            icon             : 'info',
+                            didOpen          : () => {
+                                Swal.showLoading();
+                            }
+                        });
+                        axios({
+                            method : 'POST',
+                            url    : route('tracking.store'),
+                            data   : new FormData(this.$refs.trackingForm),
+                            headers: {
+                                'Content-Type': 'multipart/form-data'
+                            }
+                        })
+                            .then(response => {
+
+                                Swal.fire({
+                                    title            : 'Success!',
+                                    text             : response.data.message,
+                                    icon             : 'success',
+                                    confirmButtonText: 'OK'
+                                });
+                                this.$store.app.showModal = false;
+                                location.reload();
+                            })
+                            .catch(error => {
+                                window.showJsonErrorMessage(error);
+                            });
+                    },
+                    bookingPickup     : function (booking) {
+                        axios.get(route('booking.pickup', booking))
+                            .then(response => {
+                                this.$nextTick(() => {
+                                    flatpickr(".datepicker", {
+                                        altInput: true,
+                                        altFormat: "F j, Y",
+                                        dateFormat: "Y-m-d",
+                                    });
+                                });
+                                this.$store.app.showModal       = true;
+                                this.$refs.modalContent.innerHTML = response.data.pickup;
+                            })
+                            .catch(error => {
+                                console.log(error);
+                            });
+                    },
+                    pickupVerify    : function (booking) {
+                        Swal.fire({
+                            title            : 'Updating...',
+                            allowOutsideClick: true,
+                            icon             : 'info',
+                            didOpen          : () => {
+                                Swal.showLoading();
+                            }
+                        });
+                        axios({
+                            method : 'POST',
+                            url    : route('booking.pickup-otp', booking),
+                            data   : new FormData(this.$refs.pickupForm),
+                            headers: {
+                                'Content-Type': 'multipart/form-data'
+                            }
+                        })
+                            .then(response => {
+                                Swal.fire({
+                                    title            : 'Success!',
+                                    text             : response.data.message,
+                                    icon             : 'success',
+                                    confirmButtonText: 'OK'
+                                });
+                                this.$store.app.showModal = false;
+                                setTimeout(() => {
+                                    location.reload();
+                                }, 2000);
+                            })
+                            .catch(error => {
+                                window.showJsonErrorMessage(error);
+                            });
+                    },
+                    resendOTP: function(booking, type) {
+                        Swal.fire({
+                            title: 'Resending OTP...',
+                            allowOutsideClick: true,
+                            icon: 'info',
+                            didOpen: () => {
+                                Swal.showLoading();
+                            }
+                        });
+
+                        let formData = new FormData();
+                        formData.append('type', type);
+
+                        axios({
+                            method: 'POST',
+                            url: route('booking.resend-otp', booking),
+                            data: formData,
+                            headers: {
+                                'Content-Type': 'multipart/form-data'
+                            }
+                        })
+                            .then(response => {
+                                Swal.fire({
+                                    title: 'Success!',
+                                    text: response.data.message,
+                                    icon: 'success',
+                                    confirmButtonText: 'OK'
+                                });
+                            })
+                            .catch(error => {
+                                window.showJsonErrorMessage(error);
+                            });
+                    },
+                    bookingDelivery     : function (booking) {
+                        axios.get(route('booking.delivery', booking))
+                            .then(response => {
+                                this.$nextTick(() => {
+                                    flatpickr(".datepicker", {
+                                        altInput: true,
+                                        altFormat: "F j, Y",
+                                        dateFormat: "Y-m-d",
+                                    });
+                                });
+                                this.$store.app.showModal       = true;
+                                this.$refs.modalContent.innerHTML = response.data.delivery;
+                            })
+                            .catch(error => {
+                                console.log(error);
+                            });
+                    },
+                    deliveryVerify   : function (booking) {
+                        Swal.fire({
+                            title            : 'Updating...',
+                            allowOutsideClick: true,
+                            icon             : 'info',
+                            didOpen          : () => {
+                                Swal.showLoading();
+                            }
+                        });
+                        axios({
+                            method : 'POST',
+                            url    : route('booking.delivery-otp', booking),
+                            data   : new FormData(this.$refs.deliveryForm),
+                            headers: {
+                                'Content-Type': 'multipart/form-data'
+                            }
+                        })
+                            .then(response => {
+                                Swal.fire({
+                                    title            : 'Success!',
+                                    text             : response.data.message,
+                                    icon             : 'success',
+                                    confirmButtonText: 'OK'
+                                });
+                                this.$store.app.showModal = false;
+                                setTimeout(() => {
+                                    location.reload();
+                                }, 2000);
+                            })
+                            .catch(error => {
+                                window.showJsonErrorMessage(error);
+                            });
+                    },
+                }));
+            });
+        </script>
+    @endpush
+
 </x-app-layout>
