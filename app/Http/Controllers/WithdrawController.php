@@ -15,26 +15,38 @@ class WithdrawController extends Controller
 {
     public function index()
     {
-        if (auth()->user()->hasRole('admin')) {
-            $withdraws = Payment::with(['booking','withdraw'])
-                ->where('payment_status', 'paid')
-                ->where('status', 'complete')
-                ->whereHas('booking', function ($query) {
-                    $query->where('status', 'Completed');
-                })
-                ->orderBy('created_at', 'desc')
-                ->paginate(10);
-        } else {
-            $withdraws = Payment::where('trip_user_id', Auth::id())
-                ->with(['booking', 'withdraw'])
-                ->where('payment_status', 'paid')
-                ->where('status', 'complete')
-                ->whereHas('booking', function ($query) {
-                    $query->where('status', 'Completed');
-                })
-                ->orderBy('created_at', 'desc')
-                ->paginate(10);
-        }
+//        if (auth()->user()->hasRole('admin')) {
+//            $withdraws = Payment::with(['booking','withdraw'])
+//                ->where('payment_status', 'paid')
+//                ->where('status', 'complete')
+//                ->whereHas('booking', function ($query) {
+//                    $query->where('status', 'Completed');
+//                })
+//                ->orderBy('created_at', 'desc')
+//                ->paginate(10);
+//        } else {
+//            $withdraws = Payment::where('trip_user_id', Auth::id())
+//                ->with(['booking', 'withdraw'])
+//                ->where('payment_status', 'paid')
+//                ->where('status', 'complete')
+//                ->whereHas('booking', function ($query) {
+//                    $query->where('status', 'Completed');
+//                })
+//                ->orderBy('created_at', 'desc')
+//                ->paginate(10);
+//        }
+
+        $withdraws = Payment::with(['booking','withdraw'])
+            ->where('payment_status', 'paid')
+            ->where('status', 'complete')
+            ->whereHas('booking', function ($query) {
+                $query->where('status', 'Completed');
+            })
+            ->when(auth()->user()->hasRole('user'), function ($query) {
+                $query->where('trip_user_id', Auth::id());
+            })
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
 
         return view('withdraw.index', compact('withdraws'));
     }
@@ -84,7 +96,8 @@ class WithdrawController extends Controller
             'template' => 'emails.admin.withdraw',
             'subject' => 'Withdraw Request'. ' - form '. $payment->tripUser->name,
         ];
-        Mail::to(config('app.admin.email'))->send(new SendMail($mailable_data_admin));
+        $admin_email = config('app.admin.email');
+        Mail::to($admin_email)->send(new SendMail($mailable_data_admin));
 
         $mailable_data = [
             'name' => $payment->tripUser->name,

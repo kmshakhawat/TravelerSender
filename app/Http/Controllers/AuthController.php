@@ -309,7 +309,8 @@ class AuthController extends Controller
             'template' => 'emails.verification-submitted',
             'subject' => 'New Verification Submitted by '. $user->name,
         ];
-        Mail::to(config('app.admin.email'))->send(new SendMail($mailable_data_admin));
+        $admin_email = config('app.admin.email');
+        Mail::to($admin_email)->send(new SendMail($mailable_data_admin));
 
 
         return response()->json([

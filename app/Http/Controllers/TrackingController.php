@@ -157,7 +157,8 @@ class TrackingController extends Controller
     {
         abort_if(!request()->ajax(), 403);
         $tracking->load('latest');
-        $tracking_status = Travel::trackingStatus();
+        $tracking_status = collect(Travel::trackingStatus())->except([2, 6])->values();
+
         $latest = $tracking->latest;
         $edit = view('tracking.edit', compact('tracking', 'latest', 'tracking_status'))->render();
         return new JsonResponse([

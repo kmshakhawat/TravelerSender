@@ -20,7 +20,6 @@ class OTP
         }
         if (auth()->check()) {
             $user = auth()->user();
-
             // If OTP is not verified or has expired, redirect to OTP verification
             if (!$user->hasValidOtp()) {
                 return redirect()->route('otp')->with('message', 'Please verify your OTP');

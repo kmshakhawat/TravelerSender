@@ -183,15 +183,17 @@
                                 <span>{{ $trip->available_space . ' ' . $trip->weight_unit }}</span>
                             </div>
                             <div class="flex gap-4 mt-8">
-                                <a class="btn-primary"
-                                   @if(Auth::user()->verified)
-                                       href="{{ route('booking', $trip->id) }}"
-                                   @else
-                                       @click.prevent="verifiedAlert"
-                                    @endif
-                                >
-                                    Send my Parcel
-                                </a>
+                                @if(Auth::user()->id != $trip->user_id && $trip->status === 'Active')
+                                    <a class="btn-primary"
+                                       @if(Auth::user()->verified)
+                                           href="{{ route('booking', $trip->id) }}"
+                                       @else
+                                           @click.prevent="verifiedAlert"
+                                        @endif
+                                    >
+                                        Send my Parcel
+                                    </a>
+                                @endif
                                 <a class="btn-secondary"
                                    @if(Auth::user()->verified)
                                        href="{{ route('message', $trip->user_id) }}"

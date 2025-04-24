@@ -16,7 +16,12 @@
                         <tr>
                             <th class="w-64">Reference</th>
                             <td>
-                                {{ $order->tracking_number }}
+                                <div class="flex items-center gap-5">
+                                    {{ $order->tracking_number }}
+                                    <a target="_blank" href="{{ route('tracking', '?trackingNumber=' . $order->tracking_number) }}" class="btn-secondary">
+                                        Tracking Details
+                                    </a>
+                                </div>
                             </td>
                         </tr>
                         <tr>

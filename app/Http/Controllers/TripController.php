@@ -167,7 +167,8 @@ class TripController extends Controller
             'template' => 'emails.add-trip-admin',
             'subject' => ' New Trip Added by '. $trip->user->name,
         ];
-        Mail::to(config('app.admin.email'))->send(new SendMail($mailable_data_admin));
+        $admin_email = config('app.admin.email');
+        Mail::to($admin_email)->send(new SendMail($mailable_data_admin));
 
         return response()->json([
             'status' => 'success',

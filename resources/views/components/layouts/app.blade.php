@@ -25,7 +25,7 @@
         @include('layouts.inc.header')
         <x-banner />
 
-        <div class="min-h-screen bg-gray-100">
+        <div class="min-h-96 bg-gray-100">
 {{--            @livewire('navigation-menu')--}}
 
             <!-- Page Heading -->

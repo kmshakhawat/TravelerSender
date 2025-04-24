@@ -58,9 +58,9 @@ class NewsletterSubscriberController extends Controller
                 'email' => $request->email,
                 'subscribed_at' => now(),
             ];
-
+            $admin_email = config('app.admin.email');
             $emailConfigs = [
-                config('app.admin.email') => [
+                $admin_email => [
                     'subject' => 'New Newsletter Subscription Alert!',
                     'template' => 'emails.admin.newsletter-subscription',
                 ],

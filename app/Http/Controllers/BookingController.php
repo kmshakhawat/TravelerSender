@@ -53,6 +53,10 @@ class BookingController extends Controller
             return redirect()->route('trip.search')->with('error', 'Trip not found.');
         }
 
+        if ($trip->status != 'Active') {
+            return redirect()->route('trip.search')->with('error', 'You can\'t book this trip.');
+        }
+
         if (auth()->id() === $trip->user_id) {
             return redirect()->route('trip.search')->with('error', 'You’re not allowed to book your own trip.');
         }
@@ -179,7 +183,7 @@ class BookingController extends Controller
             'url' => config('app.url') . '/booking/' . $booking->id,
             'order_url' => config('app.url') . '/order/' . $booking->id,
         ];
-
+        $admin_email = config('app.admin.email');
         $recipients = [
             $booking->user->email => [
                 'subject' => 'Your Trip Booking is Confirmed!',
@@ -189,7 +193,7 @@ class BookingController extends Controller
                 'subject' => 'You’ve Received a New Booking for Your Trip!',
                 'template' => 'emails.booking.confirmation-traveller'
             ],
-            config('app.admin.email') => [
+            $admin_email => [
                 'subject' => 'New Trip Booking Received – '. $booking->user->name .' → ' . $booking->trip->user->name,
                 'template' => 'emails.booking.confirmation-admin'
             ]
@@ -245,7 +249,7 @@ class BookingController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Booking created successfully',
+            'message' => 'Booking request successfully',
             'checkout_url' => $checkoutSession->url
         ], 200);
 
@@ -368,7 +372,7 @@ class BookingController extends Controller
             ]);
             $booking->update([
                 'otp' => null,
-                'status' => 'Booked',
+                'status' => 'Completed',
             ]);
 
             $booking->trip->update([
@@ -386,6 +390,7 @@ class BookingController extends Controller
                 'rating_url' => config('app.url') . '/rating/' . $booking->trip->user->id
             ];
 
+            $admin_email = config('app.admin.email');
             $recipients = [
                 $booking->user->email => [
                     'subject' => 'Parcel Delivered Successfully!',
@@ -395,7 +400,7 @@ class BookingController extends Controller
                     'subject' => 'Parcel Delivered Successfully!',
                     'template' => 'emails.booking.delivered'
                 ],
-                config('app.admin.email') => [
+                $admin_email => [
                     'subject' => 'Parcel Delivered – '. $booking->user->name .' → ' . $booking->trip->toCountry->name,
                     'template' => 'emails.booking.delivered-admin'
                 ]
