@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('sender_email');
             $table->string('sender_phone');
             $table->string('collection_type');
+            $table->text('flexible_place')->nullable();
             $table->string('pickup_address_1')->nullable();
             $table->string('pickup_address_2')->nullable();
             $table->foreignIdFor(Country::class, 'pickup_country_id')->nullable()->constrained()->nullOnDelete();
@@ -34,6 +35,8 @@ return new class extends Migration
             $table->string('receiver_name');
             $table->string('receiver_email');
             $table->string('receiver_phone');
+            $table->string('delivery_type');
+            $table->text('flexible_delivery_place')->nullable();
             $table->string('delivery_address_1')->nullable();
             $table->string('delivery_address_2')->nullable();
             $table->foreignIdFor(Country::class, 'delivery_country_id')->nullable()->constrained()->nullOnDelete();

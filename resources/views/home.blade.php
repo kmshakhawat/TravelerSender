@@ -12,7 +12,7 @@
                 <div class="w-full sm:w-1/3 shadow-lg rounded-lg p-5 border">
                     <div class="text-6xl text-primary font-bold mb-4">1.</div>
                     <h3 class="text-2xl font-bold">Post or Search a Trip</h3>
-                    <p>Senders browse or search for travelers heading to their parcel’s destination. Travelers list their upcoming trips and available luggage space.</p>
+                    <p>Travelers list their upcoming trips and available luggage space. Senders browse or search for travelers heading to their parcel’s destination.</p>
                 </div>
                 <div class="w-full sm:w-1/3 shadow-lg rounded-lg p-5 border">
                     <div class="text-6xl text-primary font-bold mb-4">2.</div>

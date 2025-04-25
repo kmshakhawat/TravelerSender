@@ -127,9 +127,17 @@ class Travel
     {
         return self::generateDropdown([
             'Collect from Address',
-            'Send by Currier',
+            'Flexible Meet',
+            'Send by Courier',
             'Send by Friend',
             'Send by Cab/Uber Driver',
+        ]);
+    }
+    public static function parcelDeliveryType(): array
+    {
+        return self::generateDropdown([
+            'Deliver to Address',
+            'Flexible Meet',
         ]);
     }
     public static function paymentStatus(): array

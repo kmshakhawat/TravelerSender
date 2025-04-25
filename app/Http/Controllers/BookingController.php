@@ -64,8 +64,9 @@ class BookingController extends Controller
         $item_type_option = Travel::itemType();
         $location_type_options = Travel::locationType();
         $collection_type_options = Travel::parcelCollectionType();
+        $delivery_type_options = Travel::parcelDeliveryType();
         $countries = countries();
-        return view('booking.booking-form', compact('trip', 'countries', 'item_type_option', 'location_type_options', 'collection_type_options'));
+        return view('booking.booking-form', compact('trip', 'countries', 'item_type_option', 'location_type_options', 'collection_type_options','delivery_type_options'));
     }
 
     /**
@@ -81,13 +82,7 @@ class BookingController extends Controller
             'receiver_name' => 'required|string|max:255',
             'receiver_email' => 'required|email|max:255',
             'receiver_phone' => 'required|string|max:255',
-            'delivery_address_1' => 'required|string|max:255',
-            'delivery_country_id' => 'required|integer',
-            'delivery_state_id' => 'required|integer',
-            'delivery_city' => 'required|string|max:255',
-            'delivery_postcode' => 'required|string|max:255',
-            'delivery_location_type' => 'required|string|max:255',
-            'delivery_date' => 'required|date',
+            'delivery_type' => 'required|string|max:255',
             'note' => 'nullable|string',
             'admin_note' => 'nullable|string',
             'products' => 'required|array',
@@ -104,6 +99,28 @@ class BookingController extends Controller
                 'pickup_date' => 'required|date',
             ]);
         }
+        if ($request->collection_type == 'Flexible Meet') {
+            $request->validate([
+                'flexible_place' => 'required',
+            ]);
+        }
+
+        if ($request->delivery_type == 'Deliver to Address') {
+            $request->validate([
+                'delivery_address_1' => 'required|string|max:255',
+                'delivery_country_id' => 'required|integer',
+                'delivery_state_id' => 'required|integer',
+                'delivery_city' => 'required|string|max:255',
+                'delivery_postcode' => 'required|string|max:255',
+                'delivery_location_type' => 'required|string|max:255',
+                'delivery_date' => 'required|date',
+            ]);
+        }
+        if ($request->delivery_type == 'Flexible Meet') {
+            $request->validate([
+                'flexible_delivery_place' => 'required',
+            ]);
+        }
 
         $trip_user_id = Trip::where('id', $request->trip_id)->first()->user_id;
 
@@ -115,6 +132,7 @@ class BookingController extends Controller
             'sender_email' => $request->sender_email,
             'sender_phone' => $request->sender_phone,
             'collection_type' => $request->collection_type,
+            'flexible_place' => $request->flexible_place,
             'pickup_address_1' => $request->pickup_address_1,
             'pickup_address_2' => $request->pickup_address_2,
             'pickup_country_id' => $request->pickup_country_id,
@@ -126,6 +144,8 @@ class BookingController extends Controller
             'receiver_name' => $request->receiver_name,
             'receiver_email' => $request->receiver_email,
             'receiver_phone' => $request->receiver_phone,
+            'delivery_type' => $request->delivery_type,
+            'flexible_delivery_place' => $request->flexible_delivery_place,
             'delivery_address_1' => $request->delivery_address_1,
             'delivery_address_2' => $request->delivery_address_2,
             'delivery_country_id' => $request->delivery_country_id,

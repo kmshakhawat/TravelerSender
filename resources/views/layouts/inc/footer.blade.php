@@ -26,7 +26,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
                             </svg>
                         </span>
-                    Lorem Ipsum is simply dummy
+                    4 Alhaji Jimoh Street<br>Off Adeniyi Jones, Ikeja-Lagos
                 </div>
                 <div class="flex gap-2 mb-5">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -39,7 +39,7 @@
                 <h4 class="footer-title">Company</h4>
                 <ul class="links">
                     <li><a href="{{ route('about') }}">About us</a></li>
-                    <li><a href="{{ route('how-it-works') }}">How to Works</a></li>
+                    <li><a href="{{ route('how-it-works') }}">How it works</a></li>
                     <li><a href="{{ route('faq') }}">FAQ</a></li>
                     <li><a href="{{ route('tracking.search') }}">Track your Parcel</a></li>
                 </ul>

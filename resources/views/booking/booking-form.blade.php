@@ -117,6 +117,13 @@
                             </div>
                         </div>
                     </div>
+                    <div id="flexible" style="display: none">
+                        <div class="mt-4">
+                            <x-label for="flexible_place" value="{{ __('Flexible Place Details (malls or restaurants)') }}" />
+                            <textarea name="flexible_place" id="flexible_place" class="form-input">{{ old('flexible_place') }}</textarea>
+                            <div class="invalid-feedback invalid-flexible_place"></div>
+                        </div>
+                    </div>
 
                     <h3 class="heading-5 mt-8 mb-4 heading-title">Receiver Details</h3>
                     <div class="flex flex-col sm:flex-row sm:gap-4">
@@ -151,57 +158,73 @@
                             <div class="invalid-feedback invalid-receiver_phone"></div>
                         </div>
                     </div>
-                    <div class="flex gap-4">
-                        <div class="w-full sm:w-1/2 mt-4">
-                            <x-label for="delivery_address_1" value="{{ __('Address Line 1') }}" />
-                            <x-input id="delivery_address_1" class="block w-full" type="text" name="delivery_address_1" :value="old('delivery_address_1')" autocomplete="delivery_address_1" />
-                            <div class="invalid-feedback invalid-delivery_address_1"></div>
-                        </div>
-                        <div class="w-full sm:w-1/2 mt-4">
-                            <x-label for="delivery_address_2" value="{{ __('Address Line 2') }}" />
-                            <x-input id="delivery_address_2" class="block w-full" type="text" name="delivery_address_2" :value="old('delivery_address_2')" autocomplete="delivery_address_2" />
-                            <div class="invalid-feedback invalid-delivery_address_2"></div>
-                        </div>
-                    </div>
-                    <div class="flex gap-4">
-                        <div class="w-full sm:w-1/2 mt-4">
-                            <x-label for="delivery_country_id" value="{{ __('Country') }}" />
-                            <x-input-dropdown id="delivery_country_id" class="delivery_country_id" name="delivery_country_id" :options="$countries" :selected="[]"/>
-                            <div class="invalid-feedback invalid-delivery_country_id"></div>
-                        </div>
-                        <div class="w-full sm:w-1/2 mt-4">
-                            <x-label for="delivery_state_id" value="{{ __('State') }}" />
-                            <x-input-dropdown id="delivery_state_id" class="delivery_state_id" name="delivery_state_id" :options="[]" :selected="[]" />
-                            <div class="invalid-feedback invalid-delivery_state_id"></div>
-                        </div>
-                    </div>
-                    <div class="flex gap-4">
-                        <div class="w-full sm:w-1/2 mt-4">
-                            <x-label for="delivery_city" value="{{ __('City') }}" />
-                            <x-input id="delivery_city" class="block w-full" type="text" name="delivery_city" :value="old('delivery_city')" autocomplete="delivery_city" />
-                            <div class="invalid-feedback invalid-delivery_city"></div>
-                        </div>
-                        <div class="w-full sm:w-1/2 mt-4">
-                            <x-label for="delivery_postcode" value="{{ __('Postcode') }}" />
-                            <x-input id="delivery_postcode" class="block w-full" type="text" name="delivery_postcode" :value="old('delivery_postcode')" autocomplete="delivery_postcode" />
-                            <div class="invalid-feedback invalid-delivery_postcode"></div>
-                        </div>
-                    </div>
                     <div class="flex flex-col sm:flex-row sm:gap-4">
                         <div class="w-full sm:w-1/2 mt-4">
-                            <x-label for="delivery_location_type" value="{{ __('Delivery Location Type') }}" />
-                            <x-input-dropdown :search="false" class="w-full" name="delivery_location_type" :options="$location_type_options" :selected="[]"/>
-                            <div class="invalid-feedback invalid-delivery_location_type"></div>
+                            <x-label for="delivery_type" value="{{ __('Convenient Parcel Delivery') }}" />
+                            <x-input-dropdown class="delivery_type !w-64" name="delivery_type" :options="$delivery_type_options" :selected="[]"/>
+                            <div class="invalid-feedback invalid-delivery_type"></div>
                         </div>
-                        <div class="w-full sm:w-1/2 mt-4">
-                            <x-label for="delivery_date" value="{{ __('Delivery Date') }}" />
-                            <div class="relative">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 opacity-50 text-primary absolute left-3 top-1/2 transform -translate-y-1/2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z" />
-                                </svg>
-                                <x-input id="delivery_date" class="block w-full timepicker ps-10" type="text" name="delivery_date" :value="old('delivery_date')" required autocomplete="delivery_date" />
+                    </div>
+                    <div id="delivery_address" style="display: none">
+                        <div class="flex gap-4">
+                            <div class="w-full sm:w-1/2 mt-4">
+                                <x-label for="delivery_address_1" value="{{ __('Address Line 1') }}" />
+                                <x-input id="delivery_address_1" class="block w-full" type="text" name="delivery_address_1" :value="old('delivery_address_1')" autocomplete="delivery_address_1" />
+                                <div class="invalid-feedback invalid-delivery_address_1"></div>
                             </div>
-                            <div class="invalid-feedback invalid-delivery_date"></div>
+                            <div class="w-full sm:w-1/2 mt-4">
+                                <x-label for="delivery_address_2" value="{{ __('Address Line 2') }}" />
+                                <x-input id="delivery_address_2" class="block w-full" type="text" name="delivery_address_2" :value="old('delivery_address_2')" autocomplete="delivery_address_2" />
+                                <div class="invalid-feedback invalid-delivery_address_2"></div>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="w-full sm:w-1/2 mt-4">
+                                <x-label for="delivery_country_id" value="{{ __('Country') }}" />
+                                <x-input-dropdown id="delivery_country_id" class="delivery_country_id" name="delivery_country_id" :options="$countries" :selected="[]"/>
+                                <div class="invalid-feedback invalid-delivery_country_id"></div>
+                            </div>
+                            <div class="w-full sm:w-1/2 mt-4">
+                                <x-label for="delivery_state_id" value="{{ __('State') }}" />
+                                <x-input-dropdown id="delivery_state_id" class="delivery_state_id" name="delivery_state_id" :options="[]" :selected="[]" />
+                                <div class="invalid-feedback invalid-delivery_state_id"></div>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="w-full sm:w-1/2 mt-4">
+                                <x-label for="delivery_city" value="{{ __('City') }}" />
+                                <x-input id="delivery_city" class="block w-full" type="text" name="delivery_city" :value="old('delivery_city')" autocomplete="delivery_city" />
+                                <div class="invalid-feedback invalid-delivery_city"></div>
+                            </div>
+                            <div class="w-full sm:w-1/2 mt-4">
+                                <x-label for="delivery_postcode" value="{{ __('Postcode') }}" />
+                                <x-input id="delivery_postcode" class="block w-full" type="text" name="delivery_postcode" :value="old('delivery_postcode')" autocomplete="delivery_postcode" />
+                                <div class="invalid-feedback invalid-delivery_postcode"></div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col sm:flex-row sm:gap-4">
+                            <div class="w-full sm:w-1/2 mt-4">
+                                <x-label for="delivery_location_type" value="{{ __('Delivery Location Type') }}" />
+                                <x-input-dropdown :search="false" class="w-full" name="delivery_location_type" :options="$location_type_options" :selected="[]"/>
+                                <div class="invalid-feedback invalid-delivery_location_type"></div>
+                            </div>
+                            <div class="w-full sm:w-1/2 mt-4">
+                                <x-label for="delivery_date" value="{{ __('Delivery Date') }}" />
+                                <div class="relative">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 opacity-50 text-primary absolute left-3 top-1/2 transform -translate-y-1/2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z" />
+                                    </svg>
+                                    <x-input id="delivery_date" class="block w-full timepicker ps-10" type="text" name="delivery_date" :value="old('delivery_date')" required autocomplete="delivery_date" />
+                                </div>
+                                <div class="invalid-feedback invalid-delivery_date"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="flexible_delivery" style="display: none">
+                        <div class="mt-4">
+                            <x-label for="flexible_delivery_place" value="{{ __('Flexible Place Details (malls or restaurants)') }}" />
+                            <textarea name="flexible_delivery_place" id="flexible_delivery_place" class="form-input">{{ old('flexible_delivery_place') }}</textarea>
+                            <div class="invalid-feedback invalid-flexible_delivery_place"></div>
                         </div>
                     </div>
 
@@ -232,9 +255,31 @@
                     } else {
                         $('#pickup_address').slideUp(100);
                     }
+                    if( collection_type === 'Flexible Meet') {
+                        $('#flexible').slideDown(100);
+                    } else {
+                        $('#flexible').slideUp(100);
+                    }
                 }
                 toggleParcelCollection();
+
                 $('.collection_type').on('change', toggleParcelCollection);
+
+                function toggleParcelDelivery() {
+                    let delivery_type = $('.delivery_type').val();
+                    if (delivery_type === 'Deliver to Address') {
+                        $('#delivery_address').slideDown(100);
+                    } else {
+                        $('#delivery_address').slideUp(100);
+                    }
+                    if( delivery_type === 'Flexible Meet') {
+                        $('#flexible_delivery').slideDown(100);
+                    } else {
+                        $('#flexible_delivery').slideUp(100);
+                    }
+                }
+                toggleParcelDelivery();
+                $('.delivery_type').on('change', toggleParcelDelivery);
 
 
                 countryStateDropdown('.pickup_country_id', '.pickup_state_id');
@@ -290,7 +335,7 @@
                 </div>
                 <div class="flex flex-col sm:flex-row sm:gap-4">
                     <div class="w-full sm:w-1/4 mt-4">
-                        <x-label value="{{ __('Box') }}" />
+                        <x-label value="{{ __('Bag/Box') }}" />
                         <select class="form-input" name="products[${index}][box]">
                             <option value="">Select</option>
                             <option value="Yes">Yes</option>
