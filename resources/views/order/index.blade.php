@@ -15,7 +15,7 @@
                             Trip
                         </td>
                         <td class="py-2 pl-2">
-                            Reference
+                            Tracking Number
                         </td>
                         <td class="py-2 pl-2">
                             Sender

@@ -19,7 +19,7 @@
                         <h3 class="heading-5 mb-4 heading-title">Booking Details</h3>
                         <table class="w-full table mb-8 whitespace-nowrap">
                             <tr>
-                                <th class="w-64">Reference</th>
+                                <th class="w-64">Tracking Number</th>
                                 <td>
                                     <div class="flex items-center gap-5">
                                         {{ $booking->tracking_number }}

@@ -44,6 +44,7 @@ class Booking extends Model
         'otp',
         'note',
         'admin_note',
+        'package_condition',
         'status',
     ];
 

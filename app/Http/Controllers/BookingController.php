@@ -277,6 +277,7 @@ class BookingController extends Controller
 
     public function pickup(Booking $booking)
     {
+
         $pickup = view('order.pickup', compact('booking'))->render();
         return response()->json([
             'status' => 'success',
@@ -331,17 +332,22 @@ class BookingController extends Controller
     }
     public function pickupVerify(Booking $booking, Request $request)
     {
+        $package_condition = [
+            'products' => $request->products,
+            'condition_details' => $request->condition_details,
+        ];
+
         $request->validate([
             'otp' => 'required|numeric'
         ]);
         if ($request->otp == $booking->otp) {
-
             Tracking::create([
                 'booking_id' => $booking->id,
                 'status' => 'Picked Up',
                 'status_update_at' => now(),
             ]);
             $booking->update([
+                'package_condition' => $package_condition,
                 'otp' => null,
             ]);
             $booking->trip->update([
