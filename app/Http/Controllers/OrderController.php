@@ -150,8 +150,9 @@ class OrderController extends Controller
 
         $in_package_product = json_decode($order->package_condition)->products ?? [];
         $package_products = $order->products()->whereIn('id', $in_package_product)->get();
+        $condition_details = json_decode($order->package_condition)->condition_details ?? '';
 
-        return view('order.show', compact('order', 'order_status', 'tracking_status', 'package_products'));
+        return view('order.show', compact('order', 'order_status', 'tracking_status', 'package_products', 'condition_details'));
     }
 
     /**

@@ -21,6 +21,7 @@
                     lg:relative lg:w-auto lg:h-auto lg:flex lg:flex-row lg:justify-start lg:text-black lg:bg-transparent">
                         <a class="font-medium text-lg text-black hover:text-primary" href="/">Home</a>
                         <a class="font-medium text-lg text-black hover:text-primary" href="{{ route('about') }}">About</a>
+                        <a class="font-medium text-lg text-black hover:text-primary" href="{{ route('trip.create') }}">List a Trip</a>
                         <a class="font-medium text-lg text-black hover:text-primary" href="{{ route('trip.search') }}">Trip Search</a>
                         <a class="font-medium text-lg text-black hover:text-primary" href="{{ route('contact') }}">Contact</a>
 

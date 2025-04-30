@@ -458,7 +458,12 @@ class BookingController extends Controller
         session()->forget('payment');
         $booking->load(['products.photos', 'trip']);
         $booking_status = Travel::bookingStatus();
-        return view('booking.show', compact('booking', 'booking_status'));
+
+        $in_package_product = json_decode($booking->package_condition)->products ?? [];
+        $package_products = $booking->products()->whereIn('id', $in_package_product)->get();
+        $condition_details = json_decode($booking->package_condition)->condition_details ?? '';
+
+        return view('booking.show', compact('booking', 'booking_status', 'package_products', 'condition_details'));
     }
 
     /**

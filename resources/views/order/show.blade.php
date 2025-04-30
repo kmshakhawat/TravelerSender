@@ -24,7 +24,8 @@
                                 </div>
                             </td>
                         </tr>
-                        <tr>
+                        @if($package_products && count($package_products) > 0)
+                            <tr>
                             <th class="w-64">In Package Products</th>
                             <td>
                                 <div class="flex flex-col">
@@ -53,11 +54,14 @@
                                         </tr>
                                     @endforeach
                                     </table>
-                                    <div class="text-sm font-semibold mt-4">Details</div>
-                                    <div class="text-sm text-gray-600">{{ json_decode($order->package_condition)->condition_details }}</div>
+                                    @if($condition_details)
+                                        <div class="text-sm font-semibold mt-4">Details</div>
+                                        <div class="text-sm text-gray-600">{{ $condition_details }}</div>
+                                    @endif
                                 </div>
                             </td>
                         </tr>
+                        @endif
                         <tr>
                             <th class="w-64">Order By</th>
                             <td>

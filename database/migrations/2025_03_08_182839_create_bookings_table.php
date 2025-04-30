@@ -45,6 +45,9 @@ return new class extends Migration
             $table->string('delivery_postcode', 50)->nullable();
             $table->string('delivery_location_type');
             $table->timestamp('delivery_date');
+            $table->string('friend_name', 100)->nullable();
+            $table->string('friend_email', 30)->nullable();
+            $table->string('friend_phone', 20)->nullable();
             $table->string('otp', 6)->nullable();
             $table->text('note')->nullable();
             $table->text('admin_note')->nullable();
