@@ -89,8 +89,8 @@
                         </div>
                         <div class="flex gap-4">
                             <div class="w-full sm:w-1/2 mt-4">
-                                <x-label for="pickup_city" value="{{ __('City') }}" />
-                                <x-input id="pickup_city" class="block w-full" type="text" name="pickup_city" :value="old('pickup_city')" autocomplete="pickup_city" />
+                                <x-label for="pickup_city_id" value="{{ __('City') }}" />
+                                <x-input-dropdown id="pickup_city_id" class="w-full pickup_city_id" name="pickup_city_id" :options="[]" :selected="[]" />
                                 <div class="invalid-feedback invalid-pickup_city"></div>
                             </div>
                             <div class="w-full sm:w-1/2 mt-4">
@@ -226,8 +226,8 @@
                         </div>
                         <div class="flex gap-4">
                             <div class="w-full sm:w-1/2 mt-4">
-                                <x-label for="delivery_city" value="{{ __('City') }}" />
-                                <x-input id="delivery_city" class="block w-full" type="text" name="delivery_city" :value="old('delivery_city')" autocomplete="delivery_city" />
+                                <x-label for="delivery_city_id" value="{{ __('City') }}" />
+                                <x-input-dropdown id="delivery_city_id" class="delivery_city_id" name="delivery_city_id" :options="[]" :selected="[]" />
                                 <div class="invalid-feedback invalid-delivery_city"></div>
                             </div>
                             <div class="w-full sm:w-1/2 mt-4">
@@ -320,8 +320,8 @@
                 toggleParcelDelivery();
                 $('.delivery_type').on('change', toggleParcelDelivery);
 
-                countryStateDropdown('.pickup_country_id', '.pickup_state_id');
-                countryStateDropdown('.delivery_country_id', '.delivery_state_id');
+                countryStateCityDropdown('.pickup_country_id', '.pickup_state_id','.pickup_city_id');
+                countryStateCityDropdown('.delivery_country_id', '.delivery_state_id', '.delivery_city_id');
             });
 
 

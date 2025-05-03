@@ -124,6 +124,9 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     public function averageRating() {
+        if ($this->ratings()->count() == 0) {
+            return 'no';
+        }
         return number_format($this->ratings()->avg('rating'), 1);
     }
 

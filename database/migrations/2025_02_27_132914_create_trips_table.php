@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\City;
 use App\Models\Country;
 use App\Models\State;
 use Illuminate\Database\Migrations\Migration;
@@ -16,20 +17,19 @@ return new class extends Migration
         Schema::create('trips', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->string('trip_type', 20)->nullable();
             $table->string('mode_of_transport', 20);
             $table->string('from_address_1')->nullable();
             $table->string('from_address_2')->nullable();
             $table->foreignIdFor(Country::class, 'from_country_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignIdFor(State::class, 'from_state_id')->nullable()->constrained()->nullOnDelete();
-            $table->string('from_city')->nullable();
+            $table->foreignIdFor(City::class, 'from_city_id')->nullable()->constrained()->nullOnDelete();
             $table->string('from_postcode', 50)->nullable();
             $table->string('from_phone');
             $table->string('to_address_1')->nullable();
             $table->string('to_address_2')->nullable();
             $table->foreignIdFor(Country::class, 'to_country_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignIdFor(State::class, 'to_state_id')->nullable()->constrained()->nullOnDelete();
-            $table->string('to_city')->nullable();
+            $table->foreignIdFor(City::class, 'to_city_id')->nullable()->constrained()->nullOnDelete();
             $table->string('to_postcode', 50)->nullable();
             $table->string('to_phone');
             $table->timestamp('departure_date')->nullable();

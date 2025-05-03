@@ -31,18 +31,6 @@
                                 <h5 class="heading-5">From</h5>
                                 <div class="flex gap-4">
                                     <div class="w-full sm:w-1/2 mt-4">
-                                        <x-label for="from_address_1" value="{{ __('Address Line 1') }}" />
-                                        <x-input id="from_address_1" class="block w-full" type="text" name="from_address_1" :value="''" autocomplete="from_address_1" />
-                                        <div class="invalid-feedback invalid-from_address_1"></div>
-                                    </div>
-                                    <div class="w-full sm:w-1/2 mt-4">
-                                        <x-label for="from_address_2" value="{{ __('Address Line 2') }}" />
-                                        <x-input id="from_address_2" class="block w-full" type="text" name="from_address_2" :value="''" autocomplete="from_address_2" />
-                                        <div class="invalid-feedback invalid-from_address_2"></div>
-                                    </div>
-                                </div>
-                                <div class="flex gap-4">
-                                    <div class="w-full sm:w-1/2 mt-4">
                                         <x-label for="from_country_id" value="{{ __('Country') }}" />
                                         <x-input-dropdown id="from_country_id" class="from_country_id" name="from_country_id" :options="$countries" :selected="[]"/>
                                         <div class="invalid-feedback invalid-from_country_id"></div>
@@ -55,38 +43,38 @@
                                 </div>
                                 <div class="flex gap-4">
                                     <div class="w-full sm:w-1/2 mt-4">
-                                        <x-label for="from_city" value="{{ __('City') }}" />
-                                        <x-input id="from_city" class="block w-full" type="text" name="from_city" :value="''" required autocomplete="from_city" />
-                                        <div class="invalid-feedback invalid-from_city"></div>
+                                        <x-label for="from_city_id" value="{{ __('City') }}" />
+                                        <x-input-dropdown id="from_city_id" class="from_city_id" name="from_city_id" :options="[]" :selected="[]" />
+                                        <div class="invalid-feedback invalid-from_city_id"></div>
                                     </div>
-                                    <div class="w-full sm:w-1/2 mt-4">
-                                        <x-label for="from_postcode" value="{{ __('Postcode') }}" />
-                                        <x-input id="from_postcode" class="block w-full" type="text" name="from_postcode" :value="''" required autocomplete="from_postcode" />
-                                        <div class="invalid-feedback invalid-from_postcode"></div>
-                                    </div>
-                                </div>
-                                <div class="flex gap-4">
                                     <div class="w-full sm:w-1/2 mt-4">
                                         <x-label for="from_phone" value="{{ __('Phone') }}" />
                                         <x-input id="from_phone" class="block w-full phone" type="text" name="from_phone" :value="old('from_phone')" required autocomplete="from_phone" />
                                         <div class="invalid-feedback invalid-from_phone"></div>
                                     </div>
                                 </div>
+                                <div class="flex gap-4">
+                                    <div class="w-full sm:w-1/2 mt-4">
+                                        <x-label for="from_address_1" value="{{ __('Address Line 1') }}" />
+                                        <x-input id="from_address_1" class="block w-full" type="text" name="from_address_1" :value="''" autocomplete="from_address_1" />
+                                        <div class="invalid-feedback invalid-from_address_1"></div>
+                                    </div>
+                                    <div class="w-full sm:w-1/2 mt-4">
+                                        <x-label for="from_address_2" value="{{ __('Address Line 2') }}" />
+                                        <x-input id="from_address_2" class="block w-full" type="text" name="from_address_2" :value="''" autocomplete="from_address_2" />
+                                        <div class="invalid-feedback invalid-from_address_2"></div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-4">
+                                    <div class="w-full sm:w-1/2 mt-4">
+                                        <x-label for="from_postcode" value="{{ __('Postcode') }}" />
+                                        <x-input id="from_postcode" class="block w-full" type="text" name="from_postcode" :value="''" required autocomplete="from_postcode" />
+                                        <div class="invalid-feedback invalid-from_postcode"></div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="p-4 bg-gray-50 rounded my-5 border border-primary border-opacity-50">
                                 <h5 class="heading-5">To</h5>
-                                <div class="flex gap-4">
-                                    <div class="w-full sm:w-1/2 mt-4">
-                                        <x-label for="to_address_1" value="{{ __('Address Line 1') }}" />
-                                        <x-input id="to_address_1" class="block w-full" type="text" name="to_address_1" :value="''" autocomplete="to_address_1" />
-                                        <div class="invalid-feedback invalid-to_address_1"></div>
-                                    </div>
-                                    <div class="w-full sm:w-1/2 mt-4">
-                                        <x-label for="to_address_2" value="{{ __('Address Line 2') }}" />
-                                        <x-input id="to_address_2" class="block w-full" type="text" name="to_address_2" :value="''" autocomplete="to_address_2" />
-                                        <div class="invalid-feedback invalid-to_address_2"></div>
-                                    </div>
-                                </div>
                                 <div class="flex gap-4">
                                     <div class="w-full sm:w-1/2 mt-4">
                                         <x-label for="to_country_id" value="{{ __('Country') }}" />
@@ -101,21 +89,33 @@
                                 </div>
                                 <div class="flex gap-4">
                                     <div class="w-full sm:w-1/2 mt-4">
-                                        <x-label for="to_city" value="{{ __('City') }}" />
-                                        <x-input id="to_city" class="block w-full" type="text" name="to_city" :value="''" required autocomplete="to_city" />
-                                        <div class="invalid-feedback invalid-to_city"></div>
+                                        <x-label for="to_city_id" value="{{ __('City') }}" />
+                                        <x-input-dropdown id="to_city_id" class="to_city_id" name="to_city_id" :options="[]" :selected="[]" />
+                                        <div class="invalid-feedback invalid-to_city_id"></div>
                                     </div>
-                                    <div class="w-full sm:w-1/2 mt-4">
-                                        <x-label for="to_postcode" value="{{ __('Postcode') }}" />
-                                        <x-input id="to_postcode" class="block w-full" type="text" name="to_postcode" :value="''" required autocomplete="to_postcode" />
-                                        <div class="invalid-feedback invalid-to_postcode"></div>
-                                    </div>
-                                </div>
-                                <div class="flex gap-4">
                                     <div class="w-full sm:w-1/2 mt-4">
                                         <x-label for="to_phone" value="{{ __('Phone') }}" />
                                         <x-input id="to_phone" class="block w-full phone" type="text" name="to_phone" :value="old('to_phone')" required autocomplete="to_phone" />
                                         <div class="invalid-feedback invalid-to_phone"></div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-4">
+                                    <div class="w-full sm:w-1/2 mt-4">
+                                        <x-label for="to_address_1" value="{{ __('Address Line 1') }}" />
+                                        <x-input id="to_address_1" class="block w-full" type="text" name="to_address_1" :value="''" autocomplete="to_address_1" />
+                                        <div class="invalid-feedback invalid-to_address_1"></div>
+                                    </div>
+                                    <div class="w-full sm:w-1/2 mt-4">
+                                        <x-label for="to_address_2" value="{{ __('Address Line 2') }}" />
+                                        <x-input id="to_address_2" class="block w-full" type="text" name="to_address_2" :value="''" autocomplete="to_address_2" />
+                                        <div class="invalid-feedback invalid-to_address_2"></div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-4">
+                                    <div class="w-full sm:w-1/2 mt-4">
+                                        <x-label for="to_postcode" value="{{ __('Postcode') }}" />
+                                        <x-input id="to_postcode" class="block w-full" type="text" name="to_postcode" :value="''" required autocomplete="to_postcode" />
+                                        <div class="invalid-feedback invalid-to_postcode"></div>
                                     </div>
                                 </div>
                             </div>
@@ -243,8 +243,8 @@
     @push('scripts')
         <script>
             $(document).ready(function() {
-                countryStateDropdown('.from_country_id', '.from_state_id');
-                countryStateDropdown('.to_country_id', '.to_state_id');
+                countryStateCityDropdown('.from_country_id', '.from_state_id', '.from_city_id');
+                countryStateCityDropdown('.to_country_id', '.to_state_id', '.to_city_id');
             });
 
             document.addEventListener('alpine:init', () => {

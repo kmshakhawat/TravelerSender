@@ -120,7 +120,7 @@
                 })
             });
 
-            function countryStateDropdown(countrySelector, stateSelector, selectedStateId = null) {
+            function countryStateCityDropdown(countrySelector, stateSelector, citySelector, selectedStateId = null, selectedCityId = null) {
                 async function loadStates(country_id, stateSelect) {
                     if (country_id) {
                         stateSelect.prop('disabled', false);
@@ -130,11 +130,11 @@
                             stateSelect.append('<option value="">Select State</option>');
 
                             response.data.forEach(function (state) {
-                                let selected = (selectedStateId && state.id == selectedStateId) ? 'selected' : '';
+                                let selected = (selectedStateId && state.id === selectedStateId) ? 'selected' : '';
                                 stateSelect.append(`<option value="${state.id}" ${selected}>${state.name}</option>`);
                             });
 
-                            stateSelect.trigger('change'); // Ensure UI updates properly
+                            stateSelect.trigger('change'); // This will trigger loading cities if state is preselected
                         } catch (error) {
                             alert('Unable to load states. Please try again.');
                         }
@@ -143,22 +143,54 @@
                     }
                 }
 
+                async function loadCities(state_id, citySelect) {
+                    if (state_id) {
+                        citySelect.prop('disabled', false);
+                        try {
+                            const response = await axios.get(`/get-cities/${state_id}`);
+                            citySelect.empty();
+                            citySelect.append('<option value="">Select City</option>');
+
+                            response.data.forEach(function (city) {
+                                let selected = (selectedCityId && city.id === selectedCityId) ? 'selected' : '';
+                                citySelect.append(`<option value="${city.id}" ${selected}>${city.name}</option>`);
+                            });
+                        } catch (error) {
+                            alert('Unable to load cities. Please try again.');
+                        }
+                    } else {
+                        citySelect.empty().append('<option value="">Select City</option>').prop('disabled', true);
+                    }
+                }
+
                 $(document).ready(function () {
                     $(countrySelector).each(function () {
                         let countrySelect = $(this);
                         let stateSelect = $(stateSelector);
-                        let selectedCountryId = countrySelect.val();
-                        let selectedStateId = stateSelect.attr('data-selected'); // Get preselected state ID from attribute
+                        let citySelect = $(citySelector);
 
-                        // Bind change event to country dropdown
+                        let selectedCountryId = countrySelect.val();
+                        let selectedStateId = stateSelect.val();
+                        let selectedCityId = citySelect.val();
+
                         countrySelect.on('change', function () {
                             let country_id = $(this).val();
                             loadStates(country_id, stateSelect);
+                            citySelect.empty().append('<option value="">Select City</option>').prop('disabled', true);
                         });
 
-                        // Load states on page load if a country is preselected
+                        stateSelect.on('change', function () {
+                            let state_id = $(this).val();
+                            loadCities(state_id, citySelect);
+                        });
+
+                        // Initial load
                         if (selectedCountryId) {
-                            loadStates(selectedCountryId, stateSelect);
+                            loadStates(selectedCountryId, stateSelect, selectedStateId);
+                        }
+
+                        if (selectedStateId) {
+                            loadCities(selectedStateId, citySelect, selectedCityId);
                         }
                     });
                 });

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\City;
 use App\Models\Country;
 use App\Models\State;
 use Illuminate\Database\Migrations\Migration;
@@ -28,7 +29,7 @@ return new class extends Migration
             $table->string('pickup_address_2')->nullable();
             $table->foreignIdFor(Country::class, 'pickup_country_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignIdFor(State::class, 'pickup_state_id')->nullable()->constrained()->nullOnDelete();
-            $table->string('pickup_city')->nullable();
+            $table->foreignIdFor(City::class, 'pickup_city_id')->nullable()->constrained()->nullOnDelete();
             $table->string('pickup_postcode', 50)->nullable();
             $table->string('pickup_location_type')->nullable();
             $table->timestamp('pickup_date')->nullable();
@@ -41,7 +42,7 @@ return new class extends Migration
             $table->string('delivery_address_2')->nullable();
             $table->foreignIdFor(Country::class, 'delivery_country_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignIdFor(State::class, 'delivery_state_id')->nullable()->constrained()->nullOnDelete();
-            $table->string('delivery_city')->nullable();
+            $table->foreignIdFor(City::class, 'delivery_city_id')->nullable()->constrained()->nullOnDelete();
             $table->string('delivery_postcode', 50)->nullable();
             $table->string('delivery_location_type');
             $table->timestamp('delivery_date');

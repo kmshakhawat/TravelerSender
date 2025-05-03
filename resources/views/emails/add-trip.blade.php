@@ -1,5 +1,6 @@
 @component('mail::message')
 <p style="font-weight: bold;">Hi {{ $data['name'] }},</p>
+<img src="{{ asset('asset/img/email-add-trip.jpg') }}" alt="Add Trip" style="margin-bottom: 10px;">
 @component('mail::panel')
 <p>Thank you for adding your trip to {{ config('app.name') }}</p>
 <p>Your trip is now visible to users who may be looking to send parcels along this route. You will be notified if anyone shows interest or sends a request.</p>

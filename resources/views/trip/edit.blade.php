@@ -57,9 +57,9 @@
                                 </div>
                                 <div class="flex gap-4">
                                     <div class="w-full sm:w-1/2 mt-4">
-                                        <x-label for="from_city" value="{{ __('City') }}" />
-                                        <x-input id="from_city" class="block w-full" type="text" name="from_city" :value="$trip->from_city" required autocomplete="from_city" />
-                                        <div class="invalid-feedback invalid-from_city"></div>
+                                        <x-label for="from_city_id" value="{{ __('City') }}" />
+                                        <x-input-dropdown id="from_city_id" class="from_city_id" name="from_city_id" :options="[]" :selected="[$trip->from_city_id]" />
+                                        <div class="invalid-feedback invalid-from_city_id"></div>
                                     </div>
                                     <div class="w-full sm:w-1/2 mt-4">
                                         <x-label for="from_postcode" value="{{ __('Postcode') }}" />
@@ -103,9 +103,9 @@
                                 </div>
                                 <div class="flex gap-4">
                                     <div class="w-full sm:w-1/2 mt-4">
-                                        <x-label for="to_city" value="{{ __('City') }}" />
-                                        <x-input id="to_city" class="block w-full" type="text" name="to_city" :value="$trip->to_city" required autocomplete="to_city" />
-                                        <div class="invalid-feedback invalid-to_city"></div>
+                                        <x-label for="to_city_id" value="{{ __('City') }}" />
+                                        <x-input-dropdown id="to_city_id" class="to_city_id" name="to_city_id" :options="[]" :selected="[$trip->to_city_id]" />
+                                        <div class="invalid-feedback invalid-to_city_id"></div>
                                     </div>
                                     <div class="w-full sm:w-1/2 mt-4">
                                         <x-label for="to_postcode" value="{{ __('Postcode') }}" />
@@ -275,8 +275,8 @@
         <script>
 
             $(document).ready(function() {
-                countryStateDropdown('.from_country_id', '.from_state_id', {{ $trip->from_state_id ?? '' }});
-                countryStateDropdown('.to_country_id', '.to_state_id', {{ $trip->to_state_id ?? '' }});
+                countryStateCityDropdown('.from_country_id', '.from_state_id', '.from_city_id', {{ $trip->from_state_id ?? '' }}, {{ $trip->from_city_id ?? '' }});
+                countryStateCityDropdown('.to_country_id', '.to_state_id', '.to_city_id', {{ $trip->to_state_id ?? '' }}, {{ $trip->to_city_id ?? '' }});
             });
 
 

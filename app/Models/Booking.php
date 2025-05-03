@@ -24,7 +24,7 @@ class Booking extends Model
         'pickup_address_2',
         'pickup_country_id',
         'pickup_state_id',
-        'pickup_city',
+        'pickup_city_id',
         'pickup_postcode',
         'pickup_location_type',
         'pickup_date',
@@ -37,7 +37,7 @@ class Booking extends Model
         'delivery_address_2',
         'delivery_country_id',
         'delivery_state_id',
-        'delivery_city',
+        'delivery_city_id',
         'delivery_postcode',
         'delivery_location_type',
         'delivery_date',
@@ -85,6 +85,10 @@ class Booking extends Model
     {
         return $this->belongsTo(State::class, 'pickup_state_id');
     }
+    public function pickupCity(): BelongsTo
+    {
+        return $this->belongsTo(City::class, 'pickup_city_id');
+    }
 
     public function deliveryCountry(): BelongsTo
     {
@@ -93,6 +97,10 @@ class Booking extends Model
     public function deliveryState(): BelongsTo
     {
         return $this->belongsTo(State::class, 'delivery_state_id');
+    }
+    public function deliveryCity(): BelongsTo
+    {
+        return $this->belongsTo(City::class, 'delivery_city_id');
     }
     public function payment()
     {

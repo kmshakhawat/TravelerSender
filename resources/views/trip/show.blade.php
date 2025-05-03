@@ -36,7 +36,7 @@
                                             <p>Address Line 2: {{ $trip->from_address_2 }}</p>
                                             <p>Country: {{ $trip->fromCountry->name ?? '' }}</p>
                                             <p>State: {{ $trip->fromState->name ?? '' }}</p>
-                                            <p>City: {{ $trip->from_city }}</p>
+                                            <p>City: {{ $trip->fromCity?->name }}</p>
                                             <p>Postcode: {{ $trip->from_postcode }}</p>
                                             <p>Phone: {{ $trip->from_phone }}</p>
                                         </div>
@@ -52,7 +52,7 @@
                                             <p>Address Line 2: {{ $trip->to_address_2 }}</p>
                                             <p>Country: {{ $trip->toCountry->name ?? '' }}</p>
                                             <p>State: {{ $trip->toState->name ?? '' }}</p>
-                                            <p>City: {{ $trip->to_city }}</p>
+                                            <p>City: {{ $trip->toCity?->name }}</p>
                                             <p>Postcode: {{ $trip->to_postcode }}</p>
                                             <p>Phone: {{ $trip->to_phone }}</p>
                                         </div>

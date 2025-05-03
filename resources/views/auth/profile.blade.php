@@ -61,9 +61,9 @@
                             </div>
                             <div class="flex gap-4">
                                 <div class="w-full sm:w-1/2 mt-4">
-                                    <x-label for="city" value="{{ __('City') }}" />
-                                    <x-input id="city" class="block w-full" type="text" name="city" :value="$user->profile->city ?? ''" required autofocus autocomplete="city" />
-                                    <div class="invalid-feedback invalid-city"></div>
+                                    <x-label for="city_id" value="{{ __('City') }}" />
+                                    <x-input-dropdown id="city_id" class="city_id" name="city_id" :options="[]" :selected="[$user->profile->city_id ?? '']" />
+                                    <div class="invalid-feedback invalid-city_id"></div>
                                 </div>
                                 <div class="w-full sm:w-1/2 mt-4">
                                     <x-label for="postcode" value="{{ __('Postcode') }}" />
@@ -104,7 +104,7 @@
     @push('scripts')
         <script>
             $(document).ready(function() {
-                countryStateDropdown('.country_id', '.state_id', {{ $user->profile->state_id ?? '' }});
+                countryStateCityDropdown('.country_id', '.state_id', '.city', {{ $user->profile->state_id ?? '' }}, {{ $user->profile->city ?? '' }});
             });
 
             document.addEventListener('alpine:init', () => {

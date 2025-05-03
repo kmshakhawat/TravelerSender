@@ -19,14 +19,14 @@ class Trip extends Model
         'from_address_2',
         'from_country_id',
         'from_state_id',
-        'from_city',
+        'from_city_id',
         'from_postcode',
         'from_phone',
         'to_address_1',
         'to_address_2',
         'to_country_id',
         'to_state_id',
-        'to_city',
+        'to_city_id',
         'to_postcode',
         'to_phone',
         'departure_date',
@@ -60,6 +60,15 @@ class Trip extends Model
     public function toState(): BelongsTo
     {
         return $this->belongsTo(State::class, 'to_state_id');
+    }
+
+    public function fromCity(): BelongsTo
+    {
+        return $this->belongsTo(City::class, 'from_city_id');
+    }
+    public function toCity(): BelongsTo
+    {
+        return $this->belongsTo(City::class, 'to_city_id');
     }
 
     public function stopovers()

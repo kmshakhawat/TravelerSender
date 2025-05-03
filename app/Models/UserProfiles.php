@@ -15,7 +15,7 @@ class UserProfiles extends Model
         'address_2',
         'country_id',
         'state_id',
-        'city',
+        'city_id',
         'postcode',
         'bank_details',
         'id_type',

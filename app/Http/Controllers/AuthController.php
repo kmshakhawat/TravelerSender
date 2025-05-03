@@ -220,7 +220,7 @@ class AuthController extends Controller
             'phone' => 'required|string|max:20',
             'country_id' => 'required|string|max:255',
             'address_1' => 'required|string',
-            'city' => 'required|string|max:255',
+            'city_id' => 'required|string|max:255',
             'postcode' => 'required|string|max:255',
             'profile_photo_path' => ['nullable', 'mimes:jpeg,jpg,png,webp,gif', 'max:5120'],
         ]);
@@ -238,7 +238,7 @@ class AuthController extends Controller
                 'address_2' => $request->address_2,
                 'country_id' => $request->country_id,
                 'state_id' => $request->state_id,
-                'city' => $request->city,
+                'city_id' => $request->city_id,
                 'postcode' => $request->postcode,
                 'bank_details' => $request->bank_details,
             ]

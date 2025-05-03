@@ -27,11 +27,13 @@
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 text-primary">
                     <path fill-rule="evenodd" d="m11.54 22.351.07.04.028.016a.76.76 0 0 0 .723 0l.028-.015.071-.041a16.975 16.975 0 0 0 1.144-.742 19.58 19.58 0 0 0 2.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 0 0-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 0 0 2.682 2.282 16.975 16.975 0 0 0 1.145.742ZM12 13.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" clip-rule="evenodd" />
                 </svg>
+                {{ $trip->fromCity?->name ? $trip->fromCity?->name.', ' : '' }}
                 {{ $trip->fromCountry->name }}
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-move-right">
                     <path d="M18 8L22 12L18 16"/>
                     <path d="M2 12H22"/>
                 </svg>
+                {{ $trip->fromCity?->name ? $trip->toCity?->name . ', ' : '' }}
                 {{ $trip->toCountry->name }}
             </div>
             <div class="flex gap-2 mb-3">

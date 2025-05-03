@@ -19,6 +19,11 @@
     hover:bg-primary hover:border-transparent hover:text-white
     transition ease-in-out duration-300;
 }
+.btn-white {
+    @apply bg-white inline-block text-primary rounded-md px-4 py-2 cursor-pointer
+    hover:bg-primary hover:text-white
+    transition ease-in-out duration-300;
+}
 .btn-danger {
     @apply bg-secondary inline-block text-white text-sm rounded px-2 py-1
     hover:bg-primary hover:border-transparent hover:text-white

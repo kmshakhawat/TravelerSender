@@ -1,5 +1,5 @@
 @component('mail::message')
-
+<img src="{{ asset('asset/img/email-otp.jpg') }}" alt="OTP" style="margin-bottom: 10px;">
 <p>To authenticate, please use the following:</p>
 <p>One Time Password (OTP):</p>
 @component('mail::panel')

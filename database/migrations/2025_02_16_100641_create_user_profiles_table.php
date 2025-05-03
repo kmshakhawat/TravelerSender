@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\City;
 use App\Models\Country;
 use App\Models\State;
 use Illuminate\Database\Migrations\Migration;
@@ -22,7 +23,7 @@ return new class extends Migration
             $table->string('address_2')->nullable();
             $table->foreignIdFor(Country::class, 'country_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignIdFor(State::class, 'state_id')->nullable()->constrained()->nullOnDelete();
-            $table->string('city')->nullable();
+            $table->foreignIdFor(City::class, 'city_id')->nullable()->constrained()->nullOnDelete();
             $table->string('postcode')->nullable();
             $table->text('bank_details')->nullable();
             $table->string('id_type')->nullable();

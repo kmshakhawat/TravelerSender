@@ -145,7 +145,7 @@
                                             </div>
                                             <div class="flex gap-1 items-center">
                                                 <span class="font-medium">City:</span>
-                                                {{ $booking->pickup_city }}
+                                                {{ $booking->pickupCity?->name }}
                                             </div>
                                             <div class="flex gap-1 items-center">
                                                 <span class="font-medium">Postcode:</span>
@@ -208,7 +208,7 @@
                                         </div>
                                         <div class="flex gap-1 items-center">
                                             <span class="font-medium">City:</span>
-                                            {{ $booking->delivery_city }}
+                                            {{ $booking->deliveryCity?->name }}
                                         </div>
                                         <div class="flex gap-1 items-center">
                                             <span class="font-medium">Postcode:</span>
@@ -237,8 +237,10 @@
                                             <x-status :content="$booking->status" :type="'info'" />
                                         @elseif($booking->status === 'Booked')
                                             <x-status :content="$booking->status" :type="'success'" />
-                                        @elseif($booking->status === 'Rejected')
+                                        @elseif($booking->status === 'Cancelled')
                                             <x-status :content="$booking->status" :type="'danger'" />
+                                        @elseif($booking->status === 'Completed')
+                                            <x-status :content="$booking->status" :type="'verified'" />
                                         @endif
                                     </td>
                                 </tr>

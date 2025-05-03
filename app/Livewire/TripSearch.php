@@ -28,13 +28,17 @@ class TripSearch extends Component
     public function render()
     {
         $trips = Trip::when($this->from, function ($query) {
-            $query->where('from_city', 'like', '%' . $this->from . '%');
-            $query->orWhereHas('fromCountry', function ($query) {
-                $query->where('name', 'like', '%' . $this->from . '%');
-            });
-        })
+                $query->whereHas('fromCity', function ($query){
+                    $query->where('name', 'like', '%' . $this->from . '%');
+                });
+                $query->orWhereHas('fromCountry', function ($query) {
+                    $query->where('name', 'like', '%' . $this->from . '%');
+                });
+            })
             ->when($this->to, function ($query) {
-                $query->where('to_city', 'like', '%' . $this->to . '%');
+                $query->whereHas('toCity', function ($query){
+                    $query->where('name', 'like', '%' . $this->to . '%');
+                });
                 $query->orWhereHas('toCountry', function ($query) {
                     $query->where('name', 'like', '%' . $this->to . '%');
                 });

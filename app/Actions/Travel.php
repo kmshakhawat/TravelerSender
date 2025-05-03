@@ -51,15 +51,16 @@ class Travel
         return self::generateDropdown([
             'Documents',
             'Electronics',
-            'Clothing',
+            'Fashion',
         ]);
     }
     public static function packagingType(): array
     {
         return self::generateDropdown([
-            'Boxed',
+            'Boxed/Bag',
             'Envelope',
             'Fragile',
+            'Others',
         ]);
     }
     public static function instructionType(): array

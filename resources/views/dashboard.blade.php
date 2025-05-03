@@ -96,12 +96,12 @@
                                         <td class="py-3 pl-2">
                                             <div class="flex flex-col">
                                                 <a class="flex items-center gap-2" href="{{ route('trip.show', $booking->trip->id) }}">
-                                                    {{ $booking->trip->fromCountry->name ?? '' }} {{ $booking->trip->from_city ? '('. $booking->trip->from_city .')' : '' }}
+                                                    {{ $booking->trip->fromCity?->name ? $booking->trip->fromCity->name .', ' : '' }} {{ $booking->trip->fromCountry->name ?? '' }}
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-move-right">
                                                         <path d="M18 8L22 12L18 16"/>
                                                         <path d="M2 12H22"/>
                                                     </svg>
-                                                    {{ $booking->trip->toCountry->name ?? '' }} {{ $booking->trip->to_city ? '('. $booking->trip->to_city .')' : '' }}
+                                                    {{ $booking->trip->toCity?->name ? $booking->trip->toCity->name .', ' : '' }} {{ $booking->trip->toCountry->name ?? '' }}
                                                 </a>
                                                 <div class="text-xs text-gray-500">{{ getDateFormat($booking->trip->departure_date) }} to {{ getDateFormat($booking->trip->arrival_date) }}</div>
                                             </div>
@@ -254,12 +254,12 @@
                                         <td class="py-3 pl-5">
                                             <div class="flex flex-col">
                                                 <div class="flex items-center gap-2">
-                                                    {{ $trip->fromCountry->name ?? '' }} {{ $trip->from_city ? '('. $trip->from_city .')' : '' }}
+                                                    {{ $trip->fromCity?->name ? $trip->fromCity?->name .', ' : '' }} {{ $trip->fromCountry->name ?? '' }}
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-move-right">
                                                         <path d="M18 8L22 12L18 16"/>
                                                         <path d="M2 12H22"/>
                                                     </svg>
-                                                    {{ $trip->toCountry->name ?? '' }} {{ $trip->to_city ? '('. $trip->to_city .')' : '' }}
+                                                    {{ $trip->toCity?->name ? $trip->toCity?->name .', ' : '' }} {{ $trip->toCountry->name ?? '' }}
                                                 </div>
                                                 <div class="text-xs text-gray-500">{{ getDateFormat($trip->departure_date) }} to {{ getDateFormat($trip->arrival_date) }}</div>
                                             </div>
