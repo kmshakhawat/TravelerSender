@@ -171,11 +171,9 @@ class AuthController extends Controller
                     'otp_expiry' => now()->addHours(24)
                 ]);
 
-                if ($user->verified) {
-                    return redirect()->intended('/dashboard');
-                } else {
-                    return redirect()->route('profile');
-                }
+                return redirect()->intended(
+                    $user->verified ? route('dashboard') : route('profile')
+                );
             }
 
             // OTP has expired

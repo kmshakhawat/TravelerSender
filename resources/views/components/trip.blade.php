@@ -53,20 +53,24 @@
             <div class="flex flex-col text-center sm:flex-row gap-4">
                 @if($booking)
                     <a class="btn-primary"
-                       @if(Auth::user()->verified)
+                       @if(Auth::user() && Auth::user()->verified)
                            href="{{ route('booking', $trip->id) }}"
-                       @else
+                       @elseif(Auth::user() && !Auth::user()->verified)
                            @click.prevent="verifiedAlert"
+                        @else
+                            @click.prevent="loginAlert"
                         @endif
                     >
                         Send my Parcel
                     </a>
                 @endif
                 <a class="btn-primary"
-                   @if(Auth::user()->verified)
+                   @if(Auth::user() && Auth::user()->verified)
                        href="{{ route('message', $trip->user_id) }}"
-                   @else
+                   @elseif(Auth::user() && !Auth::user()->verified)
                        @click.prevent="verifiedAlert"
+                   @else
+                       @click.prevent="loginAlert"
                     @endif
                 >
                     Message

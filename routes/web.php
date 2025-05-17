@@ -49,8 +49,6 @@ Route::middleware([
     Route::post('/verification', [AuthController::class, 'verificationUpdate'])->name('verification.update');
     Route::get('/settings', [UserProfileController::class, 'show'])->name('profile.settings');
     Route::resource('trip', TripController::class);
-    Route::get('/search', [TripController::class, 'search'])->name('trip.search');
-    Route::get('/trip/{trip}/details', [TripController::class, 'details'])->name('trip.details');
 
     Route::resource('booking', BookingController::class);
     Route::get('/booking/{booking}/pickup', [BookingController::class, 'pickup'])->name('booking.pickup');
@@ -108,6 +106,8 @@ Route::post('/otp-verify', [AuthController::class, 'otpVerify'])->name('otp.veri
 
 /* Frontend Page Route */
 
+Route::get('/search', [TripController::class, 'search'])->name('trip.search');
+Route::get('/trip/{trip}/details', [TripController::class, 'details'])->name('trip.details');
 Route::get('/tracking', [TrackingController::class, 'search'])->name('tracking.search');
 
 Route::get('/about', function (){

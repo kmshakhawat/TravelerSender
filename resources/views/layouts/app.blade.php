@@ -90,7 +90,6 @@
                         <!-- Modal panel -->
                         <div class="w-full inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-5xl sm:w-auto" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
                             <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-
                                 <button class="absolute right-1 text-danger top-1" @click.prevent="$store.app.showModal = false">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />

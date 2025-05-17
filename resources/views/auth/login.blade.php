@@ -74,13 +74,20 @@
                             }
                         })
                             .then(response => {
+                                const intended = localStorage.getItem('intended_url');
+                                localStorage.removeItem('intended_url');
+
+                                // Auto redirect after short delay
                                 Swal.fire({
-                                    title: 'Success!',
+                                    title: 'Login Successful',
                                     text: response.data.message,
                                     icon: 'success',
-                                    confirmButtonText: 'OK'
+                                    showConfirmButton: false,
+                                    timer: 1500, // Show success for 1.5 seconds
+                                    willClose: () => {
+                                        window.location.href = intended || '/dashboard'; // fallback to dashboard
+                                    }
                                 });
-                                window.location.href = route('login.store');
                             })
                             .catch(error => {
                                 window.showJsonErrorMessage(error);

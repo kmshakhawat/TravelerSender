@@ -28,7 +28,7 @@
             </div>
         </div>
     </div>
-    <div class="py-12">
+    <div class="py-12 bg-[#F3F4F6]">
         <div class="container">
             <div class="flex flex-col md:flex-row gap-8">
                 <div class="w-full md:w-1/4">

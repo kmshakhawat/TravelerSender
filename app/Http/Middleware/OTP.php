@@ -15,7 +15,7 @@ class OTP
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth()->user()->hasRole('admin')) {
+        if (auth()->user()?->hasRole('admin')) {
             return $next($request);
         }
         if (auth()->check()) {
@@ -27,8 +27,6 @@ class OTP
         }
 
         return $next($request);
-
-
 
     }
 }

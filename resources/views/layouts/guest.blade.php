@@ -21,7 +21,7 @@
         <!-- Styles -->
         @livewireStyles
     </head>
-    <body>
+    <body x-data="verification">
         @include('layouts.inc.header')
         <div class="font-sans text-gray-900 text-lg antialiased min-h-60">
             <!-- Page Heading -->

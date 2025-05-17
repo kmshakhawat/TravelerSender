@@ -22,7 +22,7 @@
                         <a class="font-medium text-lg text-black hover:text-primary" href="/">Home</a>
                         <a class="font-medium text-lg text-black hover:text-primary" href="{{ route('about') }}">About</a>
                         <a class="font-medium text-lg text-black hover:text-primary" href="{{ route('trip.create') }}">List a Trip</a>
-                        <a class="font-medium text-lg text-black hover:text-primary" href="{{ route('trip.search') }}">Trip Search</a>
+{{--                        <a class="font-medium text-lg text-black hover:text-primary" href="{{ route('trip.search') }}">Trip Search</a>--}}
                         <a class="font-medium text-lg text-black hover:text-primary" href="{{ route('contact') }}">Contact</a>
 
                         <div class="sm:hidden flex items-center gap-6 text-lg font-medium">
@@ -177,7 +177,7 @@
                             <form method="POST" action="{{ route('logout') }}" x-data>
                                 @csrf
                                 <div class="border-t border-gray-200"></div>
-                                <a class="nav-link" href="{{ route('logout') }}"
+                                <a class="nav-link !text-primary" href="{{ route('logout') }}"
                                    @click.prevent="$root.submit();">
                                     {{ __('Log Out') }}
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -185,6 +185,7 @@
                                     </svg>
                                 </a>
                             </form>
+
                         </div>
 
                     </aside>
@@ -219,6 +220,40 @@
                     }).then((result) => {
                         if (result.isConfirmed) {
                             window.location.href = "{{ route('verification') }}";
+                        }
+                    });
+                },
+                loginAlert: function () {
+                    // Store intended route in localStorage
+                    localStorage.setItem('intended_url', window.location.href);
+
+                    Swal.fire({
+                        title: 'Login Required',
+                        icon: 'error',
+                        html: `
+                            <p>To proceed, please log in to your account or register for a new one.</p>
+                            <div style="display: flex; justify-content: center; gap: 10px; margin-top: 15px;">
+                                <button id="loginBtn" class="swal2-confirm swal2-styled" style="background-color: #3085d6;">Login</button>
+                                <button id="registerBtn" class="swal2-confirm swal2-styled" style="background-color: #28a745;">Register</button>
+                                <button id="cancelBtn" class="swal2-cancel swal2-styled" style="background-color: #6E6E6E;">Cancel</button>
+                            </div>
+                        `,
+                        showConfirmButton: false,
+                        didOpen: () => {
+                            const loginRoute = "{{ route('login') }}";
+                            const registerRoute = "{{ route('register') }}";
+
+                            document.getElementById('loginBtn').addEventListener('click', () => {
+                                window.location.href = loginRoute;
+                            });
+
+                            document.getElementById('registerBtn').addEventListener('click', () => {
+                                window.location.href = registerRoute;
+                            });
+
+                            document.getElementById('cancelBtn').addEventListener('click', () => {
+                                Swal.close();
+                            });
                         }
                     });
                 },

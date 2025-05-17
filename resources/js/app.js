@@ -1,6 +1,9 @@
 import './bootstrap'
+
 import Swiper from 'swiper';
+import { Navigation, Autoplay, EffectFade } from 'swiper/modules';
 import 'swiper/css/bundle';
+
 import flatpickr from "flatpickr";
 import 'flatpickr/dist/flatpickr.min.css';
 
@@ -41,36 +44,40 @@ flatpickr(".timepicker", {
     dateFormat: "Y-m-d H:i",
     minDate: "today",
 });
+document.addEventListener('DOMContentLoaded', function () {
+    const slide = new Swiper(".slide", {
+        modules: [Navigation, Autoplay, EffectFade],
+        spaceBetween: 20,
+        slidesPerView: 1,
+        loop: true,
+        effect: "fade",
+        autoHeight: true,
+        autoplay: {
+            delay: 5000,
+            disableOnInteraction: false,
+        },
+        navigation: {
+            nextEl: ".slide-next",
+            prevEl: ".slide-prev",
+        },
+    });
+    const review = new Swiper(".review", {
+        modules: [Navigation, Autoplay, EffectFade],
+        spaceBetween: 20,
+        slidesPerView: 1,
+        loop: true,
+        effect: "fade",
+        autoHeight: true,
+        autoplay: {
+            delay: 5000,
+            disableOnInteraction: false,
+        },
+        navigation: {
+            nextEl: ".review-next",
+            prevEl: ".review-prev",
+        },
+    });
 
-let slide = new Swiper(".slide", {
-    spaceBetween: 20,
-    slidesPerView: 1,
-    loop: true,
-    effect: "fade",
-    autoHeight: true,
-    autoplay: {
-        delay: 5000,
-        disableOnInteraction: false,
-    },
-    navigation: {
-        nextEl: ".slide-next",
-        prevEl: ".slide-prev",
-    },
-});
-let review = new Swiper(".review", {
-    spaceBetween: 20,
-    slidesPerView: 1,
-    loop: true,
-    effect: "fade",
-    autoHeight: true,
-    autoplay: {
-        delay: 5000,
-        disableOnInteraction: false,
-    },
-    navigation: {
-        nextEl: ".review-next",
-        prevEl: ".review-prev",
-    },
 });
 $(document).ready(function () {
     $('.select2').select2();

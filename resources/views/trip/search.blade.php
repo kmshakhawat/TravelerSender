@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-guest-layout>
     <livewire:trip-search />
 
     @push('scripts')
@@ -46,4 +46,4 @@
             });
         </script>
     @endpush
-</x-app-layout>
+</x-guest-layout>

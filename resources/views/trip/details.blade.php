@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-guest-layout>
     <x-slot name="header">
         <div class="flex justify-between items-center">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -7,7 +7,7 @@
             <a class="btn-secondary" href="{{ route('trip.search') }}">Back</a>
         </div>
     </x-slot>
-    <div x-data="trip" class="py-12">
+    <div x-data="trip" class="py-12 bg-[#F3F4F6]">
         <div class="container">
             <div class="flex flex-col lg:flex-row gap-8">
                 <div class="w-full lg:w-2/3">
@@ -99,7 +99,7 @@
                                     <td>Note</td>
                                     <td>{{ $trip->note }}</td>
                                 </tr>
-                                @if(Auth::user()->hasRole('admin'))
+                                @if(Auth::user() && Auth::user()->hasRole('admin'))
                                     <tr>
                                         <td>Admin Note</td>
                                         <td>{{ $trip->admin_note }}</td>
@@ -139,22 +139,24 @@
                                 <span>{{ $trip->available_space . ' ' . $trip->weight_unit }}</span>
                             </div>
                             <div class="flex gap-4 mt-8">
-                                @if(Auth::user()->id != $trip->user_id && $trip->status === 'Active')
-                                    <a class="btn-primary"
-                                       @if(Auth::user()->verified)
-                                           href="{{ route('booking', $trip->id) }}"
-                                       @else
-                                           @click.prevent="verifiedAlert"
-                                        @endif
-                                    >
-                                        Send my Parcel
-                                    </a>
-                                @endif
-                                <a class="btn-secondary"
-                                   @if(Auth::user()->verified)
-                                       href="{{ route('message', $trip->user_id) }}"
-                                   @else
+                                <a class="btn-primary"
+                                   @if(Auth::user() && Auth::user()->verified && Auth::user()->id != $trip->user_id && $trip->status === 'Active')
+                                       href="{{ route('booking', $trip->id) }}"
+                                   @elseif(Auth::user() && !Auth::user()->verified)
                                        @click.prevent="verifiedAlert"
+                                   @else
+                                       @click.prevent="loginAlert"
+                                    @endif
+                                >
+                                    Send my Parcel
+                                </a>
+                                <a class="btn-secondary"
+                                   @if(Auth::user() && Auth::user()->verified)
+                                       href="{{ route('message', $trip->user_id) }}"
+                                   @elseif(Auth::user() && !Auth::user()->verified)
+                                       @click.prevent="verifiedAlert"
+                                   @else
+                                       @click.prevent="loginAlert"
                                     @endif
                                 >
                                     Contact
@@ -208,4 +210,4 @@
             });
         </script>
     @endpush
-</x-app-layout>
+</x-guest-layout>
