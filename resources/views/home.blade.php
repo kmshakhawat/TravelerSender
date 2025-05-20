@@ -25,8 +25,8 @@
                                 <input wire:model="departure_date" type="text" id="departure_date" class="block w-full ps-10 form-input !py-4 datepicker" name="departure_date" autocomplete="off" />
                             </div>
                             <div class="relative w-full flex gap-4">
-                                <button wire:click="$refresh" type="submit" class="mt-1 w-full px-8 py-4 bg-primary text-white rounded font-medium transition ease-in-out duration-300 hover:bg-secondary">
-                                    Search
+                                <button wire:click="$refresh" type="submit" class="w-full px-8 py-4 bg-primary text-white rounded font-medium transition ease-in-out duration-300 hover:bg-secondary">
+                                    Send a Parcel
                                 </button>
                             </div>
                         </div>

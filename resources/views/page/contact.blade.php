@@ -43,7 +43,7 @@
                     </div>
                 </div>
                 <div class="w-full sm:w-1/2">
-                    <img class="w-full" src="{{ asset('asset/img/who-we-are.jpg') }}" alt="Who We Are">
+                    <img class="w-full" src="{{ asset('asset/img/contact-us.jpg') }}" alt="Contact Us">
                 </div>
             </div>
         </div>

@@ -11,7 +11,7 @@
                                 <h3 class="slide-title">{{ config('app.name') }} - Smart Delivery, Powered by Travelers</h3>
                                 <p>A peer-to-peer delivery network connecting trusted travelers with people who need parcels delivered across cities or countries.</p>
                                 <div class="flex flex-col md:flex-row gap-4">
-                                    <p><a class="w-full text-center sm:w-auto btn-primary" href="{{ route('trip.search') }}">Send a Parcel</a></p>
+{{--                                    <p><a class="w-full text-center sm:w-auto btn-primary" href="{{ route('trip.search') }}">Send a Parcel</a></p>--}}
                                     <p><a class="w-full text-center sm:w-auto btn-white" href="{{ route('register') }}">Become a Traveller</a></p>
                                 </div>
                             </div>
