@@ -104,7 +104,7 @@
     @push('scripts')
         <script>
             $(document).ready(function() {
-                countryStateCityDropdown('.country_id', '.state_id', '.city', {{ $user->profile->state_id ?? '' }}, {{ $user->profile->city ?? '' }});
+                countryStateCityDropdown('.country_id', '.state_id', '.city_id', {{ $user->profile->state_id ?? '' }}, {{ $user->profile->city ?? '' }});
             });
 
             document.addEventListener('alpine:init', () => {
