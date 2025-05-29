@@ -15,14 +15,15 @@ class TripSearch extends Component
     public $to;
     public $departure_date;
     public $shorting;
+    public $parcel_type;
     public $departure_filter;
     public $review;
 
-    protected $queryString = ['from', 'to', 'departure_date', 'shorting', 'departure_filter', 'review'];
+    protected $queryString = ['from', 'to', 'departure_date', 'parcel_type', 'shorting', 'departure_filter', 'review'];
 
     public function resetForm()
     {
-        $this->reset(['from', 'to', 'departure_date', 'shorting', 'departure_filter']);
+        $this->reset(['from', 'to', 'departure_date', 'parcel_type', 'shorting', 'departure_filter']);
     }
 
     public function render()
@@ -48,6 +49,9 @@ class TripSearch extends Component
             })
             ->where('status', 'Active')
             ->where('user_id', '!=', auth()->id())
+            ->when($this->parcel_type, function ($query) {
+                $query->where('handling_instruction', $this->parcel_type);
+            })
             ->when($this->shorting, function ($query) {
                 switch ($this->shorting) {
                     case 'lowest_price':

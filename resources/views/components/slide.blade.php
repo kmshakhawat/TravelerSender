@@ -11,8 +11,7 @@
                                 <h3 class="slide-title">{{ config('app.name') }} - Smart Delivery, Powered by Travelers</h3>
                                 <p>A peer-to-peer delivery network connecting trusted travelers with people who need parcels delivered across cities or countries.</p>
                                 <div class="flex flex-col md:flex-row gap-4">
-{{--                                    <p><a class="w-full text-center sm:w-auto btn-primary" href="{{ route('trip.search') }}">Send a Parcel</a></p>--}}
-                                    <p><a class="w-full text-center sm:w-auto btn-white" href="{{ route('register') }}">Become a Traveller</a></p>
+                                    <p><a class="w-full text-center sm:w-auto btn-primary" href="{{ route('register') }}">Become a Traveller</a></p>
                                 </div>
                             </div>
                         </div>
@@ -27,6 +26,7 @@
                         <div class="flex h-full items-center">
                             <div class="w-full slide-content text-center p-5 md:p-0">
                                 <h3 class="slide-title">Find a Traveller Heading Your way</h3>
+                                <p><a class="w-full text-center sm:w-auto btn-primary" href="{{ route('register') }}">Become a Traveller</a></p>
                             </div>
                         </div>
                     </div>
@@ -40,6 +40,7 @@
                         <div class="flex h-full items-center">
                             <div class="w-full slide-content text-center p-5 md:p-0">
                                 <h3 class="slide-title">Match and Connect</h3>
+                                <p><a class="w-full text-center sm:w-auto btn-primary" href="{{ route('register') }}">Become a Traveller</a></p>
                             </div>
                         </div>
                     </div>
@@ -53,6 +54,7 @@
                         <div class="flex h-full items-center">
                             <div class="w-full slide-content text-center p-5 md:p-0">
                                 <h3 class="slide-title">Wouldn't you rather contribute to a pristine earth?</h3>
+                                <p><a class="w-full text-center sm:w-auto btn-primary" href="{{ route('register') }}">Become a Traveller</a></p>
                             </div>
                         </div>
                     </div>

@@ -6,15 +6,17 @@ use App\Http\Services\CurrencyConverter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Laravel\Scout\Searchable;
 
 class Trip extends Model
 {
-    use HasFactory;
+    use HasFactory, Searchable;
+
     protected $fillable = [
         'user_id',
         'trip_type',
         'mode_of_transport',
+        'vehicle_details',
         'from_address_1',
         'from_address_2',
         'from_country_id',
@@ -44,6 +46,19 @@ class Trip extends Model
         'admin_note',
         'status',
     ];
+
+
+    public function toSearchableArray()
+    {
+        $this->loadMissing(['city', 'state', 'country']); // Make sure they're loaded
+
+        return [
+            'id' => $this->id,
+            'from_city' => $this->city->name ?? '',
+            'from_state' => $this->state->name ?? '',
+            'from_country' => $this->country->name ?? '',
+        ];
+    }
 
     public function fromCountry(): BelongsTo
     {
@@ -95,6 +110,22 @@ class Trip extends Model
     public function getCurrencySymbolAttribute()
     {
         return auth()->user()->currency->symbol ?? '$';
+    }
+
+
+    public function city()
+    {
+        return $this->belongsTo(City::class);
+    }
+
+    public function state()
+    {
+        return $this->belongsTo(State::class);
+    }
+
+    public function country()
+    {
+        return $this->belongsTo(Country::class);
     }
 
 }

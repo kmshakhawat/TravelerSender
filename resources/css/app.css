@@ -11,7 +11,7 @@
 .invalid-feedback {color: red;}
 .btn-primary {
     @apply bg-primary inline-block text-white rounded-md px-4 py-2 border border-transparent cursor-pointer
-    hover:border hover:text-primary hover:border-primary hover:bg-transparent
+    hover:border hover:text-primary hover:border-primary hover:bg-white
     transition ease-in-out duration-300;
 }
 .btn-secondary {

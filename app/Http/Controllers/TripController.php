@@ -103,6 +103,7 @@ class TripController extends Controller
             'user_id' => auth()->id(),
 //            'trip_type' => $request->trip_type,
             'mode_of_transport' => $request->mode_of_transport,
+            'vehicle_details' => $request->vehicle_details,
             'from_address_1' => $request->from_address_1,
             'from_address_2' => $request->from_address_2,
             'from_country_id' => $request->from_country_id,
@@ -251,6 +252,7 @@ class TripController extends Controller
 
         $departure_date = $request->departure_date;
         $arrival_date = $request->arrival_date;
+        $type_of_item = implode(',', $request->type_of_item);
 
         if ($departure_date > $arrival_date) {
             return response()->json([
@@ -269,6 +271,7 @@ class TripController extends Controller
         $trip->update([
 //            'trip_type' => $request->trip_type,
             'mode_of_transport' => $request->mode_of_transport,
+            'vehicle_details' => $request->vehicle_details,
             'from_address_1' => $request->from_address_1,
             'from_address_2' => $request->from_address_2,
             'from_country_id' => $request->from_country_id,
@@ -287,7 +290,7 @@ class TripController extends Controller
             'arrival_date' => $request->arrival_date,
             'available_space' => $request->available_space,
             'weight_unit' => $request->weight_unit,
-            'type_of_item' => $request->type_of_item,
+            'type_of_item' => $type_of_item,
             'packaging_requirement' => $request->packaging_requirement,
             'handling_instruction' => $request->handling_instruction,
             'photo' => $this->handleFile($request->file('photo'), 'trip/', ''),

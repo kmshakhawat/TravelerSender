@@ -18,6 +18,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->string('mode_of_transport', 20);
+            $table->text('vehicle_details')->nullable();
             $table->string('from_address_1')->nullable();
             $table->string('from_address_2')->nullable();
             $table->foreignIdFor(Country::class, 'from_country_id')->nullable()->constrained()->nullOnDelete();
@@ -36,7 +37,7 @@ return new class extends Migration
             $table->timestamp('arrival_date')->nullable();
             $table->string('available_space', 20);
             $table->string('weight_unit', 10);
-            $table->string('type_of_item', 50);
+            $table->string('type_of_item');
             $table->string('packaging_requirement', 20);
             $table->string('handling_instruction', 20);
             $table->string('photo')->nullable();

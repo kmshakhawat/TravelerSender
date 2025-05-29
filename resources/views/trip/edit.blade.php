@@ -29,6 +29,17 @@
                                 </div>
                             </div>
 
+                            <div class="flex gap-4">
+                                <div class="w-full sm:w-full mt-4">
+                                    <x-label for="vehicle_details" value="{{ __('Vehicle Details') }}" />
+                                    <textarea
+                                        name="vehicle_details"
+                                        id="vehicle_details"
+                                        class="form-input">{{ $trip->vehicle_details }}</textarea>
+                                    <div class="invalid-feedback invalid-vehicle_details"></div>
+                                </div>
+                            </div>
+
                             <div class="p-4 bg-gray-50 rounded my-5 border border-primary border-opacity-50">
                                 <h5 class="heading-5">From</h5>
                                 <div class="flex gap-4">
@@ -203,7 +214,7 @@
                                 </div>
                                 <div class="w-full sm:w-1/2 mt-4">
                                     <x-label for="type_of_item" value="{{ __('Type of Items Allowed') }}" />
-                                    <x-input-dropdown class="type_of_item" name="type_of_item" :options="$item_type_option" :selected="[$trip->type_of_item]"/>
+                                    <x-input-dropdown class="type_of_item" name="type_of_item[]" :options="$item_type_option" :selected="[$trip->type_of_item]" multiple/>
                                     <div class="invalid-feedback invalid-type_of_item"></div>
                                 </div>
                             </div>

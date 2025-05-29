@@ -11,6 +11,9 @@
                     <table class="w-full table whitespace-nowrap">
                         <thead class="bg-secondary text-gray-100 font-bold">
                         <td class="py-2 pl-2">
+                            User
+                        </td>
+                        <td class="py-2 pl-2">
                             Trip
                         </td>
                         <td class="py-2 pl-2">
@@ -44,6 +47,11 @@
                         <tbody class="text-sm">
                         @forelse($bookings as $booking)
                             <tr>
+                                @if(Auth::user()->hasRole('admin'))
+                                    <td class="py-3 pl-2">
+                                        <img class="size-10 rounded-full object-cover" src="{{ $booking->trip->user->profile_photo_url ?: 'https://ui-avatars.com/api/?name='.urlencode($booking->trip->user->name).'&color=7F9CF5&background=EBF4FF' }}" alt="{{ $booking->trip->user->name }}" title="{{ $booking->trip->user->name }}" />
+                                    </td>
+                                @endif
                                 <td class="py-3 pl-2">
                                     <div class="flex flex-col">
                                         <a class="flex items-center gap-2" href="{{ route('trip.show', $booking->trip->id) }}">

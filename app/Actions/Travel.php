@@ -44,6 +44,8 @@ class Travel
             'Train',
             'Bus',
             'Car',
+            'Lorry',
+            'Vans',
         ]);
     }
     public static function itemType(): array

@@ -17,7 +17,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 opacity-50 text-primary absolute left-3 top-1/2 transform -translate-y-1/2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z" />
                     </svg>
-                    <input wire:model="departure_date" type="text" id="departure_date" class="block w-full ps-10 form-input !py-4 datepicker" name="departure_date" autocomplete="off" />
+                    <input wire:model="departure_date" type="text" id="departure_date" class="block w-full ps-10 form-input !py-4 relative bg-transparent datepicker" name="departure_date" autocomplete="off" />
                 </div>
                 <div class="relative w-full flex gap-4">
                     <button wire:click="$refresh" type="button" class="mt-1 w-full px-8 py-4 bg-primary text-white rounded font-medium transition ease-in-out duration-300 hover:bg-secondary">
@@ -33,13 +33,20 @@
             <div class="flex flex-col md:flex-row gap-8">
                 <div class="w-full md:w-1/4">
                     <div class="bg-white border border-gray-10 rounded-lg p-4 mb-4">
+                        <label for="parcel_type" class="block mb-2 font-medium text-gray-700">Parcel Type</label>
+                        <select wire:model.live="parcel_type" id="parcel_type" name="parcel_type" class="form-input">
+                            <option value="">-- Select --</option>
+                            <option value="fragile">Fragile</option>
+                            <option value="refrigerated">Refrigerated</option>
+                        </select>
+                    </div>
+                    <div class="bg-white border border-gray-10 rounded-lg p-4 mb-4">
                         <label for="shorting" class="block mb-2 font-medium text-gray-700">Sorting</label>
                         <select wire:model.live="shorting" id="shorting" name="shorting" class="form-input">
                             <option value="">-- Select --</option>
 {{--                            <option value="most_recent">Most Recent</option>--}}
                             <option value="lowest_price">Price (Low > High)</option>
                             <option value="highest_price">Price (High > Low)</option>
-{{--                            <option value="highest_reward">Highest Reward</option>--}}
                         </select>
                     </div>
                     <div class="bg-white border border-gray-10 rounded-lg p-4 mb-4">

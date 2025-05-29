@@ -29,6 +29,11 @@
         <table class="w-full table my-8 whitespace-nowrap">
             <thead class="bg-secondary text-gray-100 font-bold">
             <tr>
+                @if(Auth::user()->hasRole('admin'))
+                    <td class="py-2 pl-5">
+                        User
+                    </td>
+                @endif
                 <td class="py-2 pl-5">
                     From → To / Date
                 </td>
@@ -52,6 +57,11 @@
             <tbody class="text-sm">
             @forelse ($trips as $trip)
                 <tr class="odd:bg-white bg-gray-100 border-b hover:bg-primary hover:bg-opacity-20 transition duration-200">
+                    @if(Auth::user()->hasRole('admin'))
+                        <td class="py-3 pl-2">
+                            <img class="size-10 rounded-full object-cover" src="{{ $trip->user->profile_photo_url ?: 'https://ui-avatars.com/api/?name='.urlencode($trip->user->name).'&color=7F9CF5&background=EBF4FF' }}" alt="{{ $trip->user->name }}" title="{{ $trip->user->name }}" />
+                        </td>
+                    @endif
                     <td class="py-3 pl-5">
                         <div class="flex flex-col">
                             <div class="flex items-center gap-2">
