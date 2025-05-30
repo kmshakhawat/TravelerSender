@@ -1,4 +1,4 @@
-{{--<form method="GET" action="{{ route('trip.search') }}" class="w-full">--}}
+<form method="GET" action="{{ route('trip.search') }}" class="w-full">
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 md:gap-10">
         <div class="autocomplete-wrapper relative w-full">
             <span class="absolute top-[8px] text-gray-300 ps-10 text-sm">From</span>
@@ -25,7 +25,7 @@
             </button>
         </div>
     </div>
-{{--</form>--}}
+</form>
 
 <script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.22.0/dist/algoliasearch-lite.umd.js"></script>
 @push('scripts')
@@ -121,25 +121,30 @@
             userSelected = true;
             input.value = value;
 
-            // Dispatch Livewire update
+            // Always dispatch a native InputEvent for compatibility (Livewire or not)
             input.dispatchEvent(new InputEvent('input', { bubbles: true, composed: true }));
 
-            const el = input.closest('[wire\\:id]');
-            const component = Livewire.find(el.getAttribute('wire:id'));
-            const fieldName = input.getAttribute('wire:model');
+            // Check if Livewire exists and apply Livewire-specific update
+            if (window.Livewire && typeof Livewire.find === 'function') {
+                const el = input.closest('[wire\\:id]');
+                if (el) {
+                    const component = Livewire.find(el.getAttribute('wire:id'));
+                    const fieldName = input.getAttribute('wire:model');
 
-            if (component && fieldName) {
-                component.set(fieldName, value);
+                    if (component && fieldName) {
+                        component.set(fieldName, value);
+                    }
+                }
             }
 
-            // ✅ DEFER hiding the dropdown until next frame
+            // Defer hiding the dropdown to avoid UI conflicts
             requestAnimationFrame(() => {
                 resultsContainer.classList.add('hidden');
-                resultsContainer.style.display = 'none'; // fallback
+                resultsContainer.style.display = 'none';
                 resultsContainer.innerHTML = '';
             });
 
-            input.blur(); // optional: hide keyboard
+            input.blur(); // Optional: close mobile keyboard
         }
 
         document.addEventListener('click', function (e) {
