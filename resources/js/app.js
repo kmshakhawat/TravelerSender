@@ -9,7 +9,6 @@ import 'flatpickr/dist/flatpickr.min.css';
 
 
 
-
 // Function to populate dropdown
 function populateDropdown(elementId, items) {
     let select = document.getElementById(elementId);

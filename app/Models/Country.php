@@ -21,7 +21,6 @@ class Country extends Model
         'id',
     ];
 
-
     public function toSearchableArray()
     {
         return [
@@ -29,6 +28,5 @@ class Country extends Model
             'name' => $this->name,
         ];
     }
-
 
 }

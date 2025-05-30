@@ -7,8 +7,10 @@ use App\Http\Middleware\Auth;
 use App\Http\Services\FileHandler;
 use App\Mail\SendMail;
 use App\Models\Booking;
+use App\Models\City;
 use App\Models\Country;
 use App\Models\Payment;
+use App\Models\State;
 use App\Models\Tracking;
 use App\Models\Trip;
 use Illuminate\Http\JsonResponse;
@@ -505,11 +507,25 @@ class BookingController extends Controller
 
 
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Booking $booking)
+    public function search(Request $request)
     {
-        //
+        $query = $request->get('q');
+
+        if (strlen($query) < 3) {
+            return response()->json([]);
+        }
+
+        $countries = Country::select('name')
+            ->where('name', 'like', '%' . $query . '%');
+
+        $states = State::select('name')
+            ->where('name', 'like', '%' . $query . '%');
+
+        $cities = City::select('name')
+            ->where('name', 'like', '%' . $query . '%');
+
+        $results = $countries->union($states)->union($cities)->limit(10)->get();
+
+        return response()->json($results);
     }
 }

@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 use Laravel\Jetstream\Http\Controllers\Livewire\UserProfileController;
 
 use App\Livewire\Chat;
-
+use Stripe\Climate\Order;
 
 
 Route::get('/get-countries', function () {
@@ -132,3 +132,6 @@ Route::get('/contact', function (){
     return view('page.contact');
 })->name('contact');
 
+
+//Route::get('/locations/search', [Booking::class, 'search']);
+Route::get('locations/search', [BookingController::class, 'search']);
