@@ -74,7 +74,7 @@
                                     </div>
                                     <div class="w-full sm:w-1/2 mt-4">
                                         <x-label for="from_postcode" value="{{ __('Postcode') }}" />
-                                        <x-input id="from_postcode" class="block w-full" type="text" name="from_postcode" :value="$trip->from_postcode" required autocomplete="from_postcode" />
+                                        <x-input id="from_postcode" class="block w-full" type="text" name="from_postcode" :value="$trip->from_postcode" autocomplete="from_postcode" />
                                         <div class="invalid-feedback invalid-from_postcode"></div>
                                     </div>
                                 </div>
@@ -120,7 +120,7 @@
                                     </div>
                                     <div class="w-full sm:w-1/2 mt-4">
                                         <x-label for="to_postcode" value="{{ __('Postcode') }}" />
-                                        <x-input id="to_postcode" class="block w-full" type="text" name="to_postcode" :value="$trip->to_postcode" required autocomplete="to_postcode" />
+                                        <x-input id="to_postcode" class="block w-full" type="text" name="to_postcode" :value="$trip->to_postcode" autocomplete="to_postcode" />
                                         <div class="invalid-feedback invalid-to_postcode"></div>
                                     </div>
                                 </div>
@@ -214,7 +214,7 @@
                                 </div>
                                 <div class="w-full sm:w-1/2 mt-4">
                                     <x-label for="type_of_item" value="{{ __('Type of Items Allowed') }}" />
-                                    <x-input-dropdown class="type_of_item" name="type_of_item[]" :options="$item_type_option" :selected="[$trip->type_of_item]" multiple/>
+                                    <x-input-dropdown class="type_of_item" name="type_of_item[]" :options="$item_type_option" :selected="explode(',', $trip->type_of_item)" multiple />
                                     <div class="invalid-feedback invalid-type_of_item"></div>
                                 </div>
                             </div>

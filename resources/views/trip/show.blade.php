@@ -96,7 +96,7 @@
                                 </tr>
                                 <tr>
                                     <td>Type of Items Allowed</td>
-                                    <td>{{ $trip->type_of_item }}</td>
+                                    <td>{!! is_array($trip->type_of_item) ? implode(', ', $trip->type_of_item) : $trip->type_of_item !!}</td>
                                 </tr>
                                 <tr>
                                     <td>Packaging Requirements</td>

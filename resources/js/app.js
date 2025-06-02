@@ -40,7 +40,7 @@ flatpickr(".timepicker", {
     altInput: true,
     altFormat: "F j, Y h:i K",
     enableTime: true,
-    dateFormat: "Y-m-d H:i",
+    dateFormat: "Y-m-d H:i:s",
     minDate: "today",
 });
 document.addEventListener('DOMContentLoaded', function () {

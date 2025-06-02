@@ -64,13 +64,11 @@ class TripController extends Controller
             'from_country_id' => 'required',
             'from_state_id' => 'required',
             'from_city_id' => 'required',
-            'from_postcode' => 'required',
             'from_phone' => 'required',
             'to_address_1' => 'required',
             'to_country_id' => 'required',
             'to_state_id' => 'required',
             'to_city_id' => 'required',
-            'to_postcode' => 'required',
             'to_phone' => 'required',
             'departure_date' => 'required',
             'arrival_date' => 'required',
@@ -84,6 +82,7 @@ class TripController extends Controller
 
         $departure_date = $request->departure_date;
         $arrival_date = $request->arrival_date;
+        $type_of_item = implode(',', $request->type_of_item);
 
         if ($departure_date > $arrival_date) {
             return response()->json([
@@ -122,7 +121,7 @@ class TripController extends Controller
             'arrival_date' => $request->arrival_date,
             'available_space' => $request->available_space,
             'weight_unit' => $request->weight_unit,
-            'type_of_item' => $request->type_of_item,
+            'type_of_item' => $type_of_item,
             'packaging_requirement' => $request->packaging_requirement,
             'handling_instruction' => $request->handling_instruction,
             'photo' => $this->handleFile($request->file('photo'), 'trip/', ''),
@@ -232,13 +231,11 @@ class TripController extends Controller
             'from_country_id' => 'required',
             'from_state_id' => 'required',
             'from_city_id' => 'required',
-            'from_postcode' => 'required',
             'from_phone' => 'required',
             'to_address_1' => 'required',
             'to_country_id' => 'required',
             'to_state_id' => 'required',
             'to_city_id' => 'required',
-            'to_postcode' => 'required',
             'to_phone' => 'required',
             'departure_date' => 'required',
             'arrival_date' => 'required',

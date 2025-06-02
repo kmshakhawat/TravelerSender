@@ -78,7 +78,7 @@
                                 <div class="flex gap-4">
                                     <div class="w-full sm:w-1/2 mt-4">
                                         <x-label for="from_postcode" value="{{ __('Postcode') }}" />
-                                        <x-input id="from_postcode" class="block w-full" type="text" name="from_postcode" :value="''" required autocomplete="from_postcode" />
+                                        <x-input id="from_postcode" class="block w-full" type="text" name="from_postcode" :value="''" autocomplete="from_postcode" />
                                         <div class="invalid-feedback invalid-from_postcode"></div>
                                     </div>
                                 </div>
@@ -124,7 +124,7 @@
                                 <div class="flex gap-4">
                                     <div class="w-full sm:w-1/2 mt-4">
                                         <x-label for="to_postcode" value="{{ __('Postcode') }}" />
-                                        <x-input id="to_postcode" class="block w-full" type="text" name="to_postcode" :value="''" required autocomplete="to_postcode" />
+                                        <x-input id="to_postcode" class="block w-full" type="text" name="to_postcode" :value="''" autocomplete="to_postcode" />
                                         <div class="invalid-feedback invalid-to_postcode"></div>
                                     </div>
                                 </div>
