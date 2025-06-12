@@ -118,14 +118,14 @@
                             </div>
 
                             <h5 class="heading-5 mt-10 heading-title">{{ __('Upload your ID Card') }}</h5>
-                            <div class="flex mt-4 gap-10">
-                                <div class="w-2/3">
+                            <div class="flex flex-col lg:flex-row mt-4 gap-10">
+                                <div class="w-full lg:w-2/3">
                                     <x-id-front :title="__('Upload Font Side')" />
                                     <div class="border mb-8"></div>
                                     <x-id-back :title="__('Upload Back Side')" />
                                 </div>
                                 <div class="border"></div>
-                                <div class="w-1/3">
+                                <div class="w-full lg:w-1/3">
                                     <x-user-photo />
                                 </div>
                             </div>

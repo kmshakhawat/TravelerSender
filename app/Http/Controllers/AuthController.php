@@ -125,9 +125,16 @@ class AuthController extends Controller
     }
 
 
-    public function otp()
+    public function otp(Request $request)
     {
-        if (auth()->user()->otp == null) {
+        if (!auth()->user()) {
+            return redirect()->route('login');
+        }
+        if ($request->isMethod('post')) {
+            return redirect()->route('login');
+        }
+
+        if (auth()->user() && auth()->user()->otp === null) {
             $this->sendOTPMail();
         }
         return view('auth.email-otp');
@@ -159,6 +166,9 @@ class AuthController extends Controller
     }
     public function otpVerify(Request $request)
     {
+        if ($request->isMethod('get')) {
+            return redirect()->route('otp');
+        }
         $request->validate([
             'otp' => 'required|numeric'
         ]);

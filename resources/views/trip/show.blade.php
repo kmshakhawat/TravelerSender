@@ -6,18 +6,18 @@
     </x-slot>
     <div class="py-12">
         <div class="container">
-            <div class="flex gap-8">
-                <div class="w-1/4">
+            <div class="flex flex-col md:flex-row gap-8">
+                <div class="w-full md:w-1/4">
                     <x-trip-sidebar />
                 </div>
-                <div class="w-3/4">
+                <div class="w-full md:w-3/4">
                     <div class="bg-white border border-gray-50 rounded shadow p-4">
                         <div class="flex items-center justify-between heading-title">
                             <h3 class="heading-5 mb-4">Trip Information</h3>
                             <a class="btn-secondary" href="{{ route('trip.index') }}">Back</a>
                         </div>
-                        <div class="overflow-auto">
-                            <table class="w-full table mb-8 whitespace-nowrap">
+                        <div class="overflow-auto mb-8">
+                            <table class="w-full table whitespace-nowrap">
 {{--                                <tr>--}}
 {{--                                    <td>Trip Type</td>--}}
 {{--                                    <td>{{ $trip->trip_type }}</td>--}}
@@ -145,10 +145,10 @@
                                     </td>
                                 </tr>
                             </table>
-                            <div class="flex gap-3">
-                                <a class="btn-primary" href="{{ route('trip.edit', $trip->id) }}">Edit</a>
-                                <a class="btn-secondary" href="{{ route('trip.index') }}">Back</a>
-                            </div>
+                        </div>
+                        <div class="flex gap-3">
+                            <a class="btn-primary" href="{{ route('trip.edit', $trip->id) }}">Edit</a>
+                            <a class="btn-secondary" href="{{ route('trip.index') }}">Back</a>
                         </div>
                     </div>
                 </div>

@@ -6,17 +6,17 @@
     </x-slot>
     <div x-data="trip" class="py-12">
         <div class="container">
-            <div class="flex gap-8">
-                <div class="w-1/4">
+            <div class="flex flex-col md:flex-row gap-8">
+                <div class="w-full md:w-1/4">
                     <x-trip-sidebar />
                 </div>
-                <div class="w-3/4">
+                <div class="w-full md:w-3/4">
                     <div class="bg-white border border-gray-50 rounded shadow p-4">
                         <form id="update" method="POST" @submit.prevent="editTrip({{ $trip }})">
                             @csrf
                             @method('PUT')
                             <h3 class="heading-5 mb-4 heading-title">Trip Information</h3>
-                            <div class="flex gap-4">
+                            <div class="flex flex-col sm:flex-row sm:gap-4">
 {{--                                <div class="w-full sm:w-1/2 mt-4">--}}
 {{--                                    <x-label for="trip_type" value="{{ __('Trip Type') }}" />--}}
 {{--                                    <x-input-dropdown class="trip_type" name="trip_type" :options="$type_option" :selected="[$trip->trip_type]"/>--}}
@@ -29,7 +29,7 @@
                                 </div>
                             </div>
 
-                            <div class="flex gap-4">
+                            <div class="flex flex-col sm:flex-row sm:gap-4">
                                 <div class="w-full sm:w-full mt-4">
                                     <x-label for="vehicle_details" value="{{ __('Vehicle Details') }}" />
                                     <textarea
@@ -42,7 +42,7 @@
 
                             <div class="p-4 bg-gray-50 rounded my-5 border border-primary border-opacity-50">
                                 <h5 class="heading-5">From</h5>
-                                <div class="flex gap-4">
+                                <div class="flex flex-col sm:flex-row sm:gap-4">
                                     <div class="w-full sm:w-1/2 mt-4">
                                         <x-label for="from_address_1" value="{{ __('Address Line 1') }}" />
                                         <x-input id="from_address_1" class="block w-full" type="text" name="from_address_1" :value="$trip->from_address_1" autocomplete="from_address_1" />
@@ -54,7 +54,7 @@
                                         <div class="invalid-feedback invalid-from_address_2"></div>
                                     </div>
                                 </div>
-                                <div class="flex gap-4">
+                                <div class="flex flex-col sm:flex-row sm:gap-4">
                                     <div class="w-full sm:w-1/2 mt-4">
                                         <x-label for="from_country_id" value="{{ __('Country') }}" />
                                         <x-input-dropdown id="from_country_id" class="from_country_id" name="from_country_id" :options="$countries" :selected="[$trip->from_country_id]"/>
@@ -66,7 +66,7 @@
                                         <div class="invalid-feedback invalid-from_state"></div>
                                     </div>
                                 </div>
-                                <div class="flex gap-4">
+                                <div class="flex flex-col sm:flex-row sm:gap-4">
                                     <div class="w-full sm:w-1/2 mt-4">
                                         <x-label for="from_city_id" value="{{ __('City') }}" />
                                         <x-input-dropdown id="from_city_id" class="from_city_id" name="from_city_id" :options="[]" :selected="[$trip->from_city_id]" />
@@ -78,7 +78,7 @@
                                         <div class="invalid-feedback invalid-from_postcode"></div>
                                     </div>
                                 </div>
-                                <div class="flex gap-4">
+                                <div class="flex flex-col sm:flex-row sm:gap-4">
                                     <div class="w-full sm:w-1/2 mt-4">
                                         <x-label for="from_phone" value="{{ __('Phone') }}" />
                                         <x-input id="from_phone" class="block w-full phone" type="text" name="from_phone" :value="$trip->from_phone" required autocomplete="from_phone" />
@@ -88,7 +88,7 @@
                             </div>
                             <div class="p-4 bg-gray-50 rounded my-5 border border-primary border-opacity-50">
                                 <h5 class="heading-5">To</h5>
-                                <div class="flex gap-4">
+                                <div class="flex flex-col sm:flex-row sm:gap-4">
                                     <div class="w-full sm:w-1/2 mt-4">
                                         <x-label for="to_address_1" value="{{ __('Address Line 1') }}" />
                                         <x-input id="to_address_1" class="block w-full" type="text" name="to_address_1" :value="$trip->to_address_1" autocomplete="to_address_1" />
@@ -100,7 +100,7 @@
                                         <div class="invalid-feedback invalid-to_address_2"></div>
                                     </div>
                                 </div>
-                                <div class="flex gap-4">
+                                <div class="flex flex-col sm:flex-row sm:gap-4">
                                     <div class="w-full sm:w-1/2 mt-4">
                                         <x-label for="to_country_id" value="{{ __('Country') }}" />
                                         <x-input-dropdown id="to_country_id" class="to_country_id" name="to_country_id" :options="$countries" :selected="[$trip->to_country_id]"/>
@@ -112,7 +112,7 @@
                                         <div class="invalid-feedback invalid-to_state"></div>
                                     </div>
                                 </div>
-                                <div class="flex gap-4">
+                                <div class="flex flex-col sm:flex-row sm:gap-4">
                                     <div class="w-full sm:w-1/2 mt-4">
                                         <x-label for="to_city_id" value="{{ __('City') }}" />
                                         <x-input-dropdown id="to_city_id" class="to_city_id" name="to_city_id" :options="[]" :selected="[$trip->to_city_id]" />
@@ -124,7 +124,7 @@
                                         <div class="invalid-feedback invalid-to_postcode"></div>
                                     </div>
                                 </div>
-                                <div class="flex gap-4">
+                                <div class="flex flex-col sm:flex-row sm:gap-4">
                                     <div class="w-full sm:w-1/2 mt-4">
                                         <x-label for="to_phone" value="{{ __('Phone') }}" />
                                         <x-input id="to_phone" class="block w-full phone" type="text" name="to_phone" :value="$trip->to_phone" required autocomplete="to_phone" />
@@ -133,7 +133,7 @@
                                 </div>
                             </div>
 
-                            <div class="flex gap-4">
+                            <div class="flex flex-col sm:flex-row sm:gap-4">
                                 <div class="w-full sm:w-1/2 mt-4">
                                     <x-label for="departure_date" value="{!! __('Date & Time of Departure') !!}" />
                                     <div class="relative">
@@ -203,7 +203,7 @@
                             </div>
 
                             <h3 class="heading-5 mt-8 mb-4 heading-title">Luggage & Courier Details</h3>
-                            <div class="flex gap-4">
+                            <div class="flex flex-col sm:flex-row sm:gap-4">
                                 <div class="w-full sm:w-1/2 mt-4">
                                     <x-label for="available_space" value="{{ __('Available Space/Weight Limit (in kg/lbs)') }}" />
                                     <div class="flex relative">
@@ -219,7 +219,7 @@
                                 </div>
                             </div>
 
-                            <div class="flex gap-4">
+                            <div class="flex flex-col sm:flex-row sm:gap-4">
                                 <div class="w-full sm:w-1/2 mt-4">
                                     <x-label for="packaging_requirement" value="{{ __('Packaging Requirements') }}" />
                                     <x-input-dropdown class="packaging_requirement" name="packaging_requirement" :options="$packaging_requirement_options" :selected="[$trip->packaging_requirement]"/>
@@ -231,7 +231,7 @@
                                     <div class="invalid-feedback invalid-handling_instruction"></div>
                                 </div>
                             </div>
-                            <div class="flex gap-4">
+                            <div class="flex flex-col sm:flex-row sm:gap-4">
                                 <div class="w-full sm:w-1/2 mt-4">
                                     <x-label for="price" value="{{ __('Price') }}" />
                                     <div class="relative">

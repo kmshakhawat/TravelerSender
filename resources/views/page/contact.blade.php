@@ -7,8 +7,8 @@
 
     <div class="container py-10 page-content">
         <div class="mb-10">
-            <div class="flex items-center">
-                <div class="w-full sm:w-1/2 sm:px-10">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="w-full md:w-1/2 md:px-10">
                     <h4 class="heading-4 mb-5">Contact Details</h4>
                     <div class="flex gap-2 mb-5">
                         <span>
@@ -42,7 +42,7 @@
                         Office Hours: Monday - Friday, 9 AM - 5 PM
                     </div>
                 </div>
-                <div class="w-full sm:w-1/2">
+                <div class="w-full md:w-1/2">
                     <img class="w-full" src="{{ asset('asset/img/contact-us.jpg') }}" alt="Contact Us">
                 </div>
             </div>

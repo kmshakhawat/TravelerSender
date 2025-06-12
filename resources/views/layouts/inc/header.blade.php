@@ -15,7 +15,7 @@
             <!-- Menu -->
 
             <div class="flex gap-10">
-                <div x-data="{ open: false }" class="z-10 flex-1">
+                <div x-data="{ open: false }" class="z-20 flex-1">
                     <div :class="{ 'flex' : open, 'hidden' : open === false }" class="
                     fixed flex-col items-center justify-center z-40 bg-gray-200 text-white top-0 left-0 w-full h-screen leading-loose tracking-wider gap-8 hidden
                     lg:relative lg:w-auto lg:h-auto lg:flex lg:flex-row lg:justify-start lg:text-black lg:bg-transparent">

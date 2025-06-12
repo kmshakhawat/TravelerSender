@@ -12,9 +12,11 @@
         <details class="group border-b border-black">
             <summary class="flex items-center justify-between text-xl gap-3 py-3 font-bold marker:content-none hover:cursor-pointer">
                 <span>1. What is SendTins and how does it work?</span>
-                <svg class="w-8 h-8 text-black transition group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-                </svg>
+                <div class="w-8 h-8">
+                    <svg class="w-8 h-8 text-black transition group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                </div>
             </summary>
             <article class="pb-4">
                 <p>
@@ -25,9 +27,11 @@
         <details class="group border-b border-black">
             <summary class="flex items-center justify-between text-xl gap-3 py-3 font-bold marker:content-none hover:cursor-pointer">
                 <span>2. Is SendTins safe to use?</span>
-                <svg class="w-8 h-8 text-black transition group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-                </svg>
+                <div class="w-8 h-8">
+                    <svg class="w-8 h-8 text-black transition group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                </div>
             </summary>
             <article class="pb-4">
                 <p>
@@ -38,9 +42,11 @@
         <details class="group border-b border-black">
             <summary class="flex items-center justify-between text-xl gap-3 py-3 font-bold marker:content-none hover:cursor-pointer">
                 <span>3. What kind of parcels can I send through SendTins?</span>
-                <svg class="w-8 h-8 text-black transition group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-                </svg>
+                <div class="w-8 h-8">
+                    <svg class="w-8 h-8 text-black transition group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                </div>
             </summary>
             <article class="pb-4">
                 <p>
@@ -51,9 +57,11 @@
         <details class="group border-b border-black">
             <summary class="flex items-center justify-between text-xl gap-3 py-3 font-bold marker:content-none hover:cursor-pointer">
                 <span>4. How do I become a traveler and start earning?</span>
-                <svg class="w-8 h-8 text-black transition group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-                </svg>
+                <div class="w-8 h-8">
+                    <svg class="w-8 h-8 text-black transition group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                </div>
             </summary>
             <article class="pb-4">
                 <p>
@@ -64,9 +72,11 @@
         <details class="group border-b border-black">
             <summary class="flex items-center justify-between text-xl gap-3 py-3 font-bold marker:content-none hover:cursor-pointer">
                 <span>5. How is payment handled?</span>
-                <svg class="w-8 h-8 text-black transition group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-                </svg>
+                <div class="w-8 h-8">
+                    <svg class="w-8 h-8 text-black transition group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                </div>
             </summary>
             <article class="pb-4">
                 <p>
@@ -77,9 +87,11 @@
         <details class="group border-b border-black">
             <summary class="flex items-center justify-between text-xl gap-3 py-3 font-bold marker:content-none hover:cursor-pointer">
                 <span>6. Can I track my parcel during delivery?</span>
-                <svg class="w-8 h-8 text-black transition group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-                </svg>
+                <div class="w-8 h-8">
+                    <svg class="w-8 h-8 text-black transition group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                </div>
             </summary>
             <article class="pb-4">
                 <p>
@@ -90,9 +102,11 @@
         <details class="group border-b border-black">
             <summary class="flex items-center justify-between text-xl gap-3 py-3 font-bold marker:content-none hover:cursor-pointer">
                 <span>7. What if something goes wrong with the delivery?</span>
-                <svg class="w-8 h-8 text-black transition group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-                </svg>
+                <div class="w-8 h-8">
+                    <svg class="w-8 h-8 text-black transition group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                </div>
             </summary>
             <article class="pb-4">
                 <p>
@@ -103,9 +117,11 @@
         <details class="group border-b border-black">
             <summary class="flex items-center justify-between text-xl gap-3 py-3 font-bold marker:content-none hover:cursor-pointer">
                 <span>8. How do reviews and ratings work?</span>
-                <svg class="w-8 h-8 text-black transition group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-                </svg>
+                <div class="w-8 h-8">
+                    <svg class="w-8 h-8 text-black transition group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                </div>
             </summary>
             <article class="pb-4">
                 <p>
@@ -116,9 +132,11 @@
         <details class="group border-b border-black">
             <summary class="flex items-center justify-between text-xl gap-3 py-3 font-bold marker:content-none hover:cursor-pointer">
                 <span>9. Can I cancel a booking?</span>
-                <svg class="w-8 h-8 text-black transition group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-                </svg>
+                <div class="w-8 h-8">
+                    <svg class="w-8 h-8 text-black transition group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                </div>
             </summary>
             <article class="pb-4">
                 <p>
@@ -129,9 +147,11 @@
         <details class="group border-b border-black">
             <summary class="flex items-center justify-between text-xl gap-3 py-3 font-bold marker:content-none hover:cursor-pointer">
                 <span>10. Where is SendTins available? </span>
-                <svg class="w-8 h-8 text-black transition group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-                </svg>
+                <div class="w-8 h-8">
+                    <svg class="w-8 h-8 text-black transition group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                </div>
             </summary>
             <article class="pb-4">
                 <p>

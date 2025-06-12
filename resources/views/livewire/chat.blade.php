@@ -12,8 +12,8 @@
             @if(!$receiver)
                 <x-no-data />
             @endif
-            <div class="flex gap-5 justify-between">
-                <div class="w-1/4 max-h-[500px] overflow-y-auto">
+            <div class="flex flex-col sm:flex-row gap-5 justify-between">
+                <div class="w-full sm:w-1/4 max-h-[300px] sm:max-h-[500px] overflow-y-auto">
                     @foreach ($users ?? collect() as $user)
                         <div wire:click="selectUser({{ $user->id }})" class="cursor-pointer mb-1 p-2 border-b flex gap-2 items-center rounded
                         {{ isset($receiver) && $receiver->id === $user->id ? 'bg-primary text-white' : '' }}">
@@ -25,7 +25,7 @@
                     @endforeach
                 </div>
                 @if($receiver)
-                    <div class="p-4 bg-white shadow-md rounded w-3/4">
+                    <div class="p-4 bg-white shadow-md rounded w-full sm:w-3/4">
                         <h2 class="text-lg font-semibold mb-4">Chat with {{ $receiver->name }}</h2>
                         <div wire:poll.1s="refreshMessages" id="messages-container" class="border p-3 overflow-y-auto h-80 sm:max-h-[500px]">
                             @foreach($messages->groupBy(function($msg) {

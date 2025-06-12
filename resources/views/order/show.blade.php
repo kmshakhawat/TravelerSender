@@ -12,7 +12,8 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white border border-gray-50 rounded shadow p-4 mb-8">
                     <h3 class="heading-5 mb-4 heading-title">Order Details</h3>
-                    <table class="w-full table mb-8 whitespace-nowrap">
+                    <div class="overflow-auto mb-8">
+                        <table class="w-full table whitespace-nowrap">
                         <tr>
                             <th class="w-64">Tracking Number</th>
                             <td>
@@ -237,6 +238,7 @@
                             </td>
                         </tr>
                     </table>
+                    </div>
 {{-- auth()->user()->hasRole('admin') || auth()->user()->id === $order->trip->user_id --}}
                     @if(auth()->user()->hasRole('admin'))
                         <form id="update" method="POST" @submit.prevent="updateBooking">
@@ -262,7 +264,8 @@
                         </form>
                     @endif
                     <h3 class="heading-5 mb-4 heading-title">Product Information</h3>
-                    <table class="w-full mb-8 whitespace-nowrap">
+                    <div class="overflow-auto mb-8">
+                        <table class="w-full whitespace-nowrap">
                         @forelse($order->products as $product)
                             <div class="border-b py-5">
                                 <h5 class="heading-5 mb-4">Product {{ $loop->iteration }}</h5>
@@ -300,6 +303,7 @@
                             </tr>
                         @endforelse
                     </table>
+                    </div>
                 </div>
                 <x-trip :trip="$order->trip" />
             </div>

@@ -23,7 +23,7 @@
         </div>
         <div class="mb-6">
             <h3 class="heading-4 mb-2">The SendTins Process</h3>
-            <ul class="list">
+            <ul>
                 <li><strong>1. Match</strong><br>
                     Senders post delivery requests or search for upcoming trips. Travelers list their journeys and indicate how much space they have available.
                 </li>

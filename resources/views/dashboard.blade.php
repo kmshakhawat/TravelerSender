@@ -13,7 +13,7 @@
                 </div>
                 <div class="my-10">
                     <h3 class="heading-5 mb-4">Dashboard Overview</h3>
-                    <div class="grid grid-cols-4 gap-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                         <div class="bg-white p-4 rounded">
                             <div class="flex gap-1 mb-4">
                                 <svg class="size-6 text-primary" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -71,7 +71,7 @@
                                     From → To / Date
                                 </td>
                                 <td class="py-2 pl-2">
-                                    Reference
+                                    Tracking Number
                                 </td>
                                 <td class="py-2 pl-2">
                                     Sender
@@ -86,7 +86,7 @@
                                     Status
                                 </td>
                                 <td class="py-2 pl-2">
-                                    Tracking
+                                    Tracking Status
                                 </td>
                                 <td class="py-2 pl-2">
                                     Payment

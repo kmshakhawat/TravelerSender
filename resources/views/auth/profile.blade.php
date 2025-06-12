@@ -8,11 +8,11 @@
     <div x-data="profile" class="py-12">
         <div class="container">
 
-            <div class="flex gap-8">
-                <div class="w-1/4">
+            <div class="flex flex-col md:flex-row gap-8">
+                <div class="w-full md:w-1/4">
                     <x-profile-sidebar />
                 </div>
-                <div class="w-3/4">
+                <div class="w-full md:w-3/4">
                     <div class="bg-white border border-gray-50 rounded shadow p-4">
                         <h3 class="heading-5 mb-4 heading-title">{{ __('Profile') }}</h3>
                         <form id="profile" name="profile" @submit.prevent="submitProfile">
@@ -25,7 +25,7 @@
                                 <x-input id="name" class="block w-full" type="text" name="name" :value="$user->name" required autofocus autocomplete="name" />
                                 <div class="invalid-feedback invalid-name"></div>
                             </div>
-                            <div class="flex gap-4">
+                            <div class="flex flex-col sm:flex-row sm:gap-4">
                                 <div class="w-full sm:w-1/2 mt-4">
                                     <x-label for="email" value="{{ __('Email Address') }}" />
                                     <x-input disabled id="email" class="block w-full" type="email" name="email" :value="$user->email ?? '' " required autocomplete="username" />
@@ -47,7 +47,7 @@
                                 <x-input id="address_2" class="block w-full" type="text" name="address_2" :value="$user->profile->address_2 ?? '' " autocomplete="address_2" />
                                 <div class="invalid-feedback invalid-address_2"></div>
                             </div>
-                            <div class="flex gap-4">
+                            <div class="flex flex-col sm:flex-row sm:gap-4">
                                 <div class="w-full sm:w-1/2 mt-4">
                                     <x-label for="country_id" value="{{ __('Country') }}" />
                                     <x-input-dropdown id="country_id" class="country_id" name="country_id" :options="$countries" :selected="[$user->profile->country_id ?? '']"/>
@@ -59,7 +59,7 @@
                                     <div class="invalid-feedback invalid-state"></div>
                                 </div>
                             </div>
-                            <div class="flex gap-4">
+                            <div class="flex flex-col sm:flex-row sm:gap-4">
                                 <div class="w-full sm:w-1/2 mt-4">
                                     <x-label for="city_id" value="{{ __('City') }}" />
                                     <x-input-dropdown id="city_id" class="city_id" name="city_id" :options="[]" :selected="[$user->profile->city_id ?? '']" />

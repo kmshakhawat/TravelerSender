@@ -2,7 +2,7 @@
 
     <x-slide />
 
-    <div class="-mt-14 relative z-10">
+    <div class="-mt-14 md:mt-10 xl:-mt-14 relative z-10">
         <div class="container mx-auto">
             <div class="bg-white shadow rounded">
                 <div class="container py-6">

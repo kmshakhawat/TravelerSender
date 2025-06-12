@@ -95,7 +95,7 @@
                     </td>
                     <td class="py-3 pl-2 flex items-center justify-center space-x-3">
 
-                        <div x-data="verifyToggle({{ $user->id }}, {{ $user->verified ? 1 : 0 }})" class="flex gap-4 mt-4 items-center">
+                        <div x-data="verifyToggle({{ $user->id }}, {{ $user->verified ? 1 : 0 }})" class="flex gap-4 items-center">
                             <label @click.prevent="confirmToggle" class="relative inline-flex items-center cursor-pointer">
                                 <input type="checkbox" name="verified" @checked($user->verified) class="sr-only peer">
                                 <div class="w-[45px] h-6 bg-gray-200 hover:bg-gray-300 peer-focus:outline-0 peer-focus:ring-transparent rounded-full peer transition-all ease-in-out duration-500 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#2563EB] hover:peer-checked:bg-primary"></div>

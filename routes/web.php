@@ -102,7 +102,7 @@ Route::group(['middleware' => ['auth:sanctum', config('jetstream.auth_session'),
 Route::resource('/newsletter', NewsletterSubscriberController::class);
 Route::get('/otp', [AuthController::class, 'otp'])->name('otp');
 Route::get('/otp-resend', [AuthController::class, 'otpResend'])->name('otp.resend');
-Route::post('/otp-verify', [AuthController::class, 'otpVerify'])->name('otp.verify');
+Route::match(['get', 'post'], '/otp-verify', [AuthController::class, 'otpVerify'])->name('otp.verify');
 
 /* Frontend Page Route */
 

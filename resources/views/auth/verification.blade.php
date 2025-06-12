@@ -7,16 +7,16 @@
 
     <div x-data="profile" class="py-12">
         <div class="container">
-            <div class="flex gap-8">
-                <div class="w-1/4">
+            <div class="flex flex-col md:flex-row gap-8">
+                <div class="w-full md:w-1/4">
                     <x-profile-sidebar />
                 </div>
-                <div class="w-3/4">
+                <div class="w-full md:w-3/4">
                     <div class="bg-white border border-gray-50 rounded shadow p-4">
                         <h3 class="heading-5 mb-4 heading-title">{{ __('Account Verification') }}</h3>
                         <form id="verification" name="profile" @submit.prevent="submitVerification">
                             @csrf
-                            <div class="flex gap-4">
+                            <div class="flex flex-col sm:flex-row sm:gap-4">
                                 <div class="w-full sm:w-1/2 mt-4">
                                     <x-label for="id_type" value="{{ __('ID Type') }}" />
                                     <x-input-dropdown class="id_type" name="id_type" :options="$id_type_options" :selected="[$user->profile->id_type ?? '']"/>
@@ -29,7 +29,7 @@
                                 </div>
                             </div>
                             <div id="additional_date" style="display: none">
-                                <div class="flex gap-4">
+                                <div class="flex flex-col sm:flex-row sm:gap-4">
                                     <div class="w-full sm:w-1/2 mt-4">
                                         <x-label for="id_issue" value="{{ __('Issue Date') }}" />
                                         <x-input id="id_issue" class="block mt-1 w-full datepicker" type="text" name="id_issue" :value="$user->profile->id_issue ?? '' " autofocus autocomplete="id_issue" />
@@ -49,14 +49,14 @@
                             </div>
 
                             <h5 class="heading-5 mt-10 heading-title">{{ __('Upload your ID Card') }}</h5>
-                            <div class="flex mt-4 gap-10">
-                                <div class="w-2/3">
+                            <div class="flex flex-col lg:flex-row mt-4 lg:gap-10">
+                                <div class="w-full lg:w-2/3">
                                     <x-id-front :title="__('Upload Font Side')" :url="$user->profile->id_front ?? ''"/>
                                     <div class="border mb-8"></div>
                                     <x-id-back :title="__('Upload Back Side')" :url="$user->profile->id_back ?? ''"/>
                                 </div>
                                 <div class="border"></div>
-                                <div class="w-1/3">
+                                <div class="w-full lg:w-1/3">
                                     <h3 class="heading-5 mb-4">Profile Photo</h3>
                                     <x-profile-photo :url="$user->profile_photo_url ?? ''" :name="$user->name"/>
                                 </div>

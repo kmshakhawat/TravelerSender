@@ -9,8 +9,8 @@
     </x-slot>
     <div x-data="trip" class="py-12 bg-[#F3F4F6]">
         <div class="container">
-            <div class="flex flex-col lg:flex-row gap-8">
-                <div class="w-full lg:w-2/3">
+            <div class="flex flex-col md:flex-row gap-8">
+                <div class="w-full md:w-2/3">
 {{--                    <img class="rounded w-full " src="{{ $trip->photo ? Storage::disk('public')->url($trip->photo) : 'https://ui-avatars.com/api/?name='.urlencode($trip->user->name).'&color=7F9CF5&background=EBF4FF' }}" alt="{{ $trip->user->name }}">--}}
                     <div class="bg-white border border-gray-50 mb-8 rounded shadow p-4">
                         <div class="table-responsive">
@@ -109,7 +109,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="w-full lg:w-1/3">
+                <div class="w-full md:w-1/3">
                     <div class="bg-white border border-gray-50 rounded shadow p-4">
                         <div class="overflow-auto">
                             <div class="rounded-full w-40 h-40 ring-2 my-2 ring-primary mx-auto overflow-hidden flex items-center justify-center ">
