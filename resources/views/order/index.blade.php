@@ -15,9 +15,6 @@
                             Trip
                         </td>
                         <td class="py-2 pl-2">
-                            Tracking Number
-                        </td>
-                        <td class="py-2 pl-2">
                             Sender
                         </td>
                         <td class="py-2 pl-2">
@@ -25,9 +22,6 @@
                         </td>
                         <td class="py-2 pl-2">
                             Receiver
-                        </td>
-                        <td class="py-2 pl-2">
-                            Status
                         </td>
                         <td class="py-2 pl-2">
                             Tracking
@@ -51,33 +45,32 @@
                                                 <path d="M2 12H22"/>
                                             </svg>
                                             {{ $order->trip->toCountry->name ?? '' }} {{ $order->trip->to_city ? '('. $order->trip->to_city .')' : '' }}
+                                            @if($order->status === 'Pending')
+                                                <x-status :content="$order->status" :type="'info'" class="px-[4px] py-[2px] -mt-2 -ms-1" />
+                                            @elseif($order->status === 'Booked')
+                                                <x-status :content="$order->status" :type="'success'" class="px-[4px] py-[2px] -mt-2 -ms-1" />
+                                            @elseif($order->status === 'Cancelled')
+                                                <x-status :content="$order->status" :type="'danger'" class="px-[4px] py-[2px] -mt-2 -ms-1" />
+                                            @elseif($order->status === 'Completed')
+                                                <x-status :content="$order->status" :type="'verified'" class="px-[4px] py-[2px] -mt-2 -ms-1" />
+                                            @endif
                                         </a>
                                         <div class="text-xs text-gray-500">{{ getDateFormat($order->trip->departure_date) }} to {{ getDateFormat($order->trip->arrival_date) }}</div>
+                                        @if($order->tracking_number)
+                                            <div class="mt-1 text-[#E68C85]">
+                                                Tracking Number:
+                                                <a target="_blank" class="text-[#E68C85] hover:underline" href="{{ route('tracking', '?trackingNumber=' . $order->tracking_number) }}">
+                                                    {{ $order->tracking_number }}
+                                                </a>
+                                            </div>
+                                        @endif
                                     </div>
-                                </td>
-                                <td class="py-3 pl-2">
-                                    {{ $order->tracking_number }}
                                 </td>
                                 <td class="py-3 pl-2">
                                     <div class="flex flex-col">
                                         <a href="{{ route('order.show', $order->id) }}" class="flex gap-1 items-center">
-{{--                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4 text-secondary">--}}
-{{--                                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />--}}
-{{--                                            </svg>--}}
                                             {{ $order->sender_name }}
                                         </a>
-{{--                                        <a href="{{ route('order.show', $order->id) }}" class="flex gap-1 items-center">--}}
-{{--                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4 text-secondary">--}}
-{{--                                                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />--}}
-{{--                                            </svg>--}}
-{{--                                            {{ $order->sender_email }}--}}
-{{--                                        </a>--}}
-{{--                                        <a href="{{ route('order.show', $order->id) }}" class="flex gap-1 items-center">--}}
-{{--                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4 text-secondary">--}}
-{{--                                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />--}}
-{{--                                            </svg>--}}
-{{--                                            {{ $order->sender_phone }}--}}
-{{--                                        </a>--}}
                                     </div>
                                 </td>
                                 <td class="py-3 pl-2">
@@ -102,44 +95,27 @@
                                 <td class="py-3 pl-2">
                                     <div class="flex flex-col">
                                         <a href="{{ route('order.show', $order->id) }}" class="flex gap-1 items-center">
-{{--                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4 text-secondary">--}}
-{{--                                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />--}}
-{{--                                            </svg>--}}
                                             {{ $order->receiver_name }}
                                         </a>
-{{--                                        <a href="{{ route('order.show', $order->id) }}" class="flex gap-1 items-center">--}}
-{{--                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4 text-secondary">--}}
-{{--                                                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />--}}
-{{--                                            </svg>--}}
-{{--                                            {{ $order->receiver_email }}--}}
-{{--                                        </a>--}}
-{{--                                        <a href="{{ route('order.show', $order->id) }}" class="flex gap-1 items-center">--}}
-{{--                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4 text-secondary">--}}
-{{--                                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />--}}
-{{--                                            </svg>--}}
-{{--                                            {{ $order->receiver_phone }}--}}
-{{--                                        </a>--}}
                                     </div>
-                                </td>
-
-                                <td class="py-3 pl-2">
-                                    <a href="{{ route('order.show', $order->id) }}">
-                                        @if($order->status === 'Pending')
-                                            <x-status :content="$order->status" :type="'info'" />
-                                        @elseif($order->status === 'Booked')
-                                            <x-status :content="$order->status" :type="'success'" />
-                                        @elseif($order->status === 'Cancelled')
-                                            <x-status :content="$order->status" :type="'danger'" />
-                                        @elseif($order->status === 'Completed')
-                                            <x-status :content="$order->status" :type="'verified'" />
-                                        @endif
-                                    </a>
                                 </td>
                                 <td class="py-3 pl-2">
                                     @if($order->latestTracking)
-                                        <button @click.prevent="editTracking({{ $order->latestTracking->id }})" class="btn-secondary">
-                                           {{ $order->latestTracking->status }}
-                                        </button>
+                                        @if($order->latestTracking->status === 'Delivered')
+                                            <button class="btn-secondary !flex gap-1 items-center !px-2">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
+                                                </svg>
+                                                {{ $order->latestTracking->status }}
+                                            </button>
+                                        @else
+                                            <button @click.prevent="editTracking({{ $order->latestTracking->id }})" class="btn-secondary !flex gap-1 items-center !px-2">
+                                               {{ $order->latestTracking->status }}
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                                                </svg>
+                                            </button>
+                                        @endif
                                     @endif
                                 </td>
                                 <td class="py-3 pl-2">
@@ -158,7 +134,7 @@
                                                          stroke="currentColor" class="h-5 w-5">
                                                         <path stroke-linecap="round" stroke-linejoin="round" d="m21 7.5-9-5.25L3 7.5m18 0-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" />
                                                     </svg>
-                                                    Pickup
+                                                    Pickup OTP
                                                 </button>
                                             @endif
                                             @if ($order->latestTracking && !in_array($order->latestTracking->status, ['Processing', 'Ready for Pickup', 'Delivered']))
@@ -167,7 +143,7 @@
                                                          stroke="currentColor" class="h-5 w-5">
                                                         <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
                                                     </svg>
-                                                    Delivery
+                                                    Delivery OTP
                                                 </button>
                                             @endif
                                         @endif

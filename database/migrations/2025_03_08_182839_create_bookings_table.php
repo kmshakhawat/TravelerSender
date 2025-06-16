@@ -45,7 +45,7 @@ return new class extends Migration
             $table->foreignIdFor(City::class, 'delivery_city_id')->nullable()->constrained()->nullOnDelete();
             $table->string('delivery_postcode', 50)->nullable();
             $table->string('delivery_location_type');
-            $table->timestamp('delivery_date');
+            $table->timestamp('delivery_date')->nullable();
             $table->string('friend_name', 100)->nullable();
             $table->string('friend_email', 30)->nullable();
             $table->string('friend_phone', 20)->nullable();

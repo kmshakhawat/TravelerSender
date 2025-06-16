@@ -5,9 +5,9 @@
 <p>Your booking has been successfully placed. The traveler has been notified.</p>
 <p>Here are the details of your booking:</p>
 <p style="font-weight: 500">Booking Summary:</p>
-<p>Trip Route: {{ $data['trip_from'] }} → {{ $data['trip_to'] }}</p>
-<p>Traveller Name: {{ $data['traveller_name'] }}</p>
-<p>Booking Date: {{ $data['created'] }}</p>
+<p>Trip Route: {{ $data['trip_from'] }} → {{ $data['trip_to'] }}<br>
+Traveller Name: {{ $data['traveller_name'] }}<br>
+Booking Date: {{ $data['created'] }}</p>
 <p>You can view or manage your booking anytime through your dashboard:</p>
 <p><a href="{{ $data['url'] }}" target="_blank">{{ $data['url'] }}</a></p>
 <p>If you have any questions, feel free to reach out to us at {{ config('app.admin.support') }}.</p>

@@ -17,9 +17,6 @@
                             Trip
                         </td>
                         <td class="py-2 pl-2">
-                            Tracking Number
-                        </td>
-                        <td class="py-2 pl-2">
                             Sender
                         </td>
                         <td class="py-2 pl-2">
@@ -27,9 +24,6 @@
                         </td>
                         <td class="py-2 pl-2">
                             Receiver
-                        </td>
-                        <td class="py-2 pl-2">
-                            Status
                         </td>
                         <td class="py-2 pl-2">
                             Tracking
@@ -61,33 +55,32 @@
                                                 <path d="M2 12H22"/>
                                             </svg>
                                             {{ $booking->trip->toCity?->name ? $booking->trip->toCity?->name .', ' : '' }} {{ $booking->trip->toCountry->name ?? '' }}
+                                            @if($booking->status === 'Pending')
+                                                <x-status :content="$booking->status" :type="'info'" class="px-[4px] py-[2px] -mt-2 -ms-1" />
+                                            @elseif($booking->status === 'Booked')
+                                                <x-status :content="$booking->status" :type="'success'" class="px-[4px] py-[2px] -mt-2 -ms-1" />
+                                            @elseif($booking->status === 'Cancelled')
+                                                <x-status :content="$booking->status" :type="'danger'" class="px-[4px] py-[2px] -mt-2 -ms-1" />
+                                            @elseif($booking->status === 'Completed')
+                                                <x-status :content="$booking->status" :type="'verified'" class="px-[4px] py-[2px] -mt-2 -ms-1" />
+                                            @endif
                                         </a>
                                         <div class="text-xs text-gray-500">{{ getDateFormat($booking->trip->departure_date) }} to {{ getDateFormat($booking->trip->arrival_date) }}</div>
+                                        @if($booking->tracking_number)
+                                            <div class="mt-1 text-[#E68C85]">
+                                                Tracking Number:
+                                                <a target="_blank" class="text-[#E68C85] hover:underline" href="{{ route('tracking', '?trackingNumber=' . $booking->tracking_number) }}">
+                                                    {{ $booking->tracking_number }}
+                                                </a>
+                                            </div>
+                                        @endif
                                     </div>
-                                </td>
-                                <td class="py-3 pl-2">
-                                    {{ $booking->tracking_number }}
                                 </td>
                                 <td class="py-3 pl-25">
                                     <div class="flex flex-col">
                                         <a href="{{ route('booking.show', $booking->id) }}" class="flex gap-1 items-center">
-{{--                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4 text-secondary">--}}
-{{--                                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />--}}
-{{--                                            </svg>--}}
                                             {{ $booking->sender_name }}
                                         </a>
-{{--                                        <a href="{{ route('booking.show', $booking->id) }}" class="flex gap-1 items-center">--}}
-{{--                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4 text-secondary">--}}
-{{--                                                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />--}}
-{{--                                            </svg>--}}
-{{--                                            {{ $booking->sender_email }}--}}
-{{--                                        </a>--}}
-{{--                                        <a href="{{ route('booking.show', $booking->id) }}" class="flex gap-1 items-center">--}}
-{{--                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4 text-secondary">--}}
-{{--                                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />--}}
-{{--                                            </svg>--}}
-{{--                                            {{ $booking->sender_phone }}--}}
-{{--                                        </a>--}}
                                     </div>
                                 </td>
                                 <td class="py-3 pl-2">
@@ -112,48 +105,26 @@
                                 <td class="py-3 pl-2">
                                     <div class="flex flex-col">
                                         <a href="{{ route('booking.show', $booking->id) }}" class="flex gap-1 items-center">
-{{--                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4 text-secondary">--}}
-{{--                                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />--}}
-{{--                                            </svg>--}}
                                             {{ $booking->receiver_name }}
                                         </a>
-{{--                                        <a href="{{ route('booking.show', $booking->id) }}" class="flex gap-1 items-center">--}}
-{{--                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4 text-secondary">--}}
-{{--                                                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />--}}
-{{--                                            </svg>--}}
-{{--                                            {{ $booking->receiver_email }}--}}
-{{--                                        </a>--}}
-{{--                                        <a href="{{ route('booking.show', $booking->id) }}" class="flex gap-1 items-center">--}}
-{{--                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4 text-secondary">--}}
-{{--                                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />--}}
-{{--                                            </svg>--}}
-{{--                                            {{ $booking->receiver_phone }}--}}
-{{--                                        </a>--}}
                                     </div>
                                 </td>
                                 <td class="py-3 pl-2">
-
-                                    <a href="{{ route('booking.show', $booking->id) }}">
-                                        @if($booking->status === 'Pending')
-                                            <x-status :content="$booking->status" :type="'info'" />
-                                        @elseif($booking->status === 'Booked')
-                                            <x-status :content="$booking->status" :type="'success'" />
-                                        @elseif($booking->status === 'Cancelled')
-                                            <x-status :content="$booking->status" :type="'danger'" />
-                                        @elseif($booking->status === 'Completed')
-                                            <x-status :content="$booking->status" :type="'verified'" />
-                                        @endif
-                                    </a>
-                                </td>
-                                <td class="py-3 pl-2">
                                     @if($booking->latestTracking)
-                                        <a target="_blank" class="btn-secondary" href="{{ route('tracking', '?trackingNumber=' . $booking->tracking_number) }}">
+                                        <a target="_blank" class="btn-secondary !inline-flex gap-2 " href="{{ route('tracking', '?trackingNumber=' . $booking->tracking_number) }}">
                                             {{ $booking->latestTracking->status ?? '' }}
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                                            </svg>
                                         </a>
                                     @endif
                                 </td>
                                 <td class="py-3 pl-2">
-                                    {{ ucfirst($booking->payment->payment_status ?? '') }}
+                                    @if($booking->payment->payment_status === 'paid')
+                                        <x-status :content="ucfirst($booking->payment->payment_status)" :type="'success'" />
+                                    @elseif($booking->payment->payment_status === 'failed')
+                                        <x-status :content="ucfirst($booking->payment->payment_status)" :type="'danger'" />
+                                    @endif
                                 </td>
                                 <td class="py-3 pl-2">
                                     <a class="flex flex-col" href="{{ route('booking.show', $booking->id) }}">
@@ -167,7 +138,7 @@
                                             @if(!$booking->rating)
                                                 <a class="!flex gap-1 btn-secondary" href="{{ route('rating.create', $booking->id) }}">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                                         stroke="currentColor" class="h-5 w-5">
+                                                         stroke="currentColor" class="size-4">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
                                                               d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"/>
                                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -180,7 +151,7 @@
 
                                         <a class="flex gap-1 bg-primary text-white px-3 py-2 rounded" href="{{ route('booking.show', $booking->id) }}">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                                 stroke="currentColor" class="h-5 w-5 text-white">
+                                                 stroke="currentColor" class="size-4 text-white">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                       d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"/>
                                                 <path stroke-linecap="round" stroke-linejoin="round"

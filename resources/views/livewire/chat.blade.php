@@ -26,7 +26,7 @@
                 </div>
                 @if($receiver)
                     <div class="p-4 bg-white shadow-md rounded w-full sm:w-3/4">
-                        <h2 class="text-lg font-semibold mb-4">Chat with {{ $receiver->name }}</h2>
+                        <h2 class="text-lg font-semibold mb-4">Message with {{ $receiver->name }}</h2>
                         <div wire:poll.1s="refreshMessages" id="messages-container" class="border p-3 overflow-y-auto h-80 sm:max-h-[500px]">
                             @foreach($messages->groupBy(function($msg) {
                                 return $msg->created_at->format('Y-m-d');

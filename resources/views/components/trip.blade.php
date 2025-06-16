@@ -75,7 +75,7 @@
                 >
                     Message
                 </a>
-                <a class="btn-secondary" href="{{ route('trip.details', $trip->id) }}">Details</a>
+                <a class="btn-secondary" href="{{ route('trip.details', $trip->id) }}">Trip Details</a>
             </div>
         </div>
     </div>

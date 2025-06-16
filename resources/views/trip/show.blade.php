@@ -112,7 +112,7 @@
                                 </tr>
                                 @if(Auth::user()->hasRole('admin'))
                                     <tr>
-                                        <td>Admin Note</td>
+                                        <td>Additional Note</td>
                                         <td>{{ $trip->admin_note }}</td>
                                     </tr>
                                 @endif

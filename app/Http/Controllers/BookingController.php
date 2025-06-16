@@ -106,6 +106,13 @@ class BookingController extends Controller
                 'flexible_place' => 'required',
             ]);
         }
+        if ($request->collection_type == 'Send by Friend') {
+            $request->validate([
+                'friend_name' => 'required',
+                'friend_email' => 'required',
+                'friend_phone' => 'required',
+            ]);
+        }
 
         if ($request->delivery_type == 'Deliver to Address') {
             $request->validate([

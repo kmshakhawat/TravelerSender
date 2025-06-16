@@ -36,6 +36,7 @@ flatpickr(".datepicker", {
     altFormat: "F j, Y",
     dateFormat: "Y-m-d",
 });
+
 flatpickr(".timepicker", {
     altInput: true,
     altFormat: "F j, Y h:i K",

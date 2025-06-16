@@ -2,7 +2,7 @@
     <x-slot name="header">
         <div class="flex justify-between items-center">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Details') }}
+                {{ __('Trip Details') }}
             </h2>
             <a class="btn-secondary" href="{{ route('trip.search') }}">Back</a>
         </div>
@@ -101,7 +101,7 @@
                                 </tr>
                                 @if(Auth::user() && Auth::user()->hasRole('admin'))
                                     <tr>
-                                        <td>Admin Note</td>
+                                        <td>Additional Note</td>
                                         <td>{{ $trip->admin_note }}</td>
                                     </tr>
                                 @endif
@@ -159,7 +159,7 @@
                                        @click.prevent="loginAlert"
                                     @endif
                                 >
-                                    Contact
+                                    Message
                                 </a>
                             </div>
                         </div>

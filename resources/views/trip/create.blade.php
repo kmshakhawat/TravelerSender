@@ -230,7 +230,7 @@
                             </div>
                             @if(Auth::user()->hasRole('admin'))
                                 <div class="mt-4">
-                                    <x-label for="admin_note" value="{{ __('Admin Note') }}" />
+                                    <x-label for="admin_note" value="{{ __('Additional Note') }}" />
                                     <textarea
                                         name="admin_note"
                                         id="admin_note"

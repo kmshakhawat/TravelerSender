@@ -20,7 +20,7 @@
                             Net Amount
                         </td>
                         <td class="py-2 pl-2">
-                            Commission
+                            Admin Commission
                         </td>
                         <td class="py-2 pl-2">
                             Booking Status
