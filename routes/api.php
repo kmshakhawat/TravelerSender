@@ -1,17 +1,19 @@
 <?php
 
-use App\Http\Controllers\AuthController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\AuthApiController;
+use App\Http\Controllers\Api\TripApiController;
+use App\Http\Controllers\Api\BookingApiController;
+use App\Http\Controllers\Api\OrderApiController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
-
-Route::post('/signup', [AuthController::class, 'signup']);
+Route::post('/register', [AuthApiController::class, 'register']);
+Route::post('/login', [AuthApiController::class, 'login']);
 
 Route::middleware('auth:sanctum')->group(function () {
-//    Route::apiResource('products', ProductController::class);
-//    Route::get('/profile', [AuthController::class, 'profile']);
-//    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/profile', [AuthApiController::class, 'profile']);
+    Route::post('/logout', [AuthApiController::class, 'logout']);
+
+    Route::apiResource('trips', TripApiController::class);
+    Route::apiResource('bookings', BookingApiController::class);
+    Route::apiResource('orders', OrderApiController::class);
 });
