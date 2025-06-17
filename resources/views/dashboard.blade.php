@@ -71,9 +71,6 @@
                                     From → To / Date
                                 </td>
                                 <td class="py-2 pl-2">
-                                    Tracking Number
-                                </td>
-                                <td class="py-2 pl-2">
                                     Sender
                                 </td>
                                 <td class="py-2 pl-2">
@@ -83,10 +80,7 @@
                                     Receiver
                                 </td>
                                 <td class="py-2 pl-2">
-                                    Status
-                                </td>
-                                <td class="py-2 pl-2">
-                                    Tracking Status
+                                    Tracking
                                 </td>
                                 <td class="py-2 pl-2">
                                     Payment
@@ -112,12 +106,27 @@
                                                         <path d="M2 12H22"/>
                                                     </svg>
                                                     {{ $booking->trip->toCity?->name ? $booking->trip->toCity->name .', ' : '' }} {{ $booking->trip->toCountry->name ?? '' }}
+                                                    @if($booking->status === 'Pending')
+                                                        <x-status :content="$booking->status" :type="'info'" class="px-[4px] py-[2px] -mt-2 -ms-1" />
+                                                    @elseif($booking->status === 'Booked')
+                                                        <x-status :content="$booking->status" :type="'success'" class="px-[4px] py-[2px] -mt-2 -ms-1" />
+                                                    @elseif($booking->status === 'Cancelled')
+                                                        <x-status :content="$booking->status" :type="'danger'" class="px-[4px] py-[2px] -mt-2 -ms-1" />
+                                                    @elseif($booking->status === 'Completed')
+                                                        <x-status :content="$booking->status" :type="'verified'" class="px-[4px] py-[2px] -mt-2 -ms-1" />
+                                                    @endif
                                                 </a>
+
                                                 <div class="text-xs text-gray-500">{{ getDateFormat($booking->trip->departure_date) }} to {{ getDateFormat($booking->trip->arrival_date) }}</div>
+                                                @if($booking->tracking_number)
+                                                    <div class="mt-1 text-[#E68C85]">
+                                                        Tracking Number:
+                                                        <a target="_blank" class="text-[#E68C85] hover:underline" href="{{ route('tracking', '?trackingNumber=' . $booking->tracking_number) }}">
+                                                            {{ $booking->tracking_number }}
+                                                        </a>
+                                                    </div>
+                                                @endif
                                             </div>
-                                        </td>
-                                        <td class="py-3 pl-2">
-                                            {{ $booking->tracking_number }}
                                         </td>
                                         <td class="py-3 pl-25">
                                             <div class="flex flex-col">
@@ -153,27 +162,21 @@
                                             </div>
                                         </td>
                                         <td class="py-3 pl-2">
-                                            <a href="{{ route('booking.show', $booking->id) }}">
-                                                @if($booking->status === 'Pending')
-                                                    <x-status :content="$booking->status" :type="'info'" />
-                                                @elseif($booking->status === 'Booked')
-                                                    <x-status :content="$booking->status" :type="'success'" />
-                                                @elseif($booking->status === 'Cancelled')
-                                                    <x-status :content="$booking->status" :type="'danger'" />
-                                                @elseif($booking->status === 'Completed')
-                                                    <x-status :content="$booking->status" :type="'verified'" />
-                                                @endif
-                                            </a>
-                                        </td>
-                                        <td class="py-3 pl-2">
                                             @if($booking->latestTracking)
-                                                <a class="btn-secondary" href="{{ route('tracking', '?trackingNumber=' . $booking->tracking_number) }}">
+                                                <a class="btn-secondary !inline-flex gap-2" href="{{ route('tracking', '?trackingNumber=' . $booking->tracking_number) }}">
                                                     {{ $booking->latestTracking->status ?? '' }}
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                                                    </svg>
                                                 </a>
                                             @endif
                                         </td>
                                         <td class="py-3 pl-2">
-                                            {{ ucfirst($booking->payment->payment_status ?? '') }}
+                                            @if($booking->payment->payment_status === 'paid')
+                                                <x-status :content="ucfirst($booking->payment->payment_status)" :type="'success'" />
+                                            @elseif($booking->payment->payment_status === 'failed')
+                                                <x-status :content="ucfirst($booking->payment->payment_status)" :type="'danger'" />
+                                            @endif
                                         </td>
                                         <td class="py-3 pl-2">
                                             <div class="flex items-center justify-end space-x-3">
@@ -265,9 +268,9 @@
                                         </td>
                                         <td class="py-3 pl-2">
                                             @if($trip->status === 'Active')
-                                                <x-status :content="$trip->status" :type="'info'" />
+                                                <x-status :content="$trip->status" :type="'warning'" />
                                             @elseif($trip->status === 'Confirmed')
-                                                <x-status :content="$trip->status" :type="'success'" />
+                                                <x-status :content="$trip->status" :type="'verified'" />
                                             @elseif($trip->status === 'In Progress')
                                                 <x-status :content="$trip->status" :type="'warning'" />
                                             @elseif($trip->status === 'Completed')

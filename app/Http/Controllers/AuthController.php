@@ -109,6 +109,7 @@ class AuthController extends Controller
         $token = $user->createToken('token')->plainTextToken;
 
         $mailable_data = [
+            'name' => $user->name,
             'template' => 'emails.welcome',
             'subject' => 'Welcome to our platform',
         ];

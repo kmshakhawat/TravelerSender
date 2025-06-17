@@ -90,15 +90,13 @@ Route::middleware([
     Route::get('/withdraw/{payment}/payment', [WithdrawController::class, 'withdrawPayment'])->name('withdraw.payment');
     Route::post('/withdraw/{payment}/update', [WithdrawController::class, 'withdrawUpdate'])->name('withdraw.update');
 
-
-});
-
-Route::group(['middleware' => ['auth:sanctum', config('jetstream.auth_session'), 'verified']], function () {
     Route::group(['middleware' => 'role:admin'], function () {
         Route::resource('user', UserController::class);
         Route::put('/users/{user}/update-verification', [UserController::class, 'updateVerification'])->name('user.update.verification');
     });
+
 });
+
 Route::resource('/newsletter', NewsletterSubscriberController::class);
 Route::get('/otp', [AuthController::class, 'otp'])->name('otp');
 Route::get('/otp-resend', [AuthController::class, 'otpResend'])->name('otp.resend');
