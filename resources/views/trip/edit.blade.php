@@ -286,8 +286,8 @@
         <script>
 
             $(document).ready(function() {
-                countryStateCityDropdown('.from_country_id', '.from_state_id', '.from_city_id', {{ $trip->from_state_id ?? '' }}, {{ $trip->from_city_id ?? '' }});
-                countryStateCityDropdown('.to_country_id', '.to_state_id', '.to_city_id', {{ $trip->to_state_id ?? '' }}, {{ $trip->to_city_id ?? '' }});
+                countryStateCityDropdown('.from_country_id', '.from_state_id', '.from_city_id', {{ $trip->from_state_id ?? 'null' }}, {{ $trip->from_city_id ?? 'null' }});
+                countryStateCityDropdown('.to_country_id', '.to_state_id', '.to_city_id', {{ $trip->to_state_id ?? 'null' }}, {{ $trip->to_city_id ?? 'null' }});
             });
 
 

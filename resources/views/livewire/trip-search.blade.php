@@ -34,11 +34,21 @@
             <div class="flex flex-col md:flex-row gap-8">
                 <div class="w-full md:w-1/4">
                     <div class="bg-white border border-gray-10 rounded-lg p-4 mb-4">
+                        <label for="mode_of_transport" class="block mb-2 font-medium text-gray-700">Vehicle Type</label>
+                        <select wire:model.live="mode_of_transport" id="mode_of_transport" name="mode_of_transport" class="form-input">
+                            <option value="">-- Select --</option>
+                            @foreach($transport_type as $vehicle)
+                                <option value="{{ $vehicle->name }}">{{ $vehicle->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="bg-white border border-gray-10 rounded-lg p-4 mb-4">
                         <label for="parcel_type" class="block mb-2 font-medium text-gray-700">Parcel Type</label>
                         <select wire:model.live="parcel_type" id="parcel_type" name="parcel_type" class="form-input">
                             <option value="">-- Select --</option>
-                            <option value="fragile">Fragile</option>
-                            <option value="refrigerated">Refrigerated</option>
+                            @foreach($instruction_type as $instruction)
+                                <option value="{{ $instruction->name }}">{{ $instruction->name }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="bg-white border border-gray-10 rounded-lg p-4 mb-4">

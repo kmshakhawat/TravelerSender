@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Actions\Travel;
 use App\Models\Trip;
 use Illuminate\Support\Carbon;
 use Livewire\Component;
@@ -15,15 +16,16 @@ class TripSearch extends Component
     public $to;
     public $departure_date;
     public $shorting;
+    public $mode_of_transport;
     public $parcel_type;
     public $departure_filter;
     public $review;
 
-    protected $queryString = ['from', 'to', 'departure_date', 'parcel_type', 'shorting', 'departure_filter', 'review'];
+    protected $queryString = ['from', 'to', 'departure_date', 'mode_of_transport', 'parcel_type', 'shorting', 'departure_filter', 'review'];
 
     public function resetForm()
     {
-        $this->reset(['from', 'to', 'departure_date', 'parcel_type', 'shorting', 'departure_filter']);
+        $this->reset(['from', 'to', 'mode_of_transport', 'parcel_type', 'departure_date', 'parcel_type', 'shorting', 'departure_filter']);
     }
 
     public function render()
@@ -51,6 +53,9 @@ class TripSearch extends Component
             ->where('user_id', '!=', auth()->id())
             ->when($this->parcel_type, function ($query) {
                 $query->where('handling_instruction', $this->parcel_type);
+            })
+            ->when($this->mode_of_transport,  function ($query) {
+                $query->where('mode_of_transport', $this->mode_of_transport);
             })
             ->when($this->shorting, function ($query) {
                 switch ($this->shorting) {
@@ -102,6 +107,8 @@ class TripSearch extends Component
             ->with('user')
             ->paginate(10);
 
-        return view('livewire.trip-search', compact('trips'));
+        $transport_type = Travel::transportType();
+        $instruction_type = Travel::instructionType();
+        return view('livewire.trip-search', compact('trips', 'transport_type', 'instruction_type'));
     }
 }

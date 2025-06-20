@@ -7,7 +7,6 @@
     'search' => true,
     'class' => 'form-input'
 ])
-
 <select
     wire:model.change="{{ $name }}"
     name="{{ $name }}"
