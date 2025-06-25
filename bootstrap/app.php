@@ -17,7 +17,11 @@ return Application::configure(basePath: dirname(__DIR__))
             'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
             'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
             'otp' => \App\Http\Middleware\OTP::class,
+            'api_json_respond' => \App\Http\Middleware\ApiRespond::class,
         ]);
+//        $middleware->api([
+//            \App\Http\Middleware\ApiRespond::class,
+//        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

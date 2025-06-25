@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Actions\Travel;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
+use App\Http\Services\FileHandler;
 use App\Mail\SendMail;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -14,6 +16,7 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthApiController extends Controller
 {
+    use FileHandler;
     // REGISTER API
     public function register(Request $request)
     {
@@ -47,9 +50,7 @@ class AuthApiController extends Controller
         ];
         Mail::to($user->email)->send(new SendMail($mailable_data));
 
-
-        $token = $user->createToken('mobile-token')->plainTextToken;
-
+        $token = $user->createToken('appToken')->plainTextToken;
         return response()->json([
             'user' => $user,
             'token' => $token,
@@ -69,10 +70,11 @@ class AuthApiController extends Controller
         }
 
         $user = Auth::user();
-        $token = $user->createToken('mobile-token')->plainTextToken;
+        $token = $user->createToken('appToken')->plainTextToken;
 
         return response()->json([
-            'user' => $user,
+            'message' => 'Login Successful',
+            'user' => $user->only(['id', 'name', 'email', 'phone', 'email_verified_at', 'password']),
             'token' => $token,
         ], 200);
     }
@@ -86,8 +88,9 @@ class AuthApiController extends Controller
         if ($user->otp === null) {
             $this->sendOTPMail();
         }
-        return response()->json(['message' => 'OTP has been sent if not already set.'], 200);
+        return response()->json(['message' => 'OTP has been sent.'], 200);
     }
+
     public function otpResend()
     {
         $user = Auth::user();
@@ -134,8 +137,11 @@ class AuthApiController extends Controller
                     'otp_expiry' => now()->addHours(24)
                 ]);
 
+                $token = $user->createToken('appToken')->plainTextToken;
+
                 return response()->json([
                     'message' => 'OTP verified successfully.',
+                    'token' => $token,
                     'redirect' => $user->verified ? 'dashboard' : 'profile'
                 ], 200);
             }
@@ -152,13 +158,18 @@ class AuthApiController extends Controller
         $request->user()->currentAccessToken()->delete();
         return response()->json(['message' => 'Logged out successfully'], 200);
     }
-    public function profile(Request $request)
+    public function profile()
     {
-        return response()->json($request->user());
+        $user = Auth::user()->load('profile');
+
+        return response()->json([
+            'user' => new UserResource($user),
+        ], 200);
     }
-    public function updateProfile(Request $request)
+    public function updateProfile(Request $request): \Illuminate\Http\JsonResponse
     {
         $user = Auth::user();
+
         $request->validate([
             'name' => 'required|string|max:255',
             'phone' => 'required|string|max:20',
@@ -168,6 +179,7 @@ class AuthApiController extends Controller
             'postcode' => 'required|string|max:255',
             'profile_photo_path' => ['nullable', 'mimes:jpeg,jpg,png,webp,gif', 'max:5120'],
         ]);
+
         $user->update([
             'name' => $request->name,
             'phone' => $request->phone,
@@ -187,13 +199,12 @@ class AuthApiController extends Controller
                 'bank_details' => $request->bank_details,
             ]
         );
-        if ($user->verified) {
-            return response()->json([
-                'redirect' => 'No',
-                'message' => 'Profile updated successfully',
-            ]);
-        }
-        return response()->json(['message' => 'Profile updated successfully'], 200);
+
+        return response()->json([
+            'message' => 'Profile updated successfully',
+            'token' => $user->createToken('appToken')->plainTextToken,
+            'redirect' => $user->verified ? 'No' : null,
+        ], 200);
     }
 
     public function verification()
