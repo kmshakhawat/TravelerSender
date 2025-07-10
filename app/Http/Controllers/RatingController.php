@@ -55,36 +55,4 @@ class RatingController extends Controller
             'review' => $request->review,
         ]);
     }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Rating $rating)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Rating $rating)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Rating $rating)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Rating $rating)
-    {
-        //
-    }
 }

@@ -356,7 +356,7 @@ class BookingController extends Controller
                 'status_update_at' => now(),
             ]);
             $booking->update([
-                'package_condition' => $package_condition,
+                'package_condition' => json_encode($package_condition),
                 'otp' => null,
             ]);
             $booking->trip->update([
@@ -465,6 +465,11 @@ class BookingController extends Controller
     public function show(Booking $booking)
     {
         session()->forget('payment');
+
+        if (auth()->user()->hasRole('user') && auth()->user()->id != $booking->user_id){
+            return redirect()->route('dashboard')->with('error', 'Unauthorized');
+        }
+
         $booking->load(['products.photos', 'trip']);
         $booking_status = Travel::bookingStatus();
 

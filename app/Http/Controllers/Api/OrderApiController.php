@@ -12,29 +12,44 @@ class OrderApiController extends Controller
 {
     public function index()
     {
-        if (auth()->user()->hasRole('admin')) {
-            $orders = Booking::with(['products','payment'])
-                ->orderBy('id', 'DESC')
-                ->paginate(10);
-        } else {
-            $orders = Booking::with(['products','payment'])
-                ->whereHas('trip', function ($query) {
-                    $query->where('user_id', auth()->id());
-                })
-                ->orderBy('id', 'DESC')
-                ->paginate(10);
-        }
-        return response()->json(['data' => $orders], 200);
+        $orders = Booking::with(['products','payment'])
+            ->whereHas('trip', function ($query) {
+                $query->where('trip_user_id', auth()->id());
+            })
+            ->orderBy('id', 'DESC')
+            ->paginate(10);
+
+        return response()->json([
+            'success' => true,
+            'results' => $orders
+        ], 200);
     }
 
     public function show(Booking $order)
     {
+        if (auth()->user()->hasRole('user') && auth()->user()->id != $order->trip_user_id){
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized'
+            ], 422);
+        }
+
         $order->load(['products.photos', 'trip']);
-        return response()->json(['data' => $order], 200);
+        return response()->json([
+            'success' => true,
+            'results' => $order
+        ], 200);
     }
 
     public function update(Request $request, Booking $order)
     {
+        if (auth()->user()->hasRole('user') && auth()->user()->id != $order->trip_user_id){
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized'
+            ], 422);
+        }
+
         $trip = Trip::firstWhere('id', $order->trip_id);
         $order->update([
             'admin_note' => $request->admin_note,
@@ -58,6 +73,9 @@ class OrderApiController extends Controller
                 'status' => 'Confirmed'
             ]);
         }
-        return response()->json(['data' => $order], 200);
+        return response()->json([
+            'success' => true,
+            'results' => $order
+        ], 200);
     }
 }

@@ -28,8 +28,12 @@ class Trips extends Component
                     $query->where('to_country_id', $this->to_country);
                 })
                 ->when($this->city, function ($query) {
-                    $query->where('from_city', 'like', '%' . $this->city . '%')
-                        ->orWhere('to_city', 'like', '%' . $this->city . '%');
+                    $query->whereHas('fromCity', function ($query) {
+                        $query->where('name', 'like', '%' . $this->city . '%');
+                    });
+                    $query->orWhereHas('toCity', function ($query) {
+                        $query->where('name', 'like', '%' . $this->city . '%');
+                    });
                 })
                 ->when($this->status, function ($query) {
                     $query->where('status', $this->status);
@@ -46,8 +50,8 @@ class Trips extends Component
                     $query->where('to_country_id', $this->to_country);
                 })
                 ->when($this->city, function ($query) {
-                    $query->where('from_city', 'like', '%' . $this->city . '%')
-                        ->orWhere('to_city', 'like', '%' . $this->city . '%');
+                    $query->where('from_city_id', 'like', '%' . $this->city . '%')
+                        ->orWhere('to_city_id', 'like', '%' . $this->city . '%');
                 })
                 ->when($this->status, function ($query) {
                     $query->where('status', $this->status);

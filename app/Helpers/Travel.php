@@ -28,7 +28,14 @@ function countries(): \Illuminate\Support\Collection
     return Country::all()->sortBy(function ($country) use ($default) {
         $index = array_search($country->id, $default);
         return $index !== false ? $index : count($default) + $country->id;
-    })->values();
+    })
+        ->map(function ($country) use ($default) {
+            $countryObject = new \stdClass();
+            $countryObject->id = $country->id;
+            $countryObject->name = $country->name;
+            return $countryObject;
+        })
+        ->values();
 }
 
 function unReadMessage()

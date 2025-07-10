@@ -31,7 +31,9 @@
                                     </svg>
                                     <h4 class="heading-5">Earnings</h4>
                                 </div>
-                                <div class="text-xl text-black">{{ getPrice($totals) }}</div>
+                                @if(Auth::user()->hasRole('admin'))
+                                    <div class="text-xl text-black">{{ getPrice($totals) }}</div>
+                                @endif
                             </div>
                             <div class="text-3xl font-semibold text-primary">{{ getPrice($earnings) }}</div>
                         </div>

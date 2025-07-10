@@ -1,5 +1,6 @@
 <div>
     <div class="grid grid-cols-1 col-end-auto sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 items-end justify-end">
+
         <select wire:model.change="from_country" name="from_country" class="search-input">
             <option value="">From</option>
             @foreach($countries as $country)

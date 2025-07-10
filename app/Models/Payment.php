@@ -12,6 +12,10 @@ class Payment extends Model
 {
     use HasFactory;
 
+    protected $hidden = [
+        'stripe_session_id',
+        'trxref'
+    ];
     protected $fillable = [
         'user_id',
         'trip_user_id',

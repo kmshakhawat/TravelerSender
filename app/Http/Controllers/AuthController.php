@@ -117,7 +117,7 @@ class AuthController extends Controller
          Mail::to($user->email)->send(new SendMail($mailable_data));
 
          return response()->json([
-             'status' => 'success',
+             'success' => true,
              'message' => 'Registration success',
              'user' => $user,
              'token' => $token,
@@ -282,7 +282,7 @@ class AuthController extends Controller
         ]);
 
 
-        if ($request->id_type == 'Passport' || $request->id_type == 'Driving License') {
+        if (in_array($request->id_type, ['Passport', 'Driving License'])) {
             $request->validate([
                 'id_issue' => 'required|date',
                 'id_expiry' => 'required|date',

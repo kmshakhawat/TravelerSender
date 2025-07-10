@@ -50,7 +50,7 @@ class Trip extends Model
 
     public function toSearchableArray()
     {
-        $this->loadMissing(['city', 'state', 'country']); // Make sure they're loaded
+        $this->load(['city', 'state', 'country']); // Make sure they're loaded
 
         return [
             'id' => $this->id,

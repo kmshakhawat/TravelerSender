@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Actions\Travel;
 use App\Http\Services\FileHandler;
 use App\Mail\SendMail;
-use App\Models\Country;
 use App\Models\Trip;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -41,7 +40,6 @@ class TripController extends Controller
      */
     public function create()
     {
-        $trip = Trip::all();
         $type_option = Travel::tripTypes();
         $transport_type_option = Travel::transportType();
         $item_type_option = Travel::itemType();
@@ -49,7 +47,7 @@ class TripController extends Controller
         $packaging_requirement_options = Travel::packagingType();
         $weight_unit_options = Travel::weightUnit();
         $countries = countries();
-        return view('trip.create', compact('trip', 'countries', 'type_option', 'transport_type_option', 'item_type_option', 'packaging_requirement_options', 'handling_instruction_options', 'weight_unit_options'));
+        return view('trip.create', compact('countries', 'type_option', 'transport_type_option', 'item_type_option', 'packaging_requirement_options', 'handling_instruction_options', 'weight_unit_options'));
     }
 
     /**
@@ -80,6 +78,13 @@ class TripController extends Controller
             'price' => 'required|numeric',
         ]);
 
+        if (!$validate) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Validation error',
+            ], 422);
+        }
+
         $departure_date = $request->departure_date;
         $arrival_date = $request->arrival_date;
         $type_of_item = implode(',', $request->type_of_item);
@@ -91,12 +96,6 @@ class TripController extends Controller
             ], 422);
         }
 
-        if (!$validate) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Validation error',
-            ], 422);
-        }
 
         $trip = Trip::create([
             'user_id' => auth()->id(),

@@ -36,6 +36,9 @@ class UserResource extends JsonResource
                 'id_back' => $this->id_back,
                 'note' => $this->note,
                 'status' => $this->status,
+                'otp' => $this->otp,
+                'otp_verified' => $this->otp_verified,
+                'otp_expiry' => $this->otp_expiry,
                 'verified' => $this->verified,
                 'profile_photo_url' => $this->profile_photo_url,
             ];
