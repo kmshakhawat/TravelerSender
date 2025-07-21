@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Actions\Travel;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\TripResource;
 use App\Mail\SendMail;
 use App\Models\Payment;
 use App\Models\Tracking;
@@ -32,7 +33,7 @@ class BookingApiController extends Controller
         }
         return response()->json([
             'success' => true,
-            'results' => $bookings
+            'bookings' => $bookings
         ], 200);
     }
 
@@ -68,20 +69,21 @@ class BookingApiController extends Controller
             ], 422);
         }
 
-        $item_type_option = Travel::itemType();
-        $location_type_options = Travel::locationType();
-        $collection_type_options = Travel::parcelCollectionType();
-        $delivery_type_options = Travel::parcelDeliveryType();
-        $countries = countries();
+//        $item_type_option = Travel::itemType();
+//        $location_type_options = Travel::locationType();
+//        $collection_type_options = Travel::parcelCollectionType();
+//        $delivery_type_options = Travel::parcelDeliveryType();
+//        $countries = countries();
+
 
         return response()->json([
             'success' => true,
-            'trip' => $trip,
-            'item_type_option' => $item_type_option,
-            'location_type_option' => $location_type_options,
-            'collection_type_option' => $collection_type_options,
-            'delivery_type_option' => $delivery_type_options,
-            'countries' => $countries,
+            'trip' => new TripResource($trip),
+//            'item_type_option' => $item_type_option,
+//            'location_type_option' => $location_type_options,
+//            'collection_type_option' => $collection_type_options,
+//            'delivery_type_option' => $delivery_type_options,
+//            'countries' => $countries,
         ]);
     }
 

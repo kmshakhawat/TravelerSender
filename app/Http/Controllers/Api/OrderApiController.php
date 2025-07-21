@@ -21,7 +21,7 @@ class OrderApiController extends Controller
 
         return response()->json([
             'success' => true,
-            'results' => $orders
+            'orders' => $orders
         ], 200);
     }
 
@@ -37,7 +37,7 @@ class OrderApiController extends Controller
         $order->load(['products.photos', 'trip']);
         return response()->json([
             'success' => true,
-            'results' => $order
+            'order' => $order
         ], 200);
     }
 
@@ -75,7 +75,7 @@ class OrderApiController extends Controller
         }
         return response()->json([
             'success' => true,
-            'results' => $order
+            'order' => $order
         ], 200);
     }
 }

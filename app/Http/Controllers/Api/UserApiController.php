@@ -119,10 +119,10 @@ class UserApiController extends Controller
     public function edit(User $user)
     {
         $user = User::with('profile')->where('id', $user->id)->role('user')->first();
-        $countries = Travel::countries();
-        $currency_options = Travel::currencies();
-        $id_type_options = Travel::idTypes();
-        $user_status_options = Travel::userStatus();
+//        $countries = Travel::countries();
+//        $currency_options = Travel::currencies();
+//        $id_type_options = Travel::idTypes();
+//        $user_status_options = Travel::userStatus();
 
         if (!$user) {
             return response()->json([
@@ -133,10 +133,10 @@ class UserApiController extends Controller
         return response()->json([
             'success' => true,
             'user' => $user,
-            'countries' => $countries,
-            'currency_options' => $currency_options,
-            'id_type_options' => $id_type_options,
-            'user_status_options' => $user_status_options,
+//            'countries' => $countries,
+//            'currency_options' => $currency_options,
+//            'id_type_options' => $id_type_options,
+//            'user_status_options' => $user_status_options,
         ], 200);
     }
 

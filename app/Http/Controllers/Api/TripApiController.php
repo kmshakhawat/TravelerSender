@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Actions\Travel;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\TripResource;
 use App\Http\Services\FileHandler;
 use App\Mail\SendMail;
 use App\Models\Country;
@@ -27,7 +28,7 @@ class TripApiController extends Controller
         $to_country = $request->to_country;
         $city = $request->city;
         $status = $request->status;
-        $countries = countries();
+//        $countries = countries();
 
         $trips = Trip::where('user_id', auth()->user()->id)
             ->with(['stopovers'])
@@ -53,8 +54,8 @@ class TripApiController extends Controller
 
         return response()->json([
             'success' => true,
-            'results' => $trips,
-            'country' => $countries,
+            'trips' => TripResource::collection($trips),
+//            'country' => $countries,
         ], 200);
     }
 
@@ -146,14 +147,10 @@ class TripApiController extends Controller
             ->with('user')
             ->paginate(10);
 
-        $transport_type = Travel::transportType();
-        $instruction_type = Travel::instructionType();
 
         return response()->json([
             'success' => true,
-            'trips' => $trips,
-            'transport_type' => $transport_type,
-            'instruction_type' => $instruction_type
+            'trips' => TripResource::collection($trips),
         ], 200);
     }
 
@@ -367,7 +364,7 @@ class TripApiController extends Controller
 
         return response()->json([
             'success' => true,
-            'data' => $trip,
+            'trip' => $trip,
             'message' => 'Trip Has Been Successfully Added',
         ], 201);
     }
@@ -381,9 +378,11 @@ class TripApiController extends Controller
             ], 401);
         }
         $trip->load('stopovers');
+
+
         return response()->json([
             'success' => true,
-            'data' => $trip
+            'trip' => new TripResource($trip)
         ], 200);
     }
 
@@ -508,7 +507,7 @@ class TripApiController extends Controller
 
         return response()->json([
             'success' => true,
-            'data' => $trip,
+            'trip' => $trip,
             'message' => 'Trip Has Been Successfully Updated',
         ], 200);
 
@@ -535,9 +534,31 @@ class TripApiController extends Controller
     {
         $transport_type = Travel::transportType();
         $instruction_type = Travel::instructionType();
+        $id_types = Travel::idTypes();
+        $item_type = Travel::itemType();
+        $packaging_type = Travel::packagingType();
+        $trip_status = Travel::tripStatus();
+        $booking_status = Travel::bookingStatus();
+        $tracking_status = Travel::trackingStatus();
+        $weight_unit = Travel::weightUnit();
+        $location_type = Travel::locationType();
+        $parcel_collection_type = Travel::parcelCollectionType();
+        $parcel_delivery_type = Travel::parcelDeliveryType();
+        $payment_status = Travel::paymentStatus();
         $data = [
             'mode_of_transport' => $transport_type,
             'parcel_type' =>  $instruction_type,
+            'id_type' => $id_types,
+            'item_type' => $item_type,
+            'packaging_type' => $packaging_type,
+            'trip_status' => $trip_status,
+            'booking_status' => $booking_status,
+            'tracking_status' => $tracking_status,
+            'weight_unit' => $weight_unit,
+            'location_type' => $location_type,
+            'parcel_collection_type' => $parcel_collection_type,
+            'parcel_delivery_type' => $parcel_delivery_type,
+            'payment_status' => $payment_status,
             'shorting' => [
                 [
                   'id' => 'lowest_price',
@@ -601,7 +622,7 @@ class TripApiController extends Controller
         ];
         return response()->json([
             'success' => true,
-            'data' => $data
+            'results' => $data
         ], 200);
 
 

@@ -39,7 +39,7 @@ class WithdrawApiController extends Controller
 
         return response()->json([
             'success' => true,
-            'results' => $withdraws
+            'withdraws' => $withdraws
         ], 200);
     }
 
