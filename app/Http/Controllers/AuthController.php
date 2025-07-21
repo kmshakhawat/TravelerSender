@@ -178,7 +178,7 @@ class AuthController extends Controller
             if ($user->otp_expiry > now()) {
                 $user->update([
                     'otp' => null,
-                    'otp_verified' => true,
+                    'otp_verified' => 1,
                     'otp_expiry' => now()->addHours(24)
                 ]);
 

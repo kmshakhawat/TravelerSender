@@ -58,7 +58,7 @@ class WithdrawApiController extends Controller
             'success' => true,
             'bank_details' => $bank_details,
             'withdraw' => $payment,
-        ]);
+        ], 200);
 
     }
 
@@ -110,7 +110,7 @@ class WithdrawApiController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Withdraw request processed successfully!'
-        ]);
+        ], 200);
 
     }
 }

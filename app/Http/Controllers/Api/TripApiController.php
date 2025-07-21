@@ -510,7 +510,7 @@ class TripApiController extends Controller
             'success' => true,
             'data' => $trip,
             'message' => 'Trip Has Been Successfully Updated',
-        ], 201);
+        ], 200);
 
     }
 
@@ -529,5 +529,81 @@ class TripApiController extends Controller
             'success' => true,
             'message' => 'Trip deleted successfully'
         ], 200);
+    }
+
+    public function filter()
+    {
+        $transport_type = Travel::transportType();
+        $instruction_type = Travel::instructionType();
+        $data = [
+            'mode_of_transport' => $transport_type,
+            'parcel_type' =>  $instruction_type,
+            'shorting' => [
+                [
+                  'id' => 'lowest_price',
+                  'name' => 'Price (Low > High)',
+                ],
+                [
+                  'id' => 'highest_price',
+                  'name' => 'Price (High > Low)',
+                ]
+            ],
+            'departure_filter' => [
+                [
+                    'id' => 'today',
+                    'name' => 'Today',
+                ],
+                [
+                    'id' => 'tomorrow',
+                    'name' => 'Tomorrow',
+                ],
+                [
+                    'id' => 'this_week',
+                    'name' => 'This Week',
+                ],
+                [
+                    'id' => '15_days',
+                    'name' => 'Within 15 Days',
+                ],
+                [
+                    'id' => 'this_month',
+                    'name' => 'Within 1 Month',
+                ]
+            ],
+            'review' => [
+                [
+                    'id' => '5',
+                    'name' => '5 Star',
+                ],
+                [
+                    'id' => '4',
+                    'name' => '4 Star',
+                ],
+                [
+                    'id' => '3',
+                    'name' => '3 Star',
+                ],
+                [
+                    'id' => '2',
+                    'name' => '2 Star',
+                ],
+                [
+                    'id' => '1',
+                    'name' => '1 Star',
+                ],
+                [
+                    'id' => '0',
+                    'name' => 'Unrated',
+                ],
+
+            ]
+
+        ];
+        return response()->json([
+            'success' => true,
+            'data' => $data
+        ], 200);
+
+
     }
 }

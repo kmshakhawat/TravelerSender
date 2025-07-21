@@ -21,6 +21,7 @@ class ApiRespond
             // Check if Content-Type is application/json
             if (!$contentType || !preg_match('#^application/json#', $contentType)) {
                 return response()->json([
+                    'success' => false,
                     'message' => 'Content-Type must be application/json'
                 ], Response::HTTP_UNSUPPORTED_MEDIA_TYPE); // 415
             }
@@ -28,6 +29,7 @@ class ApiRespond
             // Check if JSON is empty or invalid (for POST, PUT, PATCH)
             if ($request->isJson() && empty($request->all())) {
                 return response()->json([
+                    'success' => false,
                     'message' => 'Empty or invalid JSON provided.'
                 ], Response::HTTP_BAD_REQUEST); // 400
             }

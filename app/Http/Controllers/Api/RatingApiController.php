@@ -69,7 +69,7 @@ class RatingApiController extends Controller
             return response()->json([
                 'success' => false,
                 'errors' => $validator->errors(),
-                'message' => 'Validation error'
+                'message' => 'Validation Error'
             ], 422);
         }
 

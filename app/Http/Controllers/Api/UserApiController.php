@@ -24,6 +24,7 @@ class UserApiController extends Controller
         $users = User::role('user')->paginate(10);
 
         return response()->json([
+            'success' => true,
             'users' => $users
         ], 200);
     }
@@ -42,11 +43,11 @@ class UserApiController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(
-                [
-                    'errors' => $validator->errors(),
-                    'message' => 'Validation Error',
-                ], 422);
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors(),
+                'message' => 'Validation Error',
+            ], 422);
         }
 
         $user = User::create([
@@ -94,7 +95,7 @@ class UserApiController extends Controller
         Mail::to($user->email)->send(new SendMail($mailable_data));
 
         return response()->json([
-            'status' => 'success',
+            'success' => true,
             'message' => 'User created successfully',
             'user' => $user,
             'token' => $token,
@@ -107,6 +108,7 @@ class UserApiController extends Controller
     public function show(User $user)
     {
         return response()->json([
+            'success' => true,
             'user' => User::with('profile')->where('id', $user->id)->role('user')->first()
         ], 200);
     }
@@ -123,9 +125,13 @@ class UserApiController extends Controller
         $user_status_options = Travel::userStatus();
 
         if (!$user) {
-            return response()->json(['message' => 'User not found'], 404);
+            return response()->json([
+                'success' => false,
+                'message' => 'User not found'
+            ], 404);
         }
         return response()->json([
+            'success' => true,
             'user' => $user,
             'countries' => $countries,
             'currency_options' => $currency_options,
@@ -191,7 +197,7 @@ class UserApiController extends Controller
         }
 
         return response()->json([
-            'status' => 'success',
+            'success' => true,
             'message' => 'User updated successfully',
         ]);
 
@@ -203,7 +209,9 @@ class UserApiController extends Controller
         $user->verified = $request->verified ? now() : null; // Update timestamp or set null
         $user->save();
 
-        return response()->json(['success' => true]);
+        return response()->json([
+            'success' => true
+        ]);
     }
 
     /**
@@ -213,7 +221,7 @@ class UserApiController extends Controller
     {
         User::destroy($user->id);
          return response()->json([
-            'status' => 'success',
+            'success' => true,
             'message' => 'User deleted successfully',
         ], 200);
     }

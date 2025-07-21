@@ -117,7 +117,10 @@ class AuthApiController extends Controller
         ]);
 
         if (!Auth::attempt($validated)) {
-            return response()->json(['message' => 'Invalid credentials'], 422);
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid credentials'
+            ], 422);
         }
 
         $user = Auth::user();
@@ -217,13 +220,14 @@ class AuthApiController extends Controller
             if ($user->otp_expiry > now()) {
                 $user->update([
                     'otp' => null,
-                    'otp_verified' => true,
+                    'otp_verified' => 1,
                     'otp_expiry' => now()->addHours(24)
                 ]);
 
                 $token = $user->createToken('appToken')->plainTextToken;
 
                 return response()->json([
+                    'success' => true,
                     'message' => 'OTP verified successfully.',
                     'user' => new UserResource($user),
                     'token' => $token,
@@ -351,8 +355,9 @@ class AuthApiController extends Controller
         }
         if ($validator->fails()) {
             return response()->json([
-                'status' => 'error',
+                'success' => false,
                 'errors' => $validator->errors(),
+                'message' => 'Validation Error!',
             ], 422);
         }
 
@@ -389,7 +394,6 @@ class AuthApiController extends Controller
         ];
         $admin_email = config('app.admin.email');
         Mail::to($admin_email)->send(new SendMail($mailable_data_admin));
-
 
         return response()->json([
             'success' => true,
