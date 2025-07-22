@@ -174,11 +174,13 @@ class AuthApiController extends Controller
             $this->sendOTPMail($user);
             return response()->json([
                 'success' => true,
+                'otp' => $user->otp,
                 'message' => 'OTP has been sent.',
             ], 200);
         }
         return response()->json([
             'success' => true,
+            'otp' => $user->otp,
             'message' => 'Already sent OTP to your email.',
         ], 200);
     }
@@ -269,6 +271,7 @@ class AuthApiController extends Controller
                     'message' => 'Validation Error',
                 ], 422);
         }
+
         $user = User::where('email', $request->email)->first();
 
         if (!$user) {
@@ -298,9 +301,11 @@ class AuthApiController extends Controller
                 ], 200);
             }
 
+            $this->sendOTPMail($user);
+
             return response()->json([
                 'success' => false,
-                'message' => 'OTP has expired. Please request a new one.'
+                'message' => 'OTP has expired. Please enter a new one.'
             ], 401);
         }
 
@@ -519,12 +524,10 @@ class AuthApiController extends Controller
         }
         $validator = Validator::make($request->all(), [
             'email' => 'required|string|email',
-            'otp' => 'required|numeric',
             'password' => 'required|string|min:8|confirmed',
         ],
             [
                 'email.required' => 'Email is required',
-                'otp.required' => 'OTP is required',
                 'password.required' => 'Password is required',
                 'password.min' => 'Password must be at least 8 characters',
                 'password.confirmed' => 'Password does not match',
@@ -545,35 +548,15 @@ class AuthApiController extends Controller
                 'message' => 'This Email is not registered',
             ], 404);
         }
-        if ($request->otp == $user->otp) {
-            if ($user->otp_expiry > now()) {
-                $user->update([
-                    'password' => Hash::make($request->password),
-                    'otp' => null,
-                    'otp_verified' => 1,
-                    'otp_expiry' => now()->addHours(24)
-                ]);
+        $user->update([
+                'password' => Hash::make($request->password),
+            ]);
 
-                $mailable_data = [
-                    'name' => $user->name,
-                    'template' => 'emails.password-reset-success',
-                    'subject' => 'Your Password has been Reset Successfully',
-                ];
-                Mail::to($user->email)->send(new SendMail($mailable_data));
-
-                return response()->json([
-                    'success' => true,
-                    'message' => 'Password reset successfully.',
-                ], 200);
-            }
-            return response()->json([
-                'success' => false,
-                'message' => 'OTP has expired. Please request a new one.'
-            ], 401);
-        }
         return response()->json([
-            'success' => false,
-            'message' => 'Invalid OTP.'
-        ], 401);
+            'success' => true,
+            'user' => new UserResource($user),
+            'message' => 'Password reset successfully.',
+            'redirect' => 'login'
+        ]);
     }
 }

@@ -20,9 +20,8 @@ class OrderApiController extends Controller
             ->orderBy('id', 'DESC')
             ->paginate(10);
 
-        return response()->json([
+        return BookingResource::collection($orders)->additional([
             'success' => true,
-            'orders' => BookingResource::collection($orders)
         ], 200);
     }
 

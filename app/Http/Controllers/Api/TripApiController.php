@@ -39,11 +39,12 @@ class TripApiController extends Controller
                 $query->where('to_country_id', $to_country);
             })
             ->when($city, function ($query) use ($city) {
-                $query->whereHas('fromCity',  function ($query) use ($city) {
-                    $query->where('name', 'like', '%' . $city . '%');
-                });
-                $query->orWhereHas('toCity',  function ($query) use ($city) {
-                   $query->where('name', 'like', '%' . $city . '%');
+                $query->where(function ($q) use ($city) {
+                    $q->whereHas('fromCity', function ($q) use ($city) {
+                        $q->where('name', 'like', '%' . $city . '%');
+                    })->orWhereHas('toCity', function ($q) use ($city) {
+                        $q->where('name', 'like', '%' . $city . '%');
+                    });
                 });
             })
             ->when($status, function ($query) use ($status) {
@@ -52,14 +53,12 @@ class TripApiController extends Controller
             ->orderBy('id', 'DESC')
             ->paginate(10);
 
-        return response()->json([
+        return TripResource::collection($trips)->additional([
             'success' => true,
-            'trips' => TripResource::collection($trips),
-//            'country' => $countries,
         ], 200);
     }
 
-    public function search(Request $request): \Illuminate\Http\JsonResponse
+    public function search(Request $request)
     {
         $from = $request->input('from', '');
         $to = $request->input('to', '');
@@ -148,9 +147,8 @@ class TripApiController extends Controller
             ->paginate(10);
 
 
-        return response()->json([
+        return TripResource::collection($trips)->additional([
             'success' => true,
-            'trips' => TripResource::collection($trips),
         ], 200);
     }
 
@@ -159,7 +157,7 @@ class TripApiController extends Controller
         $trip->load('stopovers')->load('user');
         return response()->json([
             'success' => true,
-            'trip' => $trip
+            'trip' => new TripResource($trip),
         ]);
     }
 

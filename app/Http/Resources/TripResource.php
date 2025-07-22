@@ -67,6 +67,7 @@ class TripResource extends JsonResource
                 'email' => $this->user->email,
                 'phone' => $this->user->phone,
                 'profile_photo_url' => $this->user->profile_photo_url,
+                'rating' => $this->user->averageRating(),
             ]
         ];
     }

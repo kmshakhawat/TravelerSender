@@ -32,9 +32,8 @@ class BookingApiController extends Controller
                 'message' => "No bookings found"
             ], 401);
         }
-        return response()->json([
-            'success' => true,
-            'bookings' => BookingResource::collection($bookings)
+        return BookingResource::collection($bookings)->additional([
+            'success' => true
         ], 200);
     }
 
