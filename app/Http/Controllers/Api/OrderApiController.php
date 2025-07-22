@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\BookingResource;
 use Illuminate\Http\Request;
 use App\Models\Booking;
 use App\Models\Tracking;
@@ -21,7 +22,7 @@ class OrderApiController extends Controller
 
         return response()->json([
             'success' => true,
-            'orders' => $orders
+            'orders' => BookingResource::collection($orders)
         ], 200);
     }
 
@@ -37,7 +38,7 @@ class OrderApiController extends Controller
         $order->load(['products.photos', 'trip']);
         return response()->json([
             'success' => true,
-            'order' => $order
+            'order' => new BookingResource($order)
         ], 200);
     }
 
@@ -75,7 +76,7 @@ class OrderApiController extends Controller
         }
         return response()->json([
             'success' => true,
-            'order' => $order
+            'order' => new BookingResource($order)
         ], 200);
     }
 }

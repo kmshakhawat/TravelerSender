@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Actions\Travel;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\BookingResource;
 use App\Http\Resources\TripResource;
 use App\Mail\SendMail;
 use App\Models\Payment;
@@ -33,7 +34,7 @@ class BookingApiController extends Controller
         }
         return response()->json([
             'success' => true,
-            'bookings' => $bookings
+            'bookings' => BookingResource::collection($bookings)
         ], 200);
     }
 
@@ -311,7 +312,7 @@ class BookingApiController extends Controller
 
         return response()->json([
             'success' => true,
-            'booking' => $booking,
+            'booking' => new BookingResource($booking),
 //            'booking_status' => $booking_status,
 //            'in_package_product' => $in_package_product,
 //            'package_products' => $package_products,

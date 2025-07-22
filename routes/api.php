@@ -18,11 +18,15 @@ Route::get('/search', [TripApiController::class, 'search']);
 Route::get('/filter', [TripApiController::class, 'filter']);
 Route::get('/trip/{trip}/details', [TripApiController::class, 'details'])->name('trip.details');
 Route::get('/tracking', [TrackingApiController::class, 'search'])->name('tracking.search');
+Route::post('/otp', [AuthApiController::class, 'otp'])->name('otp');
+Route::post('/otp/verify', [AuthApiController::class, 'otpVerify']);
+Route::post('/forget', [AuthApiController::class, 'forgetPassword'])->name('forget.password');
+Route::post('/password/reset', [AuthApiController::class, 'resetPassword'])->name('reset.password');
 
 Route::middleware(['auth:sanctum', 'api_json_respond'])->group(function () {
     Route::get('/dashboard', [AuthApiController::class, 'dashboard'])->name('dashboard');
-    Route::post('/otp/resend', [AuthApiController::class, 'otpResend']);
-    Route::post('/otp/verify', [AuthApiController::class, 'otpVerify']);
+
+
     Route::get('/profile', [AuthApiController::class, 'profile']);
     Route::post('/profile', [AuthApiController::class, 'updateProfile'])->name('profile.update');
     Route::get('/verification', [AuthApiController::class, 'verification'])->name('verification');

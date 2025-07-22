@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Actions\Travel;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\BookingResource;
+use App\Http\Resources\TripResource;
 use App\Http\Resources\UserResource;
 use App\Http\Services\FileHandler;
 use App\Mail\SendMail;
@@ -40,7 +42,7 @@ class AuthApiController extends Controller
         $trips = Trip::with(['stopovers'])
             ->where('user_id', auth()->id())
             ->orderBy('id', 'DESC')
-            ->paginate(10);
+            ->limit(5)->get();
 
         $earnings = Auth::user()->earnings();
         $customers = Booking::whereHas('trip', function ($query) {
@@ -51,8 +53,8 @@ class AuthApiController extends Controller
         return response()->json([
            'success' => true,
            'active_trips' => $active_trips,
-           'bookings' => $bookings,
-           'trips' => $trips,
+           'bookings' => BookingResource::collection($bookings),
+           'trips' => TripResource::collection($trips),
            'earnings' => $earnings,
            'customers' => $customers,
            'avg_rating' => $avg_rating,
@@ -134,45 +136,97 @@ class AuthApiController extends Controller
         ], 200);
     }
 
-    public function otp()
+    public function otp(Request $request)
     {
-        $user = Auth::user();
+        $master_key = 'ZmlgZnBJ1VjIU6lrbuXp';
+        $token = $request->bearerToken();
+        if (!$token || $token !== $master_key) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized'
+            ], 401);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|string|email',
+        ],
+            [
+                'email.required' => 'Email is required',
+            ]
+        );
+        if ($validator->fails()) {
+            return response()->json(
+                [
+                    'success' => false,
+                    'errors' => $validator->errors(),
+                    'message' => 'Validation Error',
+                ], 422);
+        }
+
+        $user = User::where('email', $request->email)->first();
         if (!$user) {
             return response()->json([
                 'success' => false,
-                'message' => 'Unauthenticated'
+                'message' => 'This Email is not registered',
             ], 401);
         }
         if ($user->otp === null) {
-            $this->sendOTPMail();
+            $this->sendOTPMail($user);
+            return response()->json([
+                'success' => true,
+                'message' => 'OTP has been sent.',
+            ], 200);
         }
         return response()->json([
             'success' => true,
-            'message' => 'OTP has been sent.',
+            'message' => 'Already sent OTP to your email.',
         ], 200);
     }
 
-    public function otpResend()
+    public function otpResend(Request $request)
     {
-        $user = Auth::user();
+        $master_key = 'ZmlgZnBJ1VjIU6lrbuXp';
+        $token = $request->bearerToken();
+        if (!$token || $token !== $master_key) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized'
+            ], 401);
+        }
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|string|email',
+        ],
+            [
+                'email.required' => 'Email is required',
+            ]
+        );
+        if ($validator->fails()) {
+            return response()->json(
+                [
+                    'success' => false,
+                    'errors' => $validator->errors(),
+                    'message' => 'Validation Error',
+                ], 422);
+        }
+        $user = User::where('email', $request->email)->first();
         if (!$user) {
             return response()->json([
                 'success' => false,
-                'message' => 'Unauthenticated'
+                'message' => 'This Email is not registered',
             ], 401);
         }
-        $this->sendOTPMail();
+        $this->sendOTPMail($user);
         return response()->json([
             'success' => true,
             'otp' => $user->otp,
             'message' => 'OTP has been resent successfully.'
         ], 200);
     }
-    private function sendOTPMail()
+    private function sendOTPMail($user)
     {
         $otp = rand(100000, 999999);
         $expiry = now()->addMinutes(7);
-        auth()->user()->update([
+        $user->update([
             'otp' => $otp,
             'otp_expiry' => $expiry
         ]);
@@ -185,11 +239,38 @@ class AuthApiController extends Controller
             'template'   => 'emails.otp',
             'subject'    => 'OTP Verification - ' . config('app.name'),
         ];
-        Mail::to(auth()->user()->email)->send(new SendMail($mailableData));
+        Mail::to($user->email)->send(new SendMail($mailableData));
     }
     public function otpVerify(Request $request)
     {
-        $user = Auth::user();
+        $master_key = 'ZmlgZnBJ1VjIU6lrbuXp';
+        $token = $request->bearerToken();
+        if (!$token || $token !== $master_key) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized'
+            ], 401);
+        }
+
+        $validator = Validator::make($request->all(), [
+                'email' => 'required|string|email',
+                'otp' => 'required|numeric',
+            ],
+            [
+                'email.required' => 'Email is required',
+                'otp.required' => 'OTP is required',
+            ]
+        );
+        if ($validator->fails()) {
+            return response()->json(
+                [
+                    'success' => false,
+                    'errors' => $validator->errors(),
+                    'message' => 'Validation Error',
+                ], 422);
+        }
+        $user = User::where('email', $request->email)->first();
+
         if (!$user) {
             return response()->json([
                 'success' => false,
@@ -197,25 +278,7 @@ class AuthApiController extends Controller
             ], 401);
         }
 
-        $validator = Validator::make($request->all(), [
-            'otp' => 'required|numeric'
-        ],
-            [
-                'otp.required' => 'OTP is required',
-            ]
-        );
 
-        if ($validator->fails()) {
-            return response()->json(
-            [
-                'success' => false,
-                'errors' => $validator->errors(),
-                'message' => 'Validation Error',
-            ], 422);
-        }
-
-
-        $user = auth()->user();
         if ($request->otp == $user->otp) {
             if ($user->otp_expiry > now()) {
                 $user->update([
@@ -400,5 +463,117 @@ class AuthApiController extends Controller
             'message' => 'Verification data updated successfully',
         ], 200);
 
+    }
+
+    public function forgetPassword(Request $request)
+    {
+        $master_key = 'ZmlgZnBJ1VjIU6lrbuXp';
+        $token = $request->bearerToken();
+        if (!$token || $token !== $master_key) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized'
+            ], 401);
+        }
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|string|email',
+        ],
+            [
+                'email.required' => 'Email is required',
+            ]
+        );
+
+        if ($validator->fails()) {
+            return response()->json(
+                [
+                    'success' => false,
+                    'errors' => $validator->errors(),
+                    'message' => 'Validation Error',
+                ], 422);
+        }
+
+        $user = User::where('email', $request->email)->first();
+        if (!$user) {
+            return response()->json([
+                'success' => false,
+                'message' => 'This Email is not registered',
+            ], 404);
+        }
+
+        $this->sendOTPMail($user);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'OTP has been sent to your email.',
+        ], 200);
+    }
+    public function resetPassword(Request $request)
+    {
+        $master_key = 'ZmlgZnBJ1VjIU6lrbuXp';
+        $token = $request->bearerToken();
+        if (!$token || $token !== $master_key) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized'
+            ], 401);
+        }
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|string|email',
+            'otp' => 'required|numeric',
+            'password' => 'required|string|min:8|confirmed',
+        ],
+            [
+                'email.required' => 'Email is required',
+                'otp.required' => 'OTP is required',
+                'password.required' => 'Password is required',
+                'password.min' => 'Password must be at least 8 characters',
+                'password.confirmed' => 'Password does not match',
+            ]
+        );
+        if ($validator->fails()) {
+            return response()->json(
+                [
+                    'success' => false,
+                    'errors' => $validator->errors(),
+                    'message' => 'Validation Error',
+                ], 422);
+        }
+        $user = User::where('email', $request->email)->first();
+        if (!$user) {
+            return response()->json([
+                'success' => false,
+                'message' => 'This Email is not registered',
+            ], 404);
+        }
+        if ($request->otp == $user->otp) {
+            if ($user->otp_expiry > now()) {
+                $user->update([
+                    'password' => Hash::make($request->password),
+                    'otp' => null,
+                    'otp_verified' => 1,
+                    'otp_expiry' => now()->addHours(24)
+                ]);
+
+                $mailable_data = [
+                    'name' => $user->name,
+                    'template' => 'emails.password-reset-success',
+                    'subject' => 'Your Password has been Reset Successfully',
+                ];
+                Mail::to($user->email)->send(new SendMail($mailable_data));
+
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Password reset successfully.',
+                ], 200);
+            }
+            return response()->json([
+                'success' => false,
+                'message' => 'OTP has expired. Please request a new one.'
+            ], 401);
+        }
+        return response()->json([
+            'success' => false,
+            'message' => 'Invalid OTP.'
+        ], 401);
     }
 }
