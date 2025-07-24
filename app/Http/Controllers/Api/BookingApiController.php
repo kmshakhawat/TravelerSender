@@ -21,7 +21,7 @@ class BookingApiController extends Controller
 {
     public function index()
     {
-        $bookings = Booking::with(['products','payment'])
+        $bookings = Booking::with(['products','payment','trip'])
             ->where('user_id', auth()->id())
             ->orderBy('id', 'DESC')
             ->paginate(10);
