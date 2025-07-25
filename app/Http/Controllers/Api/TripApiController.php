@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Actions\Travel;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\LocationResource;
 use App\Http\Resources\TripResource;
 use App\Http\Services\FileHandler;
 use App\Mail\SendMail;
@@ -160,6 +161,29 @@ class TripApiController extends Controller
             'trip' => new TripResource($trip),
         ]);
     }
+
+    public function locations(Request $request)
+    {
+        $country_id = $request->input('country_id');
+        $state_id = $request->input('state_id');
+        $city_id = $request->input('city_id');
+
+        $data = Country::all();
+        if ($country_id) {
+            $data = State::where('country_id', $country_id)->get();
+        }
+        if ($state_id) {
+            $data = City::where('state_id', $state_id)->get();
+        }
+        if ($city_id) {
+            $data = City::where('id', $city_id)->get();
+        }
+        return response()->json([
+            'success' => true,
+            'data' => LocationResource::collection($data),
+        ]);
+    }
+
 
     public function allLocations(Request $request)
     {

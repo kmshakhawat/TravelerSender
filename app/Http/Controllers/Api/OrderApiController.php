@@ -13,7 +13,7 @@ class OrderApiController extends Controller
 {
     public function index()
     {
-        $orders = Booking::with(['products','payment'])
+        $orders = Booking::with(['products','payment','trip'])
             ->whereHas('trip', function ($query) {
                 $query->where('trip_user_id', auth()->id());
             })

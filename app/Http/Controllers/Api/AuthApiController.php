@@ -34,7 +34,7 @@ class AuthApiController extends Controller
             ->where('departure_date', '>=', Carbon::now())
             ->count();
 
-        $bookings = Booking::with(['products','payment'])
+        $bookings = Booking::with(['products','payment','trip'])
             ->where('user_id', auth()->id())
             ->orderBy('id', 'DESC')
             ->limit(5)->get();

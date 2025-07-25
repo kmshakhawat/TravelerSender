@@ -7,6 +7,8 @@ use Laravel\Scout\Searchable;
 class City extends Model
 {
     use Searchable;
+
+    protected  $table = 'cities';
     public function toSearchableArray()
     {
         return [
@@ -14,4 +16,14 @@ class City extends Model
             'name' => $this->name,
         ];
     }
+    public function country()
+    {
+        return $this->belongsTo(Country::class);
+    }
+
+    public function state()
+    {
+        return $this->belongsTo(State::class);
+    }
+
 }

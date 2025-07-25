@@ -13,7 +13,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/register', [AuthApiController::class, 'register']);
 Route::post('/login', [AuthApiController::class, 'login']);
-Route::get('/locations', [TripApiController::class, 'allLocations']);
+Route::get('/locations', [TripApiController::class, 'locations']);
+//Route::get('/locations', [TripApiController::class, 'allLocations']);
 Route::get('/search', [TripApiController::class, 'search']);
 Route::get('/filter', [TripApiController::class, 'filter']);
 Route::get('/trip/{trip}/details', [TripApiController::class, 'details'])->name('trip.details');
@@ -25,7 +26,6 @@ Route::post('/password/reset', [AuthApiController::class, 'resetPassword'])->nam
 
 Route::middleware(['auth:sanctum', 'api_json_respond'])->group(function () {
     Route::get('/dashboard', [AuthApiController::class, 'dashboard'])->name('dashboard');
-
 
     Route::get('/profile', [AuthApiController::class, 'profile']);
     Route::post('/profile', [AuthApiController::class, 'updateProfile'])->name('profile.update');
