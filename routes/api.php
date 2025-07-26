@@ -13,8 +13,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/register', [AuthApiController::class, 'register']);
 Route::post('/login', [AuthApiController::class, 'login']);
-Route::get('/locations', [TripApiController::class, 'locations']);
-//Route::get('/locations', [TripApiController::class, 'allLocations']);
+Route::get('/country_state_city', [TripApiController::class, 'locations']);
+Route::get('/locations', [TripApiController::class, 'allLocations']);
 Route::get('/search', [TripApiController::class, 'search']);
 Route::get('/filter', [TripApiController::class, 'filter']);
 Route::get('/trip/{trip}/details', [TripApiController::class, 'details'])->name('trip.details');
