@@ -125,9 +125,8 @@ class AuthApiController extends Controller
             ], 422);
         }
 
-        $user = Auth::user();
+        $user = Auth::user()->load('profile');
         $token = $user->createToken('appToken')->plainTextToken;
-
         return response()->json([
             'success' => true,
             'message' => 'Login Successful',

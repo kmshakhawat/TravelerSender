@@ -26,8 +26,10 @@
                 </div>
                 @if($receiver)
                     <div class="p-4 bg-white shadow-md rounded w-full sm:w-3/4">
-                        <h2 class="text-lg font-semibold mb-4">Message with {{ $receiver->name }}</h2>
-                        <div wire:poll.1s="refreshMessages" id="messages-container" class="border p-3 overflow-y-auto h-80 sm:max-h-[500px]">
+                        <h2 class="text-lg font-semibold mb-4 flex justify-between items-center">
+                            Message with {{ $receiver->name }}
+                        </h2>
+                        <div id="messages-container" class="border p-3 overflow-y-auto h-80 sm:max-h-[500px]">
                             @foreach($messages->groupBy(function($msg) {
                                 return $msg->created_at->format('Y-m-d');
                             }) as $date => $msgs)
@@ -61,7 +63,17 @@
                         <div class="mt-4">
                             <form wire:submit.prevent="sendMessage">
                                 <input type="text" wire:model="messageContent" class="w-full px-3 py-2 border rounded" placeholder="Type a message...">
-                                <button type="submit" class="mt-2 px-4 py-2 bg-primary text-white rounded">Send</button>
+                                <div class="flex justify-between items-center">
+                                    <button type="submit" class="mt-2 px-4 py-2 bg-primary text-white rounded">Send</button>
+
+                                    <button wire:click="refreshMessages" class="flex gap-1 items-center px-2 text-xs rounded bg-[#F56565] text-white hover:bg-[#FF7070]">
+                                        <svg data-v-c9f5a6e8="" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4">
+                                            <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path><path d="M21 3v5h-5"></path><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path>
+                                            <path d="M8 16H3v5"></path>
+                                        </svg>
+                                        Refresh
+                                    </button>
+                                </div>
                             </form>
                         </div>
                     </div>

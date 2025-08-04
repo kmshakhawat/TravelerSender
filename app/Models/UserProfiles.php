@@ -34,6 +34,15 @@ class UserProfiles extends Model
         return $this->belongsTo(Country::class, 'country_id');
     }
 
+    public function state(): BelongsTo
+    {
+        return $this->belongsTo(State::class, 'state_id');
+    }
+    public function city(): BelongsTo
+    {
+        return $this->belongsTo(City::class, 'city_id');
+    }
+
     public function currency(): BelongsTo
     {
         return $this->belongsTo(Currency::class, 'currency_id');

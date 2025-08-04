@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class MessageApiController extends Controller
 {
@@ -24,11 +25,9 @@ class MessageApiController extends Controller
             ->unique()
             ->values();
 
-        // Get the users who have interacted with the logged-in user
         $users = User::whereIn('id', $chatUsersIds)
             ->get()
             ->map(function ($user) use ($userId) {
-                // Get the last message for each conversation
                 $lastMessage = Message::where(function ($query) use ($user, $userId) {
                     $query->where('sender_id', $user->id)
                         ->where('receiver_id', $userId);
@@ -37,22 +36,50 @@ class MessageApiController extends Controller
                         $query->where('sender_id', $userId)
                             ->where('receiver_id', $user->id);
                     })
-                    ->latest()
+                    ->latest('created_at')
                     ->first();
 
                 return [
-                    'id'               => $user->id,
-                    'name'             => $user->name,
-                    'profile_photo'    => $user->profile_photo,  // Ensure this column exists in your users table
-                    'last_message'     => $lastMessage ? $lastMessage->message : 'No messages',
-                    'last_message_date' => $lastMessage ? Carbon::parse($lastMessage->created_at)->diffForHumans() : 'No messages',
+                    'id'                => $user->id,
+                    'name'              => $user->name,
+                    'profile_photo_url' => $user->profile_photo_url,
+                    'last_message'      => optional($lastMessage)->content,
+                    'last_message_date' => optional($lastMessage)->created_at,
                 ];
             });
+
 
         return response()->json([
             'success' => true,
             'users'   => $users,
         ]);
+    }
+
+    public function store(Request $request)
+    {
+        $validated = Validator::make($request->all(), [
+            'receiver_id' => 'required|exists:users,id',
+            'message' => 'required|string',
+        ]);
+        if ($validated->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => $validated->errors()->first(),
+            ], 400);
+        }
+        $data = [
+            'sender_id' => Auth::id(),
+            'receiver_id' => $request->receiver_id,
+            'message' => $request->message,
+        ];
+
+        Message::create($data);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Message sent successfully',
+        ]);
+
     }
 
     /**

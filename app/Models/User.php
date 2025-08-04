@@ -130,7 +130,6 @@ class User extends Authenticatable implements MustVerifyEmail
         return number_format($this->ratings()->avg('rating'), 1);
     }
 
-
     public function earnings()
     {
         return $this->hasMany(Payment::class, 'trip_user_id')

@@ -257,25 +257,26 @@ class TripApiController extends Controller
             'from_state_id' => 'required|integer',
             'from_city_id' => 'required|integer',
             'from_postcode' => 'nullable|string',
-            'from_phone' => 'nullable|string',
+            'from_phone' => 'required|string',
             'to_address_1' => 'required|string',
             'to_address_2' => 'nullable|string',
             'to_country_id' => 'required|integer',
             'to_state_id' => 'required|integer',
             'to_city_id' => 'required|integer',
             'to_postcode' => 'nullable|string',
-            'to_phone' => 'nullable|string',
+            'to_phone' => 'required|string',
             'departure_date' => 'required|date',
             'arrival_date' => 'required|date',
-            'stopovers' => 'nullable|string',
-            'available_space' => 'nullable|string',
-            'weight_unit' => 'nullable|string',
-            'type_of_item' => 'nullable|string',
-            'packaging_requirement' => 'nullable|string',
-            'handling_instruction' => 'nullable|string',
+            'stopovers' => 'nullable|array',
+            'stopovers.*' => 'string',
+            'available_space' => 'required|string',
+            'weight_unit' => 'required|string',
+            'type_of_item' => 'required|array',
+            'packaging_requirement' => 'required|string',
+            'handling_instruction' => 'required|string',
             'photo' => 'nullable|image|max:5120',
             'currency' => 'nullable|string',
-            'price' => 'nullable|numeric',
+            'price' => 'required|numeric',
             'note' => 'nullable|string',
             'admin_note' => 'nullable|string',
             'status' => 'nullable|string',
@@ -305,7 +306,9 @@ class TripApiController extends Controller
 
         $departure_date = $request->departure_date;
         $arrival_date = $request->arrival_date;
-        $type_of_item = implode(',', $request->type_of_item);
+        $type_of_item = is_array($request->type_of_item)
+            ? implode(',', $request->type_of_item)
+            : null;
 
         if ($departure_date > $arrival_date) {
             return response()->json([

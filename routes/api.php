@@ -30,7 +30,8 @@ Route::middleware(['auth:sanctum', 'api_json_respond'])->group(function () {
     Route::get('/profile', [AuthApiController::class, 'profile']);
     Route::post('/profile', [AuthApiController::class, 'updateProfile'])->name('profile.update');
     Route::get('/verification', [AuthApiController::class, 'verification'])->name('verification');
-    Route::post('/verification', [AuthApiController::class, 'verificationUpdate'])->name('verification.update');
+    Route::post('/verification', [AuthApiController::class, 'ver
+    ificationUpdate'])->name('verification.update');
     Route::post('/logout', [AuthApiController::class, 'logout']);
 
     Route::apiResource('trips', TripApiController::class);
@@ -47,6 +48,7 @@ Route::middleware(['auth:sanctum', 'api_json_respond'])->group(function () {
 //    Route::resource('user', UserApiController::class);
 
     Route::get('/message', [MessageApiController::class, 'index'])->name('message');
+    Route::post('/message', [MessageApiController::class, 'store'])->name('message.store');;
     Route::get('/message/{receiverId?}', [MessageApiController::class, 'loadMessages'])->name('message.load');
 
     Route::get('/rating/{booking}', [RatingApiController::class, 'create'])->name('rating.create');
