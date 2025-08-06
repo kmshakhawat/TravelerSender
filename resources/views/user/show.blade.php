@@ -40,11 +40,11 @@
                                 </tr>
                                 <tr>
                                     <td>City</td>
-                                    <td>{{ $user->profile->city ?? '' }}</td>
+                                    <td>{{ $user->profile->city?->name ?? '' }}</td>
                                 </tr>
                                 <tr>
                                     <td>State</td>
-                                    <td>{{ $user->profile->state ?? '' }}</td>
+                                    <td>{{ $user->profile->state?->name ?? '' }}</td>
                                 </tr>
                                 <tr>
                                     <td>Postcode</td>
@@ -52,17 +52,17 @@
                                 </tr>
                                 <tr>
                                     <td>Country</td>
-                                    <td>{{ $user->profile->country->name ?? '' }}</td>
+                                    <td>{{ $user->profile->country?->name ?? '' }}</td>
                                 </tr>
                                 <tr>
                                     <td>Bank Details</td>
                                     <td>{{ $user->profile->bank_details ?? '' }}</td>
                                 </tr>
-                                @if($user->photo)
+                                @if($user->profile_photo_path)
                                     <tr>
-                                        <td class="align-top">Photo</td>
+                                        <td class="align-top">Profile Photo</td>
                                         <td>
-                                            <x-photo :file="$user->photo" :title="'Photo'" :name="'photo'" :show="true" :upload="false" />
+                                            <x-photo :file="$user->profile_photo_path" :title="'Photo'" :name="'profile_photo_path'" :show="true" :upload="false" />
                                         </td>
                                     </tr>
                                 @endif

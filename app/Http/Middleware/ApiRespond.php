@@ -15,29 +15,30 @@ class ApiRespond
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (in_array($request->getMethod(), ['POST', 'PUT', 'PATCH'])) {
-            $contentType = $request->header('Content-Type');
+        $method = $request->getMethod();
+        $contentType = $request->header('Content-Type');
 
-            // Check if Content-Type is application/json
-            if (!$contentType || !preg_match('#^application/json#', $contentType)) {
+        if (in_array($method, ['POST', 'PUT', 'PATCH'])) {
+            if (!$contentType || (
+                    !preg_match('#^application/json#', $contentType) &&
+                    !preg_match('#^multipart/form-data#', $contentType)
+                )) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Content-Type must be application/json'
-                ], Response::HTTP_UNSUPPORTED_MEDIA_TYPE); // 415
+                    'message' => 'Content-Type must be application/json or multipart/form-data'
+                ], Response::HTTP_UNSUPPORTED_MEDIA_TYPE);
             }
 
-            // Check if JSON is empty or invalid (for POST, PUT, PATCH)
-            if ($request->isJson() && empty($request->all())) {
+            // Optional: validate empty JSON only when content type is JSON
+            if (preg_match('#^application/json#', $contentType) && empty($request->all())) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Empty or invalid JSON provided.'
-                ], Response::HTTP_BAD_REQUEST); // 400
+                ], Response::HTTP_BAD_REQUEST);
             }
         }
 
         $request->headers->set('Accept', 'application/json');
-
-        // Allow GET and other methods without Content-Type check
         return $next($request);
     }
 }

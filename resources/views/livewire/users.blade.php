@@ -79,10 +79,10 @@
                         <a href="{{ route('user.show', $user->id) }}">{{ $user->phone }}</a>
                     </td>
                     <td class="py-3 pl-2">
-                        <a href="{{ route('user.show', $user->id) }}">{{ $user->profile->city ?? '' }}</a>
+                        <a href="{{ route('user.show', $user->id) }}">{{ $user->profile->city?->name ?? '' }}</a>
                     </td>
                     <td class="py-3 pl-2">
-                        <a href="{{ route('user.show', $user->id) }}">{{ $user->profile->country->name ?? '' }}</a>
+                        <a href="{{ route('user.show', $user->id) }}">{{ $user->profile->country?->name ?? '' }}</a>
                     </td>
                     <td class="py-3 pl-2">
                         <a href="{{ route('user.show', $user->id) }}">

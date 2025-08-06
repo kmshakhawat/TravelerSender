@@ -70,7 +70,7 @@ class MessageApiController extends Controller
         $data = [
             'sender_id' => Auth::id(),
             'receiver_id' => $request->receiver_id,
-            'message' => $request->message,
+            'content' => $request->message,
         ];
 
         Message::create($data);

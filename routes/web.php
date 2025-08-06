@@ -14,6 +14,7 @@ use App\Models\City;
 use App\Models\Country;
 use App\Models\State;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\File;
 use Laravel\Jetstream\Http\Controllers\Livewire\UserProfileController;
 
 use App\Livewire\Chat;
@@ -133,3 +134,4 @@ Route::get('/contact', function (){
 
 //Route::get('/locations/search', [Booking::class, 'search']);
 Route::get('locations/search', [BookingController::class, 'search']);
+

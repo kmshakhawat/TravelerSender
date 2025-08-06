@@ -248,6 +248,7 @@ class TripApiController extends Controller
 
     public function store(Request $request)
     {
+
         $validator = Validator::make($request->all(), [
             'mode_of_transport' => 'required|string',
             'vehicle_details' => 'nullable|string',
@@ -267,18 +268,16 @@ class TripApiController extends Controller
             'to_phone' => 'required|string',
             'departure_date' => 'required|date',
             'arrival_date' => 'required|date',
-            'stopovers' => 'nullable|array',
-            'stopovers.*' => 'string',
+            'stopovers' => 'nullable|string',
             'available_space' => 'required|string',
             'weight_unit' => 'required|string',
-            'type_of_item' => 'required|array',
+            'type_of_item' => 'required|string',
             'packaging_requirement' => 'required|string',
             'handling_instruction' => 'required|string',
             'photo' => 'nullable|image|max:5120',
             'currency' => 'nullable|string',
             'price' => 'required|numeric',
             'note' => 'nullable|string',
-            'admin_note' => 'nullable|string',
             'status' => 'nullable|string',
         ],
             [
@@ -306,9 +305,6 @@ class TripApiController extends Controller
 
         $departure_date = $request->departure_date;
         $arrival_date = $request->arrival_date;
-        $type_of_item = is_array($request->type_of_item)
-            ? implode(',', $request->type_of_item)
-            : null;
 
         if ($departure_date > $arrival_date) {
             return response()->json([
@@ -340,7 +336,7 @@ class TripApiController extends Controller
             'arrival_date' => $request->arrival_date,
             'available_space' => $request->available_space,
             'weight_unit' => $request->weight_unit,
-            'type_of_item' => $type_of_item,
+            'type_of_item' => $request->type_of_item,
             'packaging_requirement' => $request->packaging_requirement,
             'handling_instruction' => $request->handling_instruction,
             'photo' => $this->handleFile($request->file('photo'), 'trip/', ''),
@@ -437,7 +433,7 @@ class TripApiController extends Controller
             'stopovers' => 'nullable|string',
             'available_space' => 'nullable|string',
             'weight_unit' => 'nullable|string',
-            'type_of_item' => 'nullable|string',
+            'type_of_item' => 'required|string',
             'packaging_requirement' => 'nullable|string',
             'handling_instruction' => 'nullable|string',
             'photo' => 'nullable|image|max:5120',
@@ -472,7 +468,6 @@ class TripApiController extends Controller
 
         $departure_date = $request->departure_date;
         $arrival_date = $request->arrival_date;
-        $type_of_item = implode(',', $request->type_of_item);
 
         if ($departure_date > $arrival_date) {
             return response()->json([
@@ -504,7 +499,7 @@ class TripApiController extends Controller
             'arrival_date' => $request->arrival_date,
             'available_space' => $request->available_space,
             'weight_unit' => $request->weight_unit,
-            'type_of_item' => $type_of_item,
+            'type_of_item' => $request->type_of_item,
             'packaging_requirement' => $request->packaging_requirement,
             'handling_instruction' => $request->handling_instruction,
             'photo' => $this->handleFile($request->file('photo'), 'trip/', ''),

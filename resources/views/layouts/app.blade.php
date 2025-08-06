@@ -120,80 +120,84 @@
             });
 
             function countryStateCityDropdown(countrySelector, stateSelector, citySelector, selectedStateId = null, selectedCityId = null) {
-                async function loadStates(country_id, stateSelect) {
-                    if (country_id) {
+                async function loadStates(country_id, stateSelect, currentSelectedStateId = null) {
+                    stateSelect.prop('disabled', true).html('<option value="">Loading...</option>');
+
+                    if (!country_id) {
+                        stateSelect.html('<option value="">Select State</option>');
+                        stateSelect.prop('disabled', true);
+                        return;
+                    }
+
+                    try {
+                        const { data: states } = await axios.get(`/get-states/${country_id}`);
+                        let options = '<option value="">Select State</option>';
+                        states.forEach(state => {
+                            const selected = currentSelectedStateId == state.id ? 'selected' : '';
+                            options += `<option value="${state.id}" ${selected}>${state.name}</option>`;
+                        });
+                        stateSelect.html(options).prop('disabled', false).trigger('change');
+                    } catch (error) {
+                        alert('Unable to load states.');
                         stateSelect.prop('disabled', false);
-                        try {
-                            const response = await axios.get(`/get-states/${country_id}`);
-                            stateSelect.empty();
-                            stateSelect.append('<option value="">Select State</option>');
-
-                            response.data.forEach(function (state) {
-                                let selected = (selectedStateId && state.id === selectedStateId) ? 'selected' : '';
-                                stateSelect.append(`<option value="${state.id}" ${selected}>${state.name}</option>`);
-                            });
-
-                            stateSelect.trigger('change'); // This will trigger loading cities if state is preselected
-                        } catch (error) {
-                            alert('Unable to load states. Please try again.');
-                        }
-                    } else {
-                        stateSelect.empty().append('<option value="">Select State</option>').prop('disabled', true);
                     }
                 }
 
-                async function loadCities(state_id, citySelect) {
-                    if (state_id) {
+                async function loadCities(state_id, citySelect, currentSelectedCityId = null) {
+                    citySelect.prop('disabled', true).html('<option value="">Loading...</option>');
+
+                    if (!state_id) {
+                        citySelect.html('<option value="">Select City</option>');
+                        citySelect.prop('disabled', true);
+                        return;
+                    }
+
+                    try {
+                        const { data: cities } = await axios.get(`/get-cities/${state_id}`);
+                        let options = '<option value="">Select City</option>';
+                        cities.forEach(city => {
+                            const selected = currentSelectedCityId == city.id ? 'selected' : '';
+                            options += `<option value="${city.id}" ${selected}>${city.name}</option>`;
+                        });
+                        citySelect.html(options).prop('disabled', false);
+                    } catch (error) {
+                        alert('Unable to load cities.');
                         citySelect.prop('disabled', false);
-                        try {
-                            const response = await axios.get(`/get-cities/${state_id}`);
-                            citySelect.empty();
-                            citySelect.append('<option value="">Select City</option>');
-
-                            response.data.forEach(function (city) {
-                                let selected = (selectedCityId && city.id === selectedCityId) ? 'selected' : '';
-                                citySelect.append(`<option value="${city.id}" ${selected}>${city.name}</option>`);
-                            });
-                        } catch (error) {
-                            alert('Unable to load cities. Please try again.');
-                        }
-                    } else {
-                        citySelect.empty().append('<option value="">Select City</option>').prop('disabled', true);
                     }
                 }
 
-                $(document).ready(function () {
-                    $(countrySelector).each(function () {
-                        let countrySelect = $(this);
-                        let stateSelect = $(stateSelector);
-                        let citySelect = $(citySelector);
+                $(function () {
+                    const $country = $(countrySelector);
+                    const $state = $(stateSelector);
+                    const $city = $(citySelector);
 
-                        let selectedCountryId = countrySelect.val();
-                        let selectedStateId = stateSelect.val();
-                        let selectedCityId = citySelect.val();
+                    // Save preselected values once
+                    const preSelectedCountry = $country.val();
+                    const preSelectedState = selectedStateId || $state.val();
+                    const preSelectedCity = selectedCityId || $city.val();
 
-                        countrySelect.on('change', function () {
-                            let country_id = $(this).val();
-                            loadStates(country_id, stateSelect);
-                            citySelect.empty().append('<option value="">Select City</option>').prop('disabled', true);
-                        });
-
-                        stateSelect.on('change', function () {
-                            let state_id = $(this).val();
-                            loadCities(state_id, citySelect);
-                        });
-
-                        // Initial load
-                        if (selectedCountryId) {
-                            loadStates(selectedCountryId, stateSelect, selectedStateId);
-                        }
-
-                        if (selectedStateId) {
-                            loadCities(selectedStateId, citySelect, selectedCityId);
-                        }
+                    $country.on('change', function () {
+                        const countryId = $(this).val();
+                        $city.html('<option value="">Select City</option>').prop('disabled', true);
+                        loadStates(countryId, $state);
                     });
+
+                    $state.on('change', function () {
+                        const stateId = $(this).val();
+                        loadCities(stateId, $city);
+                    });
+
+                    // Initial pre-selected load
+                    if (preSelectedCountry) {
+                        loadStates(preSelectedCountry, $state, preSelectedState).then(() => {
+                            if (preSelectedState) {
+                                loadCities(preSelectedState, $city, preSelectedCity);
+                            }
+                        });
+                    }
                 });
             }
+
 
             document.querySelectorAll(".phone").forEach((input, index) => {
                 const hiddenInput = document.createElement("input");

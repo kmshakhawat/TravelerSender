@@ -30,8 +30,7 @@ Route::middleware(['auth:sanctum', 'api_json_respond'])->group(function () {
     Route::get('/profile', [AuthApiController::class, 'profile']);
     Route::post('/profile', [AuthApiController::class, 'updateProfile'])->name('profile.update');
     Route::get('/verification', [AuthApiController::class, 'verification'])->name('verification');
-    Route::post('/verification', [AuthApiController::class, 'ver
-    ificationUpdate'])->name('verification.update');
+    Route::post('/verification', [AuthApiController::class, 'verificationUpdate'])->name('verification.update');
     Route::post('/logout', [AuthApiController::class, 'logout']);
 
     Route::apiResource('trips', TripApiController::class);
