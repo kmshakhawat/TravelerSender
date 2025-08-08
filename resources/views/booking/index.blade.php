@@ -10,11 +10,13 @@
                 <div class="overflow-auto">
                     <table class="w-full table whitespace-nowrap">
                         <thead class="bg-secondary text-gray-100 font-bold">
+                        @if(Auth::user()->hasRole('admin'))
+                            <td class="py-2 pl-2">
+                                Photo
+                            </td>
+                        @endif
                         <td class="py-2 pl-2">
                             User
-                        </td>
-                        <td class="py-2 pl-2">
-                            Trip
                         </td>
                         <td class="py-2 pl-2">
                             Sender

@@ -15,6 +15,7 @@ class BookingResource extends JsonResource
     public function toArray(Request $request): array
     {
         $pickup = [];
+        $delivery = [];
         if ($this->collection_type === 'Collect from Address') {
             $pickup = [
                 'collection_type' => $this->collection_type,
@@ -68,7 +69,7 @@ class BookingResource extends JsonResource
                 'delivery_location_type' => $this->delivery_location_type,
                 'date' => $this->delivery_date,
             ];
-        } elseif ($this->delivery_type === 'Deliver to Address') {
+        } elseif ($this->delivery_type === 'Flexible Meet') {
             $delivery = [
                 'delivery_type' => $this->delivery_type,
                 'flexible_delivery_place' => $this->flexible_delivery_place
@@ -88,8 +89,6 @@ class BookingResource extends JsonResource
             'sender' => [
                 'name' => $this->sender_name,
                 'email' => $this->sender_email,
-
-
                 'phone' => $this->sender_phone,
             ],
             'receiver' => [

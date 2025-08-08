@@ -1,27 +1,32 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Models\Payment;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
-use Laravel\Cashier\Cashier;
 use Unicodeveloper\Paystack\Facades\Paystack;
 
-class PaymentController extends Controller
+class PaymentApiController extends Controller
 {
     public function handlePaymentCallback(Request $request)
     {
         $paymentDetails = Paystack::getPaymentData();
         $payment_id = $request->payment_id;
         if (!$payment_id) {
-            return redirect()->route('dashboard')->with('error', 'Invalid Payment ID.');
+            return  response()->json([
+                'success' => false,
+                'message' => 'Invalid Payment ID.',
+            ], 400);
         }
 
         $payment = Payment::find($payment_id);
         if (!$payment) {
-            return redirect()->route('dashboard')->with('error', 'Payment not found.');
+            return response()->json([
+                'success' => false,
+                'message' => 'Payment not found.',
+            ],404);
         }
 
         if ($paymentDetails['data']['status'] === 'success') {
@@ -40,16 +45,14 @@ class PaymentController extends Controller
             $booking->trip->update(['status' => 'Confirmed']);
 
             session(['payment' => $payment]);
+
             return response()->json([
                 'success' => true,
                 'message' => 'Payment successful',
-                'booking' => $booking,
+                'redirect_url' => route('payment.success')
             ]);
         } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'Payment failed',
-            ], 402);
+            return redirect()->route('payment.failed');
         }
     }
 
@@ -93,49 +96,32 @@ class PaymentController extends Controller
         ]);
         $booking->trip->update(['status' => 'Confirmed']);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Payment successful',
-            'booking' => $booking,
-        ]);
+        return redirect()->route('payment.complete')->with('payment', $payment);
     }
 
     public function cancel(Request $request)
     {
         $payment = Payment::find($request->payment_id);
-        $payment?->update(['payment_status' => 'failed']);
+        if ($payment) {
+            $payment->update(['payment_status' => 'failed']);
+        }
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Payment was canceled.',
-            'payment' => $payment,
-        ]);
+        return redirect()->route('payment.failed')->with('error', 'Payment was canceled.');
     }
 
     public function failed()
     {
-        return response()->json([
-            'success' => false,
-            'message' => 'Payment failed',
-        ]);
+        return view('payment.failed');
     }
 
     public function complete()
     {
         $payment = session('payment');
         if ($payment) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Payment successful',
-                'payment' => $payment,
-            ]);
+            return view('payment.success', compact('payment'));
         }
         else {
-            return  response()->json([
-                'success' => false,
-                'message' => 'Payment failed',
-                'payment' => $payment,
-            ]);
+            return redirect()->route('dashboard')->with('error', 'Payment not found.');
         }
     }
 }

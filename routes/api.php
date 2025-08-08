@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthApiController;
 use App\Http\Controllers\Api\MessageApiController;
+use App\Http\Controllers\Api\PaymentApiController;
 use App\Http\Controllers\Api\RatingApiController;
 use App\Http\Controllers\Api\TrackingApiController;
 use App\Http\Controllers\Api\TripApiController;
@@ -9,6 +10,7 @@ use App\Http\Controllers\Api\BookingApiController;
 use App\Http\Controllers\Api\OrderApiController;
 use App\Http\Controllers\Api\UserApiController;
 use App\Http\Controllers\Api\WithdrawApiController;
+use App\Http\Middleware\EnsureUserIsVerified;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/register', [AuthApiController::class, 'register']);
@@ -26,35 +28,43 @@ Route::post('/password/reset', [AuthApiController::class, 'resetPassword'])->nam
 
 Route::middleware(['auth:sanctum', 'api_json_respond'])->group(function () {
     Route::get('/dashboard', [AuthApiController::class, 'dashboard'])->name('dashboard');
-
     Route::get('/profile', [AuthApiController::class, 'profile']);
     Route::post('/profile', [AuthApiController::class, 'updateProfile'])->name('profile.update');
     Route::get('/verification', [AuthApiController::class, 'verification'])->name('verification');
     Route::post('/verification', [AuthApiController::class, 'verificationUpdate'])->name('verification.update');
     Route::post('/logout', [AuthApiController::class, 'logout']);
 
-    Route::apiResource('trips', TripApiController::class);
-    Route::get('trip/create', [TripApiController::class, 'create'])->name('trips.create');
+    Route::group(['middleware' => EnsureUserIsVerified::class], function () {
+        Route::apiResource('trips', TripApiController::class);
+        Route::get('trip/create', [TripApiController::class, 'create'])->name('trips.create');
 
-    Route::apiResource('bookings', BookingApiController::class);
-    Route::get('trip/{trip}/booking', [BookingApiController::class, 'create'])->name('booking');
+        Route::apiResource('bookings', BookingApiController::class);
+        Route::get('trip/{trip}/booking', [BookingApiController::class, 'create'])->name('booking');
 
-    Route::apiResource('orders', OrderApiController::class);
-    Route::get('/order/{booking}/pickup', [BookingApiController::class, 'pickup'])->name('order.pickup');
-    Route::post('/order/{booking}/pickup-otp', [BookingApiController::class, 'pickupVerify'])->name('order.pickup-otp');
-    Route::post('/order/{booking}/delivery-otp', [BookingApiController::class, 'deliveryVerify'])->name('order.delivery-otp');
-    Route::post('/order/{booking}/resend-otp', [BookingApiController::class, 'otpResend'])->name('order.resend-otp');
+        Route::apiResource('orders', OrderApiController::class);
+        Route::get('/order/{booking}/pickup', [BookingApiController::class, 'pickup'])->name('order.pickup');
+        Route::post('/order/{booking}/pickup-otp', [BookingApiController::class, 'pickupVerify'])->name('order.pickup-otp');
+        Route::post('/order/{booking}/delivery-otp', [BookingApiController::class, 'deliveryVerify'])->name('order.delivery-otp');
+        Route::post('/order/{booking}/resend-otp', [BookingApiController::class, 'otpResend'])->name('order.resend-otp');
 //    Route::resource('user', UserApiController::class);
 
-    Route::get('/message', [MessageApiController::class, 'index'])->name('message');
-    Route::post('/message', [MessageApiController::class, 'store'])->name('message.store');;
-    Route::get('/message/{receiverId?}', [MessageApiController::class, 'loadMessages'])->name('message.load');
+        Route::get('/message', [MessageApiController::class, 'index'])->name('message');
+        Route::post('/message', [MessageApiController::class, 'store'])->name('message.store');;
+        Route::get('/message/{receiverId?}', [MessageApiController::class, 'loadMessages'])->name('message.load');
 
-    Route::get('/rating/{booking}', [RatingApiController::class, 'create'])->name('rating.create');
-    Route::post('/rating', [RatingApiController::class, 'store'])->name('rating.store');
+        Route::get('/rating/{booking}', [RatingApiController::class, 'create'])->name('rating.create');
+        Route::post('/rating', [RatingApiController::class, 'store'])->name('rating.store');
 
-    Route::get('/withdraw', [WithdrawApiController::class, 'index'])->name('withdraw');
-    Route::get('/withdraw/{payment}/request', [WithdrawApiController::class, 'withdraw'])->name('withdraw.request');
-    Route::post('/withdraw/{payment}/submit', [WithdrawApiController::class, 'withdrawStore'])->name('withdraw.store');
+
+        Route::get('/payment/success', [PaymentApiController::class, 'success'])->name('payment.success');
+        Route::get('/payment/complete', [PaymentApiController::class, 'complete'])->name('payment.complete');
+        Route::get('/payment/cancel', [PaymentApiController::class, 'cancel'])->name('payment.cancel');
+        Route::get('/payment/failed', [PaymentApiController::class, 'failed'])->name('payment.failed');
+
+
+        Route::get('/withdraw', [WithdrawApiController::class, 'index'])->name('withdraw');
+        Route::get('/withdraw/{payment}/request', [WithdrawApiController::class, 'withdraw'])->name('withdraw.request');
+        Route::post('/withdraw/{payment}/submit', [WithdrawApiController::class, 'withdrawStore'])->name('withdraw.store');
+    });
 
 });

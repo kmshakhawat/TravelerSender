@@ -83,7 +83,8 @@ class AuthApiController extends Controller
             return response()->json(
                 [
                     'success' => false,
-                    'message' => 'The email has already been taken.',
+                    'errors' => $validator->errors(),
+                    'message' => 'Validation Error',
                 ], 422);
         }
 
@@ -113,12 +114,19 @@ class AuthApiController extends Controller
     // LOGIN API
     public function login(Request $request)
     {
-        $validated = $request->validate([
+        $validated = Validator::make($request->all(), [
             'email' => 'required|string|email',
             'password' => 'required|string',
         ]);
-
-        if (!Auth::attempt($validated)) {
+        if ($validated->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validated->errors(),
+                'message' => 'Validation Error',
+            ]);
+        }
+        // if not in a database
+        if (!Auth::attempt($validated->validated())) {
             return response()->json([
                 'success' => false,
                 'message' => 'Invalid credentials'
@@ -388,7 +396,6 @@ class AuthApiController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Profile updated successfully',
-            'token' => $user->createToken('appToken')->plainTextToken,
             'redirect' => $user->verified ? 'No' : null,
         ], 200);
     }

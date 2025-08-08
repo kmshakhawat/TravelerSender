@@ -10,17 +10,6 @@ use Illuminate\Support\Facades\Validator;
 
 class RatingApiController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        return view('rating.index');
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create($booking_id)
     {
         $booking = Booking::findOrFail($booking_id)->load('trip');
@@ -49,8 +38,9 @@ class RatingApiController extends Controller
 
         return response()->json([
             'success' => true,
-            'traveler_name' => $traveler_name,
+            'booking_id' => $booking_id,
             'traveler_id' => $traveler_id,
+            'traveler_name' => $traveler_name,
         ]);
     }
 

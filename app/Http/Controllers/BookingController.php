@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Travel;
-use App\Http\Middleware\Auth;
 use App\Http\Services\FileHandler;
 use App\Mail\SendMail;
 use App\Models\Booking;
@@ -16,7 +15,6 @@ use App\Models\Trip;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
-use Unicodeveloper\Paystack\Facades\Paystack;
 
 class BookingController extends Controller
 {
@@ -49,7 +47,7 @@ class BookingController extends Controller
             return redirect()->route('trip.search')->with('error', 'Please verify your account before booking again.');
         }
 
-        $trip = Trip::where('id', request('trip'))->first();
+        $trip = Trip::query()->where('id', request('trip'))->first();
 
         if (!$trip) {
             return redirect()->route('trip.search')->with('error', 'Trip not found.');
@@ -131,7 +129,7 @@ class BookingController extends Controller
             ]);
         }
 
-        $trip_user_id = Trip::where('id', $request->trip_id)->first()->user_id;
+        $trip_user_id = Trip::query()->where('id', $request->trip_id)->get()->user_id;
 
         $booking = Booking::create([
             'user_id' => auth()->id(),
@@ -244,6 +242,28 @@ class BookingController extends Controller
             'commission' => $booking->trip->price * 0.25,
         ]);
 
+        $checkoutSession = $this->checkout($payment);
+
+//        $paymentData = [
+//            'email' => auth()->user()->email, // Customer email
+//            'amount' => $payment->amount * 100, // Convert amount to kobo
+//            'currency' => $payment->currency,
+//            'reference' => Paystack::genTranxRef(), // Generate unique transaction reference
+//            'callback_url' => route('payment.callback', ['payment_id' => $payment->id]),
+//        ];
+//
+//        $checkoutSession = Paystack::getAuthorizationUrl($paymentData);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Booking request successfully',
+            'checkout_url' => $checkoutSession->url
+        ], 200);
+
+    }
+
+    private function checkout(Payment $payment)
+    {
         /* Stripe Payment */
         $checkoutSession = auth()->user()->checkout([
             [
@@ -264,24 +284,22 @@ class BookingController extends Controller
         $payment->update([
             'stripe_session_id' => $checkoutSession->id,
         ]);
-        /* Stripe Payment */
 
-//        $paymentData = [
-//            'email' => auth()->user()->email, // Customer email
-//            'amount' => $payment->amount * 100, // Convert amount to kobo
-//            'currency' => $payment->currency,
-//            'reference' => Paystack::genTranxRef(), // Generate unique transaction reference
-//            'callback_url' => route('payment.callback', ['payment_id' => $payment->id]),
-//        ];
-//
-//        $checkoutSession = Paystack::getAuthorizationUrl($paymentData);
+        return $checkoutSession;
+
+        /* Stripe Payment */
+    }
+
+    public function payment(Booking $booking)
+    {
+        $payment = Payment::query()->where('booking_id', $booking->id)->first();
+        $checkoutSession = $this->checkout($payment);
 
         return response()->json([
             'status' => 'success',
             'message' => 'Booking request successfully',
             'checkout_url' => $checkoutSession->url
         ], 200);
-
     }
 
     public function pickup(Booking $booking)

@@ -58,6 +58,8 @@ Route::middleware([
     Route::post('/booking/{booking}/delivery-otp', [BookingController::class, 'deliveryVerify'])->name('booking.delivery-otp');
     Route::post('/booking/{booking}/resend-otp', [BookingController::class, 'otpResend'])->name('booking.resend-otp');
 
+    Route::post('/booking/{booking}/payment', [BookingController::class, 'payment'])->name('booking.payment');
+
 //    Route::get('/booking/{booking}/cancel', [BookingController::class, 'cancel'])->name('booking.cancel');
 //    Route::post('/booking/{booking}/cancel', [BookingController::class, 'cancelStore'])->name('booking.cancel.store');
 
@@ -76,7 +78,7 @@ Route::middleware([
     Route::post('tracking/store', [TrackingController::class, 'store'])->name('tracking.store');
 
 
-    Route::post('/payment', [PaymentController::class, 'payment'])->name('payment');
+//    Route::post('/payment', [PaymentController::class, 'payment'])->name('payment');
     Route::get('/payment/success', [PaymentController::class, 'success'])->name('payment.success');
     Route::get('/payment/complete', [PaymentController::class, 'complete'])->name('payment.complete');
     Route::get('/payment/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');

@@ -6,6 +6,7 @@ use App\Actions\Travel;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BookingResource;
 use App\Http\Resources\TripResource;
+use App\Http\Services\FileHandler;
 use App\Mail\SendMail;
 use App\Models\Payment;
 use App\Models\Tracking;
@@ -19,6 +20,7 @@ use Illuminate\Support\Facades\Validator;
 
 class BookingApiController extends Controller
 {
+    use FileHandler;
     public function index()
     {
         $bookings = Booking::with(['products','payment','trip'])
@@ -89,6 +91,7 @@ class BookingApiController extends Controller
 
     public function store(Request $request)
     {
+
         $validator = Validator::make($request->all(), [
             'sender_name' => 'required|string|max:255',
             'sender_email' => 'required|email|max:255',
@@ -152,40 +155,12 @@ class BookingApiController extends Controller
 
         $trip_user_id = Trip::where('id', $request->trip_id)->first()->user_id;
 
-        $booking = Booking::create([
-            'user_id' => auth()->id(),
-            'trip_user_id' => $trip_user_id,
-            'trip_id' => $request->trip_id,
-            'sender_name' => $request->sender_name,
-            'sender_email' => $request->sender_email,
-            'sender_phone' => $request->sender_phone,
-            'collection_type' => $request->collection_type,
-            'flexible_place' => $request->flexible_place,
-            'pickup_address_1' => $request->pickup_address_1,
-            'pickup_address_2' => $request->pickup_address_2,
-            'pickup_country_id' => $request->pickup_country_id,
-            'pickup_state_id' => $request->pickup_state_id,
-            'pickup_city_id' => $request->pickup_city_id,
-            'pickup_postcode' => $request->pickup_postcode,
-            'pickup_location_type' => $request->pickup_location_type,
-            'pickup_date' => $request->pickup_date,
-            'receiver_name' => $request->receiver_name,
-            'receiver_email' => $request->receiver_email,
-            'receiver_phone' => $request->receiver_phone,
-            'delivery_type' => $request->delivery_type,
-            'flexible_delivery_place' => $request->flexible_delivery_place,
-            'delivery_address_1' => $request->delivery_address_1,
-            'delivery_address_2' => $request->delivery_address_2,
-            'delivery_country_id' => $request->delivery_country_id,
-            'delivery_state_id' => $request->delivery_state_id,
-            'delivery_city_id' => $request->delivery_city_id,
-            'delivery_postcode' => $request->delivery_postcode,
-            'delivery_location_type' => $request->delivery_location_type,
-            'delivery_date' => $request->delivery_date,
-            'status' => 'Pending',
-            'note' => $request->note,
-            'admin_note' => $request->admin_note,
-        ]);
+        $data = $request->all();
+        $data['user_id'] = auth()->id();
+        $data['trip_user_id'] = $trip_user_id;
+        $data['status'] = 'Pending';
+
+        $booking = Booking::create($data);
 
 //        dd($request->products);
 

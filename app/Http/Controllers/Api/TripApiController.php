@@ -248,7 +248,6 @@ class TripApiController extends Controller
 
     public function store(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
             'mode_of_transport' => 'required|string',
             'vehicle_details' => 'nullable|string',
@@ -314,54 +313,28 @@ class TripApiController extends Controller
         }
 
 
-        $trip = Trip::create([
-            'user_id' => auth()->id(),
-            'mode_of_transport' => $request->mode_of_transport,
-            'vehicle_details' => $request->vehicle_details,
-            'from_address_1' => $request->from_address_1,
-            'from_address_2' => $request->from_address_2,
-            'from_country_id' => $request->from_country_id,
-            'from_state_id' => $request->from_state_id,
-            'from_city_id' => $request->from_city_id,
-            'from_postcode' => $request->from_postcode,
-            'from_phone' => $request->from_phone,
-            'to_address_1' => $request->to_address_1,
-            'to_address_2' => $request->to_address_2,
-            'to_country_id' => $request->to_country_id,
-            'to_state_id' => $request->to_state_id,
-            'to_city_id' => $request->to_city_id,
-            'to_postcode' => $request->to_postcode,
-            'to_phone' => $request->to_phone,
-            'departure_date' => $request->departure_date,
-            'arrival_date' => $request->arrival_date,
-            'available_space' => $request->available_space,
-            'weight_unit' => $request->weight_unit,
-            'type_of_item' => $request->type_of_item,
-            'packaging_requirement' => $request->packaging_requirement,
-            'handling_instruction' => $request->handling_instruction,
-            'photo' => $this->handleFile($request->file('photo'), 'trip/', ''),
-            'currency' => auth()->user()->currency->code ?? 'NGN',
-            'price' => $request->price,
-            'note' => $request->note,
-            'admin_note' => $request->admin_note
-        ]);
+        $data = $request->all();
+        $data['user_id'] = auth()->id();
+        $data['currency'] = auth()->user()->currency->code ?? 'NGN';
+        $data['photo'] = $this->handleFile($request->file('photo'), 'trip/', '');
+
+        unset($data['stopovers']);
+
+
+        $trip = Trip::create($data);
 
         if ($request->stopovers) {
-            $stopovers = collect($request->stopovers)
-                ->filter(function ($stopover) {
-                    return $stopover !== null && trim($stopover) !== '';
-                })
-                ->map(function ($stopover) {
-                    return ['location' => $stopover];
-                })
+            $stopovers = collect(explode(',', implode(',', (array) $request->stopovers)))
+                ->map(fn($s) => trim($s))
+                ->filter()
+                ->map(fn($s) => ['location' => $s])
+                ->values()
                 ->toArray();
 
             if (!empty($stopovers)) {
                 $trip->stopovers()->createMany($stopovers);
             }
         }
-
-
         $mailable_data = [
             'name' => $trip->user->name,
             'template' => 'emails.add-trip',
@@ -476,53 +449,38 @@ class TripApiController extends Controller
             ], 422);
         }
 
+        $data = $request->all();
+        $data['user_id'] = auth()->id();
+        $data['currency'] = auth()->user()->currency->code ?? 'NGN';
+        $data['photo'] = $this->handleFile($request->file('photo'), 'trip/', '');
 
-        $trip->update([
-            'user_id' => auth()->id(),
-            'mode_of_transport' => $request->mode_of_transport,
-            'vehicle_details' => $request->vehicle_details,
-            'from_address_1' => $request->from_address_1,
-            'from_address_2' => $request->from_address_2,
-            'from_country_id' => $request->from_country_id,
-            'from_state_id' => $request->from_state_id,
-            'from_city_id' => $request->from_city_id,
-            'from_postcode' => $request->from_postcode,
-            'from_phone' => $request->from_phone,
-            'to_address_1' => $request->to_address_1,
-            'to_address_2' => $request->to_address_2,
-            'to_country_id' => $request->to_country_id,
-            'to_state_id' => $request->to_state_id,
-            'to_city_id' => $request->to_city_id,
-            'to_postcode' => $request->to_postcode,
-            'to_phone' => $request->to_phone,
-            'departure_date' => $request->departure_date,
-            'arrival_date' => $request->arrival_date,
-            'available_space' => $request->available_space,
-            'weight_unit' => $request->weight_unit,
-            'type_of_item' => $request->type_of_item,
-            'packaging_requirement' => $request->packaging_requirement,
-            'handling_instruction' => $request->handling_instruction,
-            'photo' => $this->handleFile($request->file('photo'), 'trip/', ''),
-            'currency' => auth()->user()->currency->code ?? 'NGN',
-            'price' => $request->price,
-            'note' => $request->note,
-            'admin_note' => $request->admin_note
-        ]);
+        unset($data['stopovers']);
 
-        $trip->stopovers()->delete();
-        if ($request->stopovers) {
-            $stopovers = collect($request->stopovers)
-                ->filter(function ($stopover) {
-                    return $stopover !== null && trim($stopover) !== '';
-                })
-                ->map(function ($stopover) {
-                    return ['location' => $stopover];
-                })
-                ->toArray();
+        $trip->update($data);
 
-            if (!empty($stopovers)) {
-                $trip->stopovers()->createMany($stopovers);
-            }
+
+        $newStopovers = collect(explode(',', implode(',', (array) $request->stopovers)))
+            ->map(fn($s) => trim($s))
+            ->filter()
+            ->unique()
+            ->values()
+            ->toArray();
+
+        // Get existing locations
+        $oldStopovers = $trip->stopovers()->pluck('location')->toArray();
+
+        // Find to delete
+        $toDelete = array_diff($oldStopovers, $newStopovers);
+        if (!empty($toDelete)) {
+            $trip->stopovers()->whereIn('location', $toDelete)->delete();
+        }
+
+        // Find to insert
+        $toInsert = array_diff($newStopovers, $oldStopovers);
+        if (!empty($toInsert)) {
+            $trip->stopovers()->createMany(
+                collect($toInsert)->map(fn($loc) => ['location' => $loc])->all()
+            );
         }
 
         return response()->json([

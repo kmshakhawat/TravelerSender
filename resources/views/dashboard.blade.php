@@ -174,10 +174,10 @@
                                             @endif
                                         </td>
                                         <td class="py-3 pl-2">
-                                            @if($booking->payment->payment_status === 'paid')
-                                                <x-status :content="ucfirst($booking->payment->payment_status)" :type="'success'" />
-                                            @elseif($booking->payment->payment_status === 'failed')
-                                                <x-status :content="ucfirst($booking->payment->payment_status)" :type="'danger'" />
+                                            @if($booking->payment?->payment_status === 'paid')
+                                                <x-status :content="ucfirst($booking->payment?->payment_status)" :type="'success'" />
+                                            @elseif($booking->payment?->payment_status === 'failed')
+                                                <x-status :content="ucfirst($booking->payment?->payment_status)" :type="'danger'" />
                                             @endif
                                         </td>
                                         <td class="py-3 pl-2">
